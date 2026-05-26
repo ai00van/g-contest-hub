@@ -1,14 +1,1122 @@
-<!doctype html>
-<html lang="en">
+1<!DOCTYPE html>
+<html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World</title>
-  <link href='/style.css' rel='stylesheet'>
+  <title>G-Contest Hub - 공공 공모전 실무 포털</title>
+  <style>
+    :root {
+      --ink: #182033;
+      --muted: #64748b;
+      --line: #dbe3ee;
+      --panel: #ffffff;
+      --soft: #f6f8fb;
+      --nav: #101725;
+      --blue: #3157d7;
+      --green: #16a36b;
+      --teal: #0f9b9a;
+      --amber: #d18400;
+      --rose: #d33b5c;
+      --shadow: 0 14px 34px rgba(15, 23, 42, .09);
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background: var(--soft);
+      font-family: Inter, "Noto Sans KR", "Malgun Gothic", system-ui, -apple-system, sans-serif;
+      letter-spacing: 0;
+    }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 292px minmax(0, 1fr);
+    }
+    .sidebar {
+      background: var(--nav);
+      color: #fff;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .brand {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, #23c483, #68dfc1);
+      color: #08111d;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+    }
+    .brand strong { display: block; font-size: 18px; color: #74e7b3; }
+    .brand span { display: block; margin-top: 2px; color: #9aa8bb; font-size: 11px; line-height: 1.35; }
+    .status-card {
+      border: 1px solid rgba(255,255,255,.1);
+      background: rgba(255,255,255,.045);
+      border-radius: var(--radius);
+      padding: 14px;
+    }
+    .status-row, .toolbar, .between, .inline, .modal-head, .toast {
+      display: flex;
+      align-items: center;
+    }
+    .status-row, .between { justify-content: space-between; gap: 12px; }
+    .dot { width: 10px; height: 10px; border-radius: 999px; background: var(--amber); box-shadow: 0 0 0 5px rgba(209,132,0,.14); }
+    .dot.ok { background: var(--green); box-shadow: 0 0 0 5px rgba(22,163,107,.15); }
+    .status-card small { display: block; color: #9aa8bb; font-weight: 700; font-size: 10px; text-transform: uppercase; }
+    .status-card p { color: #cbd5e1; font-size: 12px; margin: 8px 0 12px; }
+
+    .nav { display: grid; gap: 6px; }
+    .nav button {
+      border: 1px solid transparent;
+      background: transparent;
+      color: #c8d2df;
+      border-radius: var(--radius);
+      padding: 12px;
+      text-align: left;
+      font-weight: 800;
+      font-size: 13px;
+    }
+    .nav button:hover { background: rgba(255,255,255,.06); color: #fff; }
+    .nav button.active {
+      background: rgba(49,87,215,.2);
+      border-color: rgba(116,231,179,.22);
+      color: #74e7b3;
+    }
+    .side-foot { margin-top: auto; color: #7d8ca1; font-size: 11px; line-height: 1.55; border-top: 1px solid rgba(255,255,255,.08); padding-top: 16px; }
+
+    .main { min-width: 0; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      padding: 14px 24px;
+    }
+    .mobile-brand { display: none; font-weight: 900; }
+    .crumb { color: var(--muted); font-size: 12px; font-weight: 700; }
+    .content {
+      width: min(1260px, 100%);
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      gap: 18px;
+    }
+    .view { display: none; }
+    .view.active { display: grid; gap: 18px; }
+
+    .hero, .panel, .metric, .card, .notice {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 1px 0 rgba(15,23,42,.02);
+    }
+    .hero {
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      min-height: 230px;
+      background:
+        linear-gradient(115deg, rgba(16,23,37,.96) 0%, rgba(24,32,51,.92) 54%, rgba(24,32,51,.35) 100%),
+        radial-gradient(circle at 84% 30%, rgba(104,223,193,.35), transparent 30%),
+        linear-gradient(135deg, #19315c, #102039 55%, #0f172a);
+      color: #fff;
+    }
+    .hero-copy { padding: 28px; align-self: center; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 900; color: #74e7b3; border: 1px solid rgba(116,231,179,.28); padding: 5px 8px; border-radius: 999px; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font-size: 30px; line-height: 1.18; margin: 12px 0 10px; }
+    h2 { font-size: 19px; margin-bottom: 4px; }
+    h3 { font-size: 15px; margin-bottom: 6px; }
+    .hero p, .subcopy { color: #d7dee9; line-height: 1.65; font-size: 13px; margin: 0; }
+    .hero-art { position: relative; min-height: 230px; border-left: 1px solid rgba(255,255,255,.08); }
+    .map-board {
+      position: absolute;
+      inset: 22px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      border-radius: var(--radius);
+      padding: 18px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(5, 1fr);
+      gap: 8px;
+    }
+    .map-cell { border-radius: 5px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.06); }
+    .map-cell.hot { background: rgba(116,231,179,.82); box-shadow: 0 0 0 4px rgba(116,231,179,.12); }
+    .map-cell.warn { background: rgba(245,183,74,.78); }
+    .map-cell.blue { background: rgba(83,126,238,.78); }
+
+    .notice { padding: 14px 16px; display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; border-left: 4px solid var(--amber); background: #fff9ec; }
+    .notice p { color: #8a5d00; font-size: 12px; line-height: 1.55; margin: 0; }
+
+    .grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+    .metric { padding: 16px; display: flex; justify-content: space-between; gap: 10px; min-height: 105px; }
+    .metric span { display: block; color: var(--muted); font-size: 12px; font-weight: 800; }
+    .metric strong { display: block; font-size: 27px; margin-top: 8px; }
+    .iconbox { width: 44px; height: 44px; border-radius: var(--radius); display: grid; place-items: center; font-weight: 900; flex: none; }
+    .bg-blue { background: #eef3ff; color: var(--blue); }
+    .bg-green { background: #e9fbf3; color: var(--green); }
+    .bg-amber { background: #fff5dd; color: var(--amber); }
+    .bg-rose { background: #fff0f3; color: var(--rose); }
+
+    .panel { padding: 18px; }
+    .panel-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 14px; }
+    .panel-head p { color: var(--muted); font-size: 12px; line-height: 1.55; margin: 0; }
+    .toolbar { gap: 8px; flex-wrap: wrap; }
+    .input, .select, textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      border-radius: var(--radius);
+      padding: 11px 12px;
+      font-size: 13px;
+      outline: none;
+    }
+    .input:focus, .select:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(49,87,215,.12); }
+    .search { max-width: 380px; }
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-bottom: 14px; }
+    .chip, .btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      border-radius: var(--radius);
+      padding: 9px 11px;
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    .chip.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+    .btn.primary { background: var(--blue); border-color: var(--blue); color: #fff; }
+    .btn.dark { background: var(--nav); border-color: var(--nav); color: #fff; }
+    .btn.green { background: var(--green); border-color: var(--green); color: #fff; }
+    .btn.ghost { background: transparent; }
+    .btn.danger { color: var(--rose); border-color: #ffd2dc; background: #fff6f8; }
+    .btn:active { transform: translateY(1px); }
+
+    .contest-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .card { padding: 16px; display: flex; flex-direction: column; gap: 12px; min-height: 230px; }
+    .card:hover { box-shadow: var(--shadow); border-color: #bdd0ff; }
+    .badges { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .badge { display: inline-flex; align-items: center; gap: 5px; border-radius: 999px; padding: 5px 8px; font-size: 10px; font-weight: 900; background: #eef3ff; color: var(--blue); }
+    .badge.local { background: #fff5dd; color: #a76600; }
+    .badge.public { background: #e8fbf8; color: #067a79; }
+    .badge.deadline { background: #f1f5f9; color: var(--ink); }
+    .badge.soon { background: #fff0f3; color: var(--rose); }
+    .card h3 { line-height: 1.45; min-height: 43px; }
+    .card p { color: var(--muted); font-size: 12px; line-height: 1.55; margin: 0; }
+    .card-actions { margin-top: auto; border-top: 1px solid var(--line); padding-top: 12px; display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+    .reward { color: var(--green); font-weight: 900; font-size: 12px; }
+    .empty { display: none; text-align: center; padding: 54px 20px; background: #fff; border: 1px dashed #cbd5e1; border-radius: var(--radius); color: var(--muted); }
+
+    .split { display: grid; grid-template-columns: 420px minmax(0, 1fr); gap: 16px; align-items: start; }
+    .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .step { padding: 10px 8px; background: #eef2f7; color: var(--muted); border-radius: var(--radius); font-size: 11px; font-weight: 900; text-align: center; }
+    .step.active { background: var(--blue); color: #fff; }
+    .step.done { background: #e9fbf3; color: var(--green); }
+    .wizard-pane { display: none; }
+    .wizard-pane.active { display: grid; gap: 12px; }
+    label { display: grid; gap: 6px; color: var(--muted); font-size: 12px; font-weight: 900; }
+    textarea { min-height: 132px; resize: vertical; line-height: 1.6; }
+    .radio-list { display: grid; gap: 8px; }
+    .radio-card {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 9px;
+      align-items: start;
+      padding: 11px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--ink);
+    }
+    .radio-card span { color: var(--muted); font-size: 11px; line-height: 1.45; }
+
+    .paper-wrap { background: #e9eef5; border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; max-height: 760px; overflow: auto; }
+    .paper {
+      width: min(100%, 780px);
+      min-height: 960px;
+      margin: 0 auto;
+      background: #fff;
+      border: 1px solid #cbd5e1;
+      box-shadow: var(--shadow);
+      padding: 34px;
+      font-family: "Malgun Gothic", "Noto Sans KR", sans-serif;
+    }
+    .doc-meta { display: flex; justify-content: space-between; gap: 16px; border-bottom: 3px double #475569; padding-bottom: 12px; font-size: 10px; color: #475569; }
+    .approval { border-collapse: collapse; width: 210px; text-align: center; font-size: 10px; }
+    .approval td { border: 1px solid #64748b; padding: 5px; }
+    .doc-title { text-align: center; padding: 26px 0 20px; border-bottom: 1px solid #e2e8f0; margin-bottom: 18px; }
+    .doc-title strong { display: block; font-size: 21px; line-height: 1.35; }
+    .doc-body { font-size: 13px; line-height: 1.75; white-space: pre-wrap; }
+    .doc-body b { color: #111827; }
+    .doc-foot { margin-top: 24px; padding-top: 12px; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; color: #94a3b8; font-size: 10px; }
+
+    .guide-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .guide { padding: 16px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); }
+    .guide p { color: var(--muted); line-height: 1.6; font-size: 12px; margin: 0; }
+    .kpi-table { width: 100%; border-collapse: collapse; font-size: 12px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+    .kpi-table th, .kpi-table td { text-align: left; border-bottom: 1px solid var(--line); padding: 12px; vertical-align: top; }
+    .kpi-table th { background: #f8fafc; color: var(--muted); font-size: 11px; }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(10,15,26,.62);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 50;
+    }
+    .modal.open { display: flex; }
+    .modal-card { width: min(760px, 100%); max-height: 90vh; overflow: hidden; background: #fff; border-radius: var(--radius); display: flex; flex-direction: column; box-shadow: var(--shadow); }
+    .modal-head { justify-content: space-between; gap: 12px; background: var(--nav); color: #fff; padding: 16px; }
+    .modal-body { padding: 18px; overflow: auto; display: grid; gap: 16px; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .statbox { background: #f8fafc; border: 1px solid var(--line); border-radius: var(--radius); padding: 12px; text-align: center; }
+    .statbox small { display: block; color: var(--muted); font-size: 10px; font-weight: 900; margin-bottom: 4px; }
+    .timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .timeitem { background: #f8fafc; border: 1px solid var(--line); border-radius: var(--radius); padding: 10px; font-size: 11px; text-align: center; }
+    .num { width: 22px; height: 22px; margin: 0 auto 6px; border-radius: 999px; display: grid; place-items: center; background: var(--blue); color: #fff; font-weight: 900; }
+    .modal-foot { display: flex; justify-content: space-between; gap: 10px; padding: 14px 18px; background: #f8fafc; border-top: 1px solid var(--line); }
+
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 80;
+      gap: 8px;
+      background: #101725;
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      font-size: 12px;
+      font-weight: 900;
+      transform: translateY(18px);
+      opacity: 0;
+      pointer-events: none;
+      transition: .2s ease;
+      max-width: min(420px, calc(100vw - 36px));
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    .hide { display: none !important; }
+
+    @media (max-width: 1100px) {
+      .grid-4, .guide-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .contest-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .split { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 760px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar { position: static; height: auto; padding: 14px; }
+      .nav { grid-template-columns: repeat(2, 1fr); }
+      .nav button { text-align: center; padding: 10px 8px; font-size: 12px; }
+      .side-foot, .crumb { display: none; }
+      .mobile-brand { display: block; }
+      .topbar { padding: 12px 14px; }
+      .content { padding: 14px; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-art { display: none; }
+      h1 { font-size: 24px; }
+      .grid-4, .contest-grid, .guide-grid, .stats, .timeline, .steps { grid-template-columns: 1fr; }
+      .panel-head { display: grid; }
+      .search { max-width: none; }
+      .paper { padding: 20px; min-height: 780px; }
+      .doc-meta { display: grid; }
+      .approval { width: 100%; }
+      .modal-foot { display: grid; }
+    }
+  </style>
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <button onclick="console.log('hello');">Press me</button>
-  <script defer type="text/javascript" src="/main.js"></script>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand" role="button" tabindex="0" onclick="switchView('dashboard')">
+        <div class="brand-mark">G</div>
+        <div>
+          <strong>G-CONTEST</strong>
+          <span>정부·지자체·공공기관 공모전 실무 허브</span>
+        </div>
+      </div>
+
+      <div class="status-card">
+        <div class="status-row">
+          <small>Gemini API 상태</small>
+          <span id="apiDot" class="dot"></span>
+        </div>
+        <p id="apiText">오프라인 실무 모드</p>
+        <button class="btn green" style="width:100%" onclick="openApiModal()">API 키 설정</button>
+      </div>
+
+      <nav class="nav" aria-label="주요 메뉴">
+        <button id="nav-dashboard" class="active" onclick="switchView('dashboard')">통합 대시보드</button>
+        <button id="nav-search" onclick="switchView('search')">AI 탐색기</button>
+        <button id="nav-builder" onclick="switchView('builder')">제안서 빌더</button>
+        <button id="nav-guide" onclick="switchView('guide')">평가 가이드</button>
+      </nav>
+
+      <div class="side-foot">
+        <strong>로컬 저장형 HTML 앱</strong><br />
+        즐겨찾기, API 키, 작성 중인 제안서는 현재 브라우저 localStorage에 저장됩니다.
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar between">
+        <div>
+          <div class="mobile-brand">G-CONTEST HUB</div>
+          <div class="crumb">정부 공공 플랫폼 / <span id="crumb">통합 대시보드</span></div>
+        </div>
+        <div class="toolbar">
+          <button class="btn primary" onclick="updateContestList(this)">최신 공모전 업데이트</button>
+          <button class="btn" onclick="exportCsv()">CSV 내보내기</button>
+          <button class="btn dark" onclick="switchView('builder')">제안서 작성</button>
+        </div>
+      </header>
+
+      <div class="content">
+        <section id="view-dashboard" class="view active">
+          <div class="hero">
+            <div class="hero-copy">
+              <span class="eyebrow">PUBLIC CONTEST OPS</span>
+              <h1>공공 공모전 탐색부터 제출용 개조식 초안까지 한 화면에서 처리</h1>
+              <p>마감일, 주관기관, 분야, 즐겨찾기, 제출 전략을 함께 관리하는 단일 HTML 앱입니다. 인터넷 연결이 없어도 프리셋 데이터와 오프라인 제안서 생성기가 작동합니다.</p>
+            </div>
+            <div class="hero-art" aria-hidden="true">
+              <div class="map-board">
+                <span class="map-cell hot"></span><span class="map-cell"></span><span class="map-cell blue"></span><span class="map-cell"></span>
+                <span class="map-cell"></span><span class="map-cell warn"></span><span class="map-cell"></span><span class="map-cell hot"></span>
+                <span class="map-cell blue"></span><span class="map-cell"></span><span class="map-cell"></span><span class="map-cell"></span>
+                <span class="map-cell"></span><span class="map-cell hot"></span><span class="map-cell warn"></span><span class="map-cell"></span>
+                <span class="map-cell"></span><span class="map-cell"></span><span class="map-cell blue"></span><span class="map-cell hot"></span>
+              </div>
+            </div>
+          </div>
+
+          <div id="apiNotice" class="notice">
+            <p><strong>오프라인 실무 모드:</strong> API 키 없이도 검색, 필터, 즐겨찾기, 제안서 초안 생성이 가능합니다. Gemini 키를 넣으면 탐색기와 빌더에서 외부 생성 응답을 우선 시도합니다.</p>
+            <button class="btn ghost" onclick="document.getElementById('apiNotice').classList.add('hide')">닫기</button>
+          </div>
+
+          <div class="grid-4">
+            <div class="metric"><div><span>표시 공모</span><strong id="statCount">0개</strong></div><div class="iconbox bg-blue">L</div></div>
+            <div class="metric"><div><span>즐겨찾기</span><strong id="statSaved">0개</strong></div><div class="iconbox bg-green">S</div></div>
+            <div class="metric"><div><span>30일 이내 마감</span><strong id="statSoon">0개</strong></div><div class="iconbox bg-amber">D</div></div>
+            <div class="metric"><div><span>최고 상금</span><strong>1억</strong></div><div class="iconbox bg-rose">W</div></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>공모전 리스트</h2>
+                <p>대형 정책 공모전부터 슬로건, 네이밍, 홍보 콘텐츠 같은 작은 공모전까지 함께 찾습니다. 상세 보기에서 공식 공고 링크와 제안서 빌더 연결을 바로 사용할 수 있습니다.</p>
+              </div>
+              <input id="searchInput" class="input search" type="search" placeholder="공모명, 기관, 설명 검색" oninput="renderContests()" />
+            </div>
+
+            <div class="filters" id="hostFilters"></div>
+            <div class="filters" id="categoryFilters"></div>
+            <div class="toolbar" style="margin-bottom:14px">
+              <select id="sortSelect" class="select" style="max-width:220px" onchange="renderContests()">
+                <option value="deadline">마감 임박순</option>
+                <option value="reward">상금 높은순</option>
+                <option value="title">가나다순</option>
+              </select>
+              <label style="display:flex;grid-template-columns:auto auto;align-items:center;gap:8px;color:var(--ink)">
+                <input id="savedOnly" type="checkbox" onchange="renderContests()" />
+                즐겨찾기만 보기
+              </label>
+              <span id="lastUpdateText" style="color:var(--muted);font-size:12px;font-weight:800"></span>
+            </div>
+
+            <div id="contestGrid" class="contest-grid"></div>
+            <div id="emptyState" class="empty">
+              <h3>조건에 맞는 공모전이 없습니다.</h3>
+              <p>필터를 초기화하거나 AI 탐색기에서 다른 키워드로 조사해 보세요.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="view-search" class="view">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>AI 탐색기</h2>
+                <p>API 키가 있으면 Gemini 호출을 시도하고, 없거나 실패하면 앱 내 공모 데이터를 기준으로 전략 보고서를 생성합니다.</p>
+              </div>
+            </div>
+            <div class="toolbar">
+              <input id="aiQuery" class="input" style="flex:1;min-width:240px" placeholder="예: 청년 로컬 창업, 공공데이터, 탄소중립 공모전" />
+              <button class="btn primary" onclick="runSmartSearch()">탐색 보고서 생성</button>
+            </div>
+            <div class="toolbar" style="margin-top:10px">
+              <button class="chip" onclick="setQuery('공공데이터 창업 경진대회')">공공데이터</button>
+              <button class="chip" onclick="setQuery('지방소멸 로컬 크리에이터')">로컬 창업</button>
+              <button class="chip" onclick="setQuery('전력 데이터 탄소중립')">탄소중립</button>
+            </div>
+          </div>
+          <div id="searchResult" class="panel">
+            <h2>탐색 결과 대기 중</h2>
+            <p class="subcopy" style="color:var(--muted)">관심 키워드를 입력하면 추천 공모, 제출 전략, 리스크 체크리스트를 생성합니다.</p>
+          </div>
+        </section>
+
+        <section id="view-builder" class="view">
+          <div class="panel">
+            <div class="between" style="margin-bottom:14px">
+              <div>
+                <h2>AI 표준 공공 제안서 4단계 빌더</h2>
+                <p class="subcopy" style="color:var(--muted)">작성 내용은 자동 저장됩니다. 완성 후 복사하거나 텍스트 파일로 내려받을 수 있습니다.</p>
+              </div>
+              <button class="btn danger" onclick="resetBuilder()">초기화</button>
+            </div>
+            <div class="steps">
+              <div id="stepMark1" class="step active">1. 공모전</div>
+              <div id="stepMark2" class="step">2. 아이디어</div>
+              <div id="stepMark3" class="step">3. 평가축</div>
+              <div id="stepMark4" class="step">4. 문서화</div>
+            </div>
+          </div>
+
+          <div class="split">
+            <div class="panel">
+              <div id="builderStep1" class="wizard-pane active">
+                <label>플랫폼 내 공모전 선택
+                  <select id="builderContest" class="select" onchange="syncContestFields(); saveDraft()"></select>
+                </label>
+                <label>공모전 명칭
+                  <input id="builderTitle" class="input" placeholder="예: 스마트도시 시민 편의 제안전" oninput="saveDraft()" />
+                </label>
+                <label>주관 기관
+                  <input id="builderHost" class="input" placeholder="예: 서울특별시" oninput="saveDraft()" />
+                </label>
+                <button class="btn dark" onclick="goStep(2)">다음</button>
+              </div>
+
+              <div id="builderStep2" class="wizard-pane">
+                <label>핵심 아이디어
+                  <textarea id="builderIdea" placeholder="투박해도 괜찮습니다. 서비스 대상, 문제, 해결 방식, 사용할 데이터나 기술을 적어주세요." oninput="saveDraft()"></textarea>
+                </label>
+                <button class="btn" onclick="loadSampleIdea()">예문 넣기</button>
+                <div class="toolbar">
+                  <button class="btn" onclick="goStep(1)">이전</button>
+                  <button class="btn dark" onclick="goStep(3)">다음</button>
+                </div>
+              </div>
+
+              <div id="builderStep3" class="wizard-pane">
+                <div class="radio-list">
+                  <label class="radio-card"><input type="radio" name="focus" value="feasibility" checked onchange="saveDraft()" /><div><strong>실현 가능성</strong><span>예산, 규제, 기존 인프라 활용성을 강조</span></div></label>
+                  <label class="radio-card"><input type="radio" name="focus" value="policy" onchange="saveDraft()" /><div><strong>정책 정합성</strong><span>정부혁신, 지자체 현안, 법정계획과의 연결 강조</span></div></label>
+                  <label class="radio-card"><input type="radio" name="focus" value="impact" onchange="saveDraft()" /><div><strong>사회적 효과</strong><span>취약계층 수혜, 예산 절감, 정량 KPI 강조</span></div></label>
+                  <label class="radio-card"><input type="radio" name="focus" value="novelty" onchange="saveDraft()" /><div><strong>기술 차별성</strong><span>공공데이터, AI, API 융합의 고유성 강조</span></div></label>
+                </div>
+                <div class="toolbar">
+                  <button class="btn" onclick="goStep(2)">이전</button>
+                  <button class="btn dark" onclick="goStep(4)">다음</button>
+                </div>
+              </div>
+
+              <div id="builderStep4" class="wizard-pane">
+                <p class="subcopy" style="color:var(--muted)">입력값을 바탕으로 제출용 초안 문서를 생성합니다. API 키가 없으면 오프라인 템플릿 엔진을 사용합니다.</p>
+                <button class="btn green" onclick="generateProposal()">정부 표준 초안 생성</button>
+                <div class="toolbar">
+                  <button class="btn" onclick="goStep(3)">이전</button>
+                  <button class="btn" onclick="copyProposal()">복사</button>
+                  <button class="btn" onclick="downloadProposal()">TXT 저장</button>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="paper-wrap">
+                <div id="paper" class="paper">
+                  <div class="doc-meta">
+                    <div><strong>문서번호:</strong> G-CON-2026-DRAFT<br><strong>보존기간:</strong> 3년<br><strong>작성상태:</strong> 편찬 대기</div>
+                    <table class="approval"><tr><td>기안</td><td>검토</td><td>결재</td></tr><tr><td style="height:38px"></td><td></td><td></td></tr></table>
+                  </div>
+                  <div class="doc-title">
+                    <strong>공공 제안서 초안 대기 중</strong>
+                    <small>좌측 단계 입력 후 생성 버튼을 누르세요.</small>
+                  </div>
+                  <div id="proposalText" class="doc-body">■ 작성 안내
+  ○ 공모전과 아이디어 입력 후 자동 생성
+    - 개조식 문장, 추진 로드맵, 예산안, KPI 포함
+    - 생성 결과는 브라우저 안에서만 처리</div>
+                  <div class="doc-foot"><span>G-CONTEST HUB</span><span>Local HTML App</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="view-guide" class="view">
+          <div class="panel">
+            <h2>공공 평가 가이드라인</h2>
+            <p class="subcopy" style="color:var(--muted)">공공 공모전은 독창성만큼이나 정책 정합성, 집행 가능성, 정량 효과가 중요합니다.</p>
+          </div>
+          <div class="guide-grid">
+            <div class="guide"><h3>정책 부합성</h3><p>정부 업무계획, 지자체 조례, 법정 계획과 연결해 세금 투입의 정당성을 먼저 설명합니다.</p></div>
+            <div class="guide"><h3>실현 가능성</h3><p>기존 행정 시스템, 예산 항목, 담당 부서, 규제 대응 방안을 함께 제시합니다.</p></div>
+            <div class="guide"><h3>정량 효과</h3><p>수혜 인원, 처리시간 단축, 예산 절감, 탄소 저감 등 숫자로 평가 가능한 KPI를 둡니다.</p></div>
+            <div class="guide"><h3>중복성 배제</h3><p>기존 서비스와 다른 데이터, 대상, 운영 방식, 행정 프로세스 차별점을 첫 장에 적습니다.</p></div>
+          </div>
+          <table class="kpi-table">
+            <thead><tr><th>문서 항목</th><th>권장 기재 방식</th><th>심사 포인트</th></tr></thead>
+            <tbody>
+              <tr><td>추진 배경</td><td>문제 현황, 정책 근거, 대상자 불편을 3단 구조로 제시</td><td>공공재정 투입 필요성</td></tr>
+              <tr><td>서비스 설계</td><td>데이터 출처, 이용 절차, 운영 부서를 구체화</td><td>실행 가능성과 책임 소재</td></tr>
+              <tr><td>기대 효과</td><td>3개 이상의 KPI와 측정 방법을 표기</td><td>성과관리 가능성</td></tr>
+              <tr><td>로드맵</td><td>시범, 확산, 제도화의 3개년 흐름 작성</td><td>지속 가능성</td></tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div id="detailModal" class="modal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-head">
+        <strong id="modalTitle">공모전 상세</strong>
+        <button class="btn ghost" style="color:#fff;border-color:rgba(255,255,255,.2)" onclick="closeModal('detailModal')">닫기</button>
+      </div>
+      <div id="modalBody" class="modal-body"></div>
+      <div class="modal-foot">
+        <a id="modalLink" class="btn dark" href="#" target="_blank" rel="noreferrer">공식 공고 바로 열기</a>
+        <button id="modalBuild" class="btn primary">이 공모전으로 작성</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="apiModal" class="modal" role="dialog" aria-modal="true">
+    <div class="modal-card" style="max-width:460px">
+      <div class="modal-head">
+        <strong>Gemini API 키 설정</strong>
+        <button class="btn ghost" style="color:#fff;border-color:rgba(255,255,255,.2)" onclick="closeModal('apiModal')">닫기</button>
+      </div>
+      <div class="modal-body">
+        <p style="color:var(--muted);font-size:13px;line-height:1.6;margin:0">키는 현재 브라우저 localStorage에만 저장됩니다. 미입력 상태에서도 오프라인 생성 기능은 계속 사용할 수 있습니다.</p>
+        <input id="apiInput" class="input" type="password" placeholder="AIzaSy..." />
+      </div>
+      <div class="modal-foot">
+        <button class="btn danger" onclick="clearApiKey()">키 제거</button>
+        <button class="btn primary" onclick="saveApiKey()">저장</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">알림</div>
+
+  <script>
+    const contests = [
+      { id:'c01', title:'제14회 범정부 공공데이터 활용 창업경진대회', host:'행정안전부', hostType:'central', category:'startup', reward:10000, rewardText:'대통령상 / 총 1억 원', target:'예비창업자, 스타트업, 일반 국민', deadline:'2026-07-31', link:'https://www.data.go.kr', desc:'공공데이터 포털의 개방 API와 데이터셋을 활용해 국민 생활 편의와 사회문제 해결을 동시에 달성할 창업 아이디어를 발굴합니다.', data:'공공데이터포털, 행정표준코드, 지역 통계 API', steps:['활용 가능한 공공 API 조사','문제 대상자와 수혜 규모 정의','프로토타입 또는 화면 흐름 작성','지자체 예선 및 범정부 본선 제출'] },
+      { id:'c02', title:'2026 서울시 시민 체감형 스마트도시 서비스 기획전', host:'서울특별시', hostType:'local', category:'it', reward:2000, rewardText:'서울시장상 / 2,000만 원', target:'서울 시민, 대학생, 직장인', deadline:'2026-06-25', link:'https://www.seoul.go.kr', desc:'서울 열린데이터와 도시 센서 정보를 활용해 교통, 안전, 돌봄, 환경 분야의 시민 체감 서비스를 설계하는 기획전입니다.', data:'서울 열린데이터광장, S-DoT, 생활인구 데이터', steps:['자치구 문제 선정','열린데이터 근거 확보','서비스 흐름도 작성','실증 지역과 KPI 제안'] },
+      { id:'c03', title:'대국민 전력 혁신 및 저탄소 생활화 솔루션 공모전', host:'한국전력공사', hostType:'public', category:'policy', reward:3000, rewardText:'장관상 / 3,000만 원', target:'국민, 연구진, 에너지 스타트업', deadline:'2026-06-30', link:'https://home.kepco.co.kr', desc:'전력 수요 피크 완화와 탄소 저감을 위한 생활밀착형 제도, 서비스, 데이터 기반 정책 아이디어를 모집합니다.', data:'전력 사용량, 에너지마켓플레이스, 기상 데이터', steps:['전력 소비 문제 정의','절감 모델과 인센티브 설계','탄소 저감량 추정','공공 실증 운영안 작성'] },
+      { id:'c04', title:'지방소멸 대응 로컬 크리에이터 비즈니스 경진대회', host:'충청북도', hostType:'local', category:'startup', reward:4000, rewardText:'도지사상 / 4,000만 원', target:'만 39세 이하 예비창업자', deadline:'2026-08-15', link:'https://www.chungbuk.go.kr', desc:'인구감소지역의 자원, 농수산물, 관광, 정주 서비스를 결합한 지속 가능한 로컬 비즈니스 모델을 발굴합니다.', data:'인구감소지역 지표, 관광 데이터, 농산물 유통 정보', steps:['지역 자원 조사','정주·관광 문제 연결','수익 모델과 공익 모델 병행 설계','지역기관 협업안 제시'] },
+      { id:'c05', title:'국토교통 공공서비스 디지털 전환 아이디어 공모', host:'국토교통부', hostType:'central', category:'it', reward:5000, rewardText:'장관상 / 5,000만 원', target:'전 국민 및 개발팀', deadline:'2026-09-10', link:'https://www.molit.go.kr', desc:'교통약자 이동, 도시 인프라, 부동산 행정, 생활 SOC를 개선할 데이터 기반 디지털 공공서비스를 모집합니다.', data:'브이월드, 교통약자 이동 데이터, 공간정보 API', steps:['행정 민원 병목 파악','공간정보 기반 서비스 설계','시범 지자체 선정','운영 예산과 법적 검토 작성'] },
+      { id:'c06', title:'한국관광공사 지역관광 데이터 활용 공모전', host:'한국관광공사', hostType:'public', category:'design', reward:1500, rewardText:'기관장상 / 1,500만 원', target:'관광 콘텐츠 제작자, 예비창업자', deadline:'2026-07-20', link:'https://knto.or.kr', desc:'지역 관광 데이터와 콘텐츠 제작 역량을 결합해 체류형 관광, 무장애 관광, 지역 상권 연계를 촉진하는 공모전입니다.', data:'TourAPI, 지역 축제, 교통 접근성 데이터', steps:['관광 약자 또는 체류 문제 선정','TourAPI 기반 코스 설계','콘텐츠 시제품 제작','지역 상권 연계 효과 제시'] },
+      { id:'c07', title:'2026 생활안전 슬로건·표어 공모전', host:'행정안전부', hostType:'central', category:'slogan', reward:300, rewardText:'장관상 / 300만 원', target:'전 국민 누구나', deadline:'2026-06-18', link:'https://www.mois.go.kr', desc:'재난 예방, 생활안전, 안전문화 확산을 위한 짧은 문구와 표어를 모집하는 소규모 참여형 공모전입니다.', data:'생활안전 행동요령, 재난안전 캠페인 문구, 국민안전교육 자료', steps:['20자 이내 핵심 문구 작성','안전 행동 유도 메시지 포함','온라인 신청서에 작품 의미 기재','수상작은 캠페인 홍보물에 활용'] },
+      { id:'c08', title:'우리동네 탄소중립 실천 사진·숏폼 공모전', host:'수원시', hostType:'local', category:'micro', reward:200, rewardText:'시장상 / 200만 원', target:'지역 주민 및 청소년', deadline:'2026-07-05', link:'https://www.suwon.go.kr', desc:'일상 속 탄소중립 실천 사례를 사진, 카드뉴스, 짧은 영상으로 제출하는 시민 참여형 공모전입니다.', data:'탄소중립 생활수칙, 지역 환경교육 자료, SNS 홍보 채널', steps:['실천 장면 촬영','100자 이내 설명 작성','개인 SNS 또는 신청폼 제출','저작권 및 초상권 동의 확인'] },
+      { id:'c09', title:'공공도서관 독서문화 프로그램 네이밍 공모', host:'부산광역시교육청', hostType:'local', category:'slogan', reward:100, rewardText:'교육감상 / 100만 원', target:'학생, 학부모, 시민', deadline:'2026-06-28', link:'https://www.pen.go.kr', desc:'지역 도서관의 독서문화 프로그램에 어울리는 이름, 캐치프레이즈, 운영 콘셉트를 제안하는 간단 참여형 공모전입니다.', data:'도서관 프로그램 운영안, 독서교육 자료, 지역 평생교육 계획', steps:['이름과 한 줄 설명 작성','대상 연령과 활용 장면 제시','중복 명칭 검색','온라인 폼 제출'] },
+      { id:'c10', title:'청렴 행정 캐릭터·이모티콘 아이디어 공모전', host:'국민권익위원회', hostType:'central', category:'design', reward:500, rewardText:'위원장상 / 500만 원', target:'전 국민, 디자인 전공자', deadline:'2026-08-02', link:'https://www.acrc.go.kr', desc:'청렴 문화와 공정 행정을 쉽고 친근하게 알릴 캐릭터, 이모티콘, 홍보 아이디어를 모집합니다.', data:'청렴 정책 자료, 공익신고 안내, 공공 캠페인 사례', steps:['캐릭터 콘셉트 정의','기본 동작 4종 구성','공공 캠페인 활용 방안 작성','이미지 파일과 설명서 제출'] }
+    ];
+
+    const localUpdatePool = [
+      { id:'u01', title:'전통시장 활성화 한 줄 아이디어 공모', host:'소상공인시장진흥공단', hostType:'public', category:'micro', reward:100, rewardText:'기관장상 / 100만 원', target:'전 국민', deadline:'2026-09-22', link:'https://www.semas.or.kr', desc:'전통시장 방문을 늘릴 수 있는 한 줄 정책 아이디어와 홍보 문구를 모집하는 소규모 공모전입니다.', data:'상권 활성화 자료, 전통시장 통계, 지역 축제 정보', steps:['한 줄 아이디어 작성','실행 장소와 기대효과 기재','유사 사례 확인','온라인 접수'] },
+      { id:'u02', title:'지역 버스정류장 이름·안내문 개선 공모', host:'대전광역시', hostType:'local', category:'slogan', reward:80, rewardText:'시장상 / 80만 원', target:'대전 시민', deadline:'2026-09-30', link:'https://www.daejeon.go.kr', desc:'교통약자와 방문객이 이해하기 쉬운 정류장 안내문, 표지 문구, 주변 명소 연계 명칭을 제안합니다.', data:'버스 노선 정보, 정류장 위치, 무장애 교통 안내', steps:['개선 대상 정류장 선정','새 문구와 이유 작성','현장 사진 첨부','신청폼 제출'] },
+      { id:'u03', title:'공공앱 오류 찾기 시민 제보 이벤트', host:'디지털플랫폼정부위원회', hostType:'central', category:'micro', reward:50, rewardText:'상품권 / 50만 원 상당', target:'공공앱 이용자', deadline:'2026-10-11', link:'https://www.dpg.go.kr', desc:'공공앱 사용 중 발견한 오류, 불편한 화면, 접근성 문제를 제보하는 시민 참여형 개선 이벤트입니다.', data:'공공앱 이용 화면, 접근성 체크리스트, 오류 재현 정보', steps:['오류 화면 캡처','재현 순서 작성','개선 의견 1개 이상 제안','제보 접수'] },
+      { id:'u04', title:'농촌 빈집 활용 슬로건 공모전', host:'전라남도', hostType:'local', category:'slogan', reward:150, rewardText:'도지사상 / 150만 원', target:'전 국민', deadline:'2026-10-25', link:'https://www.jeonnam.go.kr', desc:'농촌 빈집을 청년 정착, 워케이션, 지역 문화 공간으로 전환하는 정책 홍보 슬로건을 모집합니다.', data:'빈집 실태 자료, 청년 정착 정책, 워케이션 사업 자료', steps:['15자 내외 슬로건 작성','정책 의미 300자 설명','중복 문구 확인','온라인 접수'] }
+    ];
+
+    const labels = {
+      dashboard:'통합 대시보드', search:'AI 탐색기', builder:'제안서 빌더', guide:'평가 가이드'
+    };
+    let state = {
+      host:'all', category:'all',
+      saved: JSON.parse(localStorage.getItem('gcontest_saved') || '[]'),
+      lastUpdate: localStorage.getItem('gcontest_last_update') || '',
+      apiKey: localStorage.getItem('gcontest_api_key') || ''
+    };
+
+    function init() {
+      loadStoredContests();
+      buildFilters();
+      populateBuilderSelect();
+      restoreDraft();
+      updateApiUi();
+      renderContests();
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') document.querySelectorAll('.modal.open').forEach(m => m.classList.remove('open'));
+      });
+    }
+
+    function switchView(name) {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.getElementById('view-' + name).classList.add('active');
+      document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+      document.getElementById('nav-' + name).classList.add('active');
+      document.getElementById('crumb').textContent = labels[name];
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function buildFilters() {
+      const hosts = [['all','전체 기관'],['central','중앙부처'],['local','지자체'],['public','공공기관']];
+      const cats = [['all','전체 분야'],['it','IT/데이터'],['policy','정책제안'],['startup','창업/BM'],['design','콘텐츠'],['slogan','슬로건/네이밍'],['micro','간단 참여']];
+      makeFilter('hostFilters', hosts, 'host');
+      makeFilter('categoryFilters', cats, 'category');
+    }
+
+    function makeFilter(id, items, key) {
+      const wrap = document.getElementById(id);
+      wrap.innerHTML = items.map(([value, text]) => `<button class="chip ${state[key] === value ? 'active' : ''}" onclick="setFilter('${key}','${value}')">${text}</button>`).join('');
+    }
+
+    function setFilter(key, value) {
+      state[key] = value;
+      buildFilters();
+      renderContests();
+    }
+
+    function daysLeft(deadline) {
+      const today = new Date();
+      today.setHours(0,0,0,0);
+      return Math.ceil((new Date(deadline) - today) / 86400000);
+    }
+
+    function dday(deadline) {
+      const d = daysLeft(deadline);
+      if (d < 0) return '마감';
+      if (d === 0) return 'D-Day';
+      return 'D-' + d;
+    }
+
+    function filteredContests() {
+      const q = document.getElementById('searchInput')?.value.trim().toLowerCase() || '';
+      const savedOnly = document.getElementById('savedOnly')?.checked || false;
+      let list = contests.filter(c => {
+        const text = `${c.title} ${c.host} ${c.desc} ${c.data} ${c.target} ${c.rewardText}`.toLowerCase();
+        return (state.host === 'all' || c.hostType === state.host)
+          && (state.category === 'all' || c.category === state.category)
+          && (!savedOnly || state.saved.includes(c.id))
+          && (!q || text.includes(q));
+      });
+      const sort = document.getElementById('sortSelect')?.value || 'deadline';
+      list.sort((a,b) => {
+        if (sort === 'reward') return b.reward - a.reward;
+        if (sort === 'title') return a.title.localeCompare(b.title, 'ko');
+        return daysLeft(a.deadline) - daysLeft(b.deadline);
+      });
+      return list;
+    }
+
+    function renderContests() {
+      const grid = document.getElementById('contestGrid');
+      const list = filteredContests();
+      grid.innerHTML = list.map(cardHtml).join('');
+      document.getElementById('emptyState').style.display = list.length ? 'none' : 'block';
+      document.getElementById('statCount').textContent = list.length + '개';
+      document.getElementById('statSaved').textContent = state.saved.length + '개';
+      document.getElementById('statSoon').textContent = contests.filter(c => daysLeft(c.deadline) >= 0 && daysLeft(c.deadline) <= 30).length + '개';
+      document.getElementById('lastUpdateText').textContent = state.lastUpdate ? `마지막 업데이트: ${state.lastUpdate}` : '업데이트 전';
+    }
+
+    function loadStoredContests() {
+      const stored = JSON.parse(localStorage.getItem('gcontest_added_contests') || '[]');
+      stored.forEach(item => {
+        if (item && item.id && !contests.some(c => c.id === item.id)) contests.push(item);
+      });
+    }
+
+    function saveAddedContests(items) {
+      const existing = JSON.parse(localStorage.getItem('gcontest_added_contests') || '[]');
+      const merged = [...existing];
+      items.forEach(item => {
+        if (!merged.some(c => c.id === item.id)) merged.push(item);
+      });
+      localStorage.setItem('gcontest_added_contests', JSON.stringify(merged));
+    }
+
+    async function updateContestList(button) {
+      if (button) {
+        button.disabled = true;
+        button.textContent = '업데이트 중...';
+      }
+
+      try {
+        let incoming = [];
+        if (state.apiKey) {
+          try {
+            incoming = await fetchContestUpdatesWithGemini();
+          } catch (e) {
+            incoming = [];
+          }
+        }
+        if (!incoming.length) incoming = getLocalUpdates();
+
+        const added = [];
+        incoming.forEach(item => {
+          const normalized = normalizeContest(item);
+          if (normalized && !contests.some(c => c.id === normalized.id || c.title === normalized.title)) {
+            contests.push(normalized);
+            added.push(normalized);
+          }
+        });
+
+        const now = new Date();
+        state.lastUpdate = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+        localStorage.setItem('gcontest_last_update', state.lastUpdate);
+        if (added.length) saveAddedContests(added);
+        populateBuilderSelect();
+        renderContests();
+        toast(added.length ? `${added.length}개의 공모전을 추가했습니다.` : '이미 최신 후보가 반영되어 있습니다.');
+      } finally {
+        if (button) {
+          button.disabled = false;
+          button.textContent = '최신 공모전 업데이트';
+        }
+      }
+    }
+
+    function hostLabel(type) {
+      return type === 'central' ? '중앙부처' : type === 'local' ? '지자체' : '공공기관';
+    }
+
+    function toggleSaved(id) {
+      state.saved = state.saved.includes(id) ? state.saved.filter(x => x !== id) : [...state.saved, id];
+      localStorage.setItem('gcontest_saved', JSON.stringify(state.saved));
+      renderContests();
+      toast(state.saved.includes(id) ? '즐겨찾기에 저장했습니다.' : '즐겨찾기에서 제거했습니다.');
+    }
+
+    function openDetail(id) {
+      const c = contests.find(x => x.id === id);
+      document.getElementById('modalTitle').textContent = c.title;
+      document.getElementById('modalLink').href = c.link;
+      document.getElementById('modalBuild').onclick = () => {
+        closeModal('detailModal');
+        switchView('builder');
+        document.getElementById('builderContest').value = c.id;
+        syncContestFields();
+        goStep(2);
+      };
+      document.getElementById('modalBody').innerHTML = `
+        <div class="stats">
+          <div class="statbox"><small>시상</small><strong>${c.rewardText}</strong></div>
+          <div class="statbox"><small>대상</small><strong>${c.target}</strong></div>
+          <div class="statbox"><small>마감</small><strong>${c.deadline} (${dday(c.deadline)})</strong></div>
+        </div>
+        <div class="notice" style="background:#f8fbff;border-left-color:var(--blue)">
+          <p><strong>공식 공고 링크:</strong> ${escapeHtml(c.link)}<br>접수 가능 여부, 세부 일정, 제출 양식은 반드시 공식 페이지에서 최종 확인하세요.</p>
+          <a class="btn primary" href="${escapeHtml(c.link)}" target="_blank" rel="noreferrer">열기</a>
+        </div>
+        <div><h3>공모 개요</h3><p style="color:var(--muted);line-height:1.65">${c.desc}</p></div>
+        <div><h3>추진 단계</h3><div class="timeline">${c.steps.map((s,i) => `<div class="timeitem"><div class="num">${i+1}</div><strong>${s}</strong></div>`).join('')}</div></div>
+        <div><h3>제안서에 넣을 데이터</h3><p style="color:var(--muted);line-height:1.65">${c.data}</p></div>`;
+      document.getElementById('detailModal').classList.add('open');
+    }
+
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+    function populateBuilderSelect() {
+      const select = document.getElementById('builderContest');
+      select.innerHTML = `<option value="direct">직접 입력</option>` + contests.map(c => `<option value="${c.id}">[${c.host}] ${c.title}</option>`).join('');
+    }
+
+    function syncContestFields() {
+      const id = document.getElementById('builderContest').value;
+      if (id === 'direct') return;
+      const c = contests.find(x => x.id === id);
+      document.getElementById('builderTitle').value = c.title;
+      document.getElementById('builderHost').value = c.host;
+    }
+
+    function goStep(n) {
+      for (let i = 1; i <= 4; i++) {
+        document.getElementById('builderStep' + i).classList.toggle('active', i === n);
+        const mark = document.getElementById('stepMark' + i);
+        mark.classList.toggle('active', i === n);
+        mark.classList.toggle('done', i < n);
+      }
+      saveDraft();
+    }
+
+    function loadSampleIdea() {
+      document.getElementById('builderIdea').value = '고령자와 디지털 취약계층이 주민센터, 복지관, 정류장에서 음성으로 목적지를 말하면 공공데이터 기반 최적 이동 경로, 복지 서비스 일정, 보호자 알림을 종이 출력과 음성 안내로 제공하는 생활밀착형 공공 안내 키오스크';
+      saveDraft();
+      toast('예문을 넣었습니다.');
+    }
+
+    function focusText(value) {
+      const map = {
+        feasibility:'기존 행정 인프라 활용, 단계적 예산 편성, 규제 대응',
+        policy:'정부혁신, 디지털플랫폼정부, 지역 현안과의 정합성',
+        impact:'취약계층 수혜, 행정 시간 절감, 예산 절감 KPI',
+        novelty:'공공데이터 API 융합, AI 자동화, 기존 서비스와의 차별성'
+      };
+      return map[value] || map.feasibility;
+    }
+
+    async function generateProposal() {
+      const title = document.getElementById('builderTitle').value.trim();
+      const host = document.getElementById('builderHost').value.trim();
+      const idea = document.getElementById('builderIdea').value.trim();
+      const focus = document.querySelector('input[name="focus"]:checked').value;
+      if (!title || !host || !idea) {
+        toast('공모전 명칭, 주관기관, 아이디어를 모두 입력해 주세요.');
+        return;
+      }
+      let text = '';
+      if (state.apiKey) {
+        try {
+          text = await callGemini(title, host, idea, focus);
+        } catch (e) {
+          text = offlineProposal(title, host, idea, focus) + '\n\n※ 외부 API 호출 실패로 오프라인 템플릿 엔진 결과를 표시함.';
+        }
+      } else {
+        text = offlineProposal(title, host, idea, focus);
+      }
+      renderPaper(title, host, text);
+      localStorage.setItem('gcontest_last_proposal', text);
+      toast('제안서 초안을 생성했습니다.');
+    }
+
+    async function callGemini(title, host, idea, focus) {
+      const prompt = `대한민국 공공 공모전 제출용 개조식 제안서 초안을 작성하세요. 공모전:${title}, 주관:${host}, 아이디어:${idea}, 강조점:${focusText(focus)}. 반드시 ■, ○, -, ※ 구조로 작성하고 3개년 로드맵과 KPI를 포함하세요.`;
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(state.apiKey)}`, {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json' },
+        body: JSON.stringify({ contents:[{ parts:[{ text: prompt }] }] })
+      });
+      const json = await response.json();
+      const text = json.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (!text) throw new Error('empty response');
+      return text;
+    }
+
+    function offlineProposal(title, host, idea, focus) {
+      const selected = contests.find(c => c.title === title) || {};
+      const data = selected.data || '공공데이터포털, 지자체 행정 데이터, 이용자 현장 설문';
+      return `■ 사업명
+  ○ ${host} 연계 ${title} 대응형 공공서비스 고도화 제안
+    - 제안 핵심: ${idea}
+    ※ 중점 배점 방향: ${focusText(focus)}
+
+■ 추진 배경 및 필요성
+  ○ 국민 생활 현장의 행정 접근성 격차 해소 필요
+    - 기존 온라인 중심 신청·안내 체계는 디지털 취약계층, 지역 거주민, 소상공인에게 정보 접근 장벽으로 작용
+    - 공공데이터와 현장 접점을 결합한 서비스 제공 시 행정 안내 누락 및 민원 반복 가능성 감소
+  ○ ${host} 정책 사업과 연계 가능한 실증형 과제 구성
+    - 단순 아이디어가 아닌 담당 부서, 데이터 원천, 운영 KPI를 포함한 집행 가능 모델로 설계
+    ※ 공공성, 지속성, 확산성을 동시에 평가받을 수 있는 구조로 편성
+
+■ 핵심 서비스 설계안
+  ○ 데이터 기반 맞춤 안내 및 신청 지원 프로세스 구축
+    - 활용 데이터: ${data}
+    - 이용 절차: 대상자 확인 -> 상황 입력 -> 맞춤 추천 -> 신청·출력·알림 -> 성과 데이터 축적
+    - 운영 주체: ${host} 담당부서, 지역 유관기관, 민간 수행팀 간 역할 분담
+  ○ 현장 도입형 최소기능제품 우선 구현
+    - 모바일 웹, 키오스크, 담당자 관리자 화면 중 공모 성격에 맞는 1개 채널을 우선 개발
+    - 개인정보는 최소 수집, 통계 데이터는 비식별 처리 후 성과 분석에 활용
+
+■ 기대효과 및 성과 KPI
+  ○ 행정 효율성 및 국민 체감도 개선
+    - 반복 문의 25% 감소, 신청 소요시간 30% 단축, 서비스 접근 취약계층 만족도 80점 이상 달성 목표
+    - 데이터 기반 정책 환류로 차년도 예산 편성 및 사업 확대 근거 확보
+  ○ 사회적 가치 창출
+    - 취약계층 정보 격차 완화, 지역 서비스 이용률 증가, 공공데이터 민간 활용 사례 축적
+    ※ KPI는 월별 이용 건수, 전환율, 민원 감소율, 예산 절감 추정액으로 관리
+
+■ 3개년 추진 로드맵 및 예산안
+  ○ 1차년도: 시범 설계 및 MVP 구축
+    - 예산 80백만 원: 요구사항 조사, 데이터 연계, 프로토타입 개발, 시범지역 1곳 운영
+  ○ 2차년도: 서비스 확산 및 운영 안정화
+    - 예산 150백만 원: 기능 고도화, 관리자 대시보드, 유관기관 연계, 보안 점검
+  ○ 3차년도: 제도화 및 타 지자체 확산
+    - 예산 220백만 원: 표준 운영 매뉴얼, 성과평가 체계, 다지역 확산 패키지 구축`;
+    }
+
+    function renderPaper(title, host, text) {
+      document.querySelector('.doc-meta div').innerHTML = `<strong>문서번호:</strong> G-CON-2026-${Math.floor(1000 + Math.random()*9000)}<br><strong>보존기간:</strong> 3년<br><strong>제출처:</strong> ${host}`;
+      document.querySelector('.doc-title').innerHTML = `<strong>${title}</strong><small>${host} 제출용 공공 제안서 초안</small>`;
+      document.getElementById('proposalText').innerHTML = escapeHtml(text).replace(/^■(.+)$/gm, '<b>■$1</b>');
+    }
+
+    function escapeHtml(s) {
+      return s.replace(/[&<>\"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"\'":'&#039;'}[ch]));
+    }
+
+    function saveDraft() {
+      const draft = {
+        contest: document.getElementById('builderContest').value,
+        title: document.getElementById('builderTitle').value,
+        host: document.getElementById('builderHost').value,
+        idea: document.getElementById('builderIdea').value,
+        focus: document.querySelector('input[name="focus"]:checked')?.value || 'feasibility'
+      };
+      localStorage.setItem('gcontest_draft', JSON.stringify(draft));
+    }
+
+    function restoreDraft() {
+      const draft = JSON.parse(localStorage.getItem('gcontest_draft') || 'null');
+      if (!draft) return;
+      document.getElementById('builderContest').value = draft.contest || 'direct';
+      document.getElementById('builderTitle').value = draft.title || '';
+      document.getElementById('builderHost').value = draft.host || '';
+      document.getElementById('builderIdea').value = draft.idea || '';
+      const radio = document.querySelector(`input[name="focus"][value="${draft.focus}"]`);
+      if (radio) radio.checked = true;
+      const last = localStorage.getItem('gcontest_last_proposal');
+      if (last && draft.title && draft.host) renderPaper(draft.title, draft.host, last);
+    }
+
+    function resetBuilder() {
+      localStorage.removeItem('gcontest_draft');
+      localStorage.removeItem('gcontest_last_proposal');
+      document.getElementById('builderContest').value = 'direct';
+      document.getElementById('builderTitle').value = '';
+      document.getElementById('builderHost').value = '';
+      document.getElementById('builderIdea').value = '';
+      document.querySelector('input[name="focus"][value="feasibility"]').checked = true;
+      renderPaper('공공 제안서 초안 대기 중', '작성 대기', `■ 작성 안내
+  ○ 공모전과 아이디어 입력 후 자동 생성
+    - 개조식 문장, 추진 로드맵, 예산안, KPI 포함`);
+      goStep(1);
+      toast('작성 내용을 초기화했습니다.');
+    }
+
+    function copyProposal() {
+      const text = document.getElementById('proposalText').innerText;
+      navigator.clipboard?.writeText(text).then(() => toast('제안서 내용을 복사했습니다.')).catch(() => toast('복사 권한이 없어 실패했습니다.'));
+    }
+
+    function downloadProposal() {
+      const title = document.getElementById('builderTitle').value.trim() || 'gcontest-proposal';
+      const blob = new Blob([document.getElementById('proposalText').innerText], { type:'text/plain;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = title.replace(/[\\/:*?"<>|]/g, '_') + '.txt';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    function exportCsv() {
+      const rows = [['공모명','주관기관','기관구분','분야','시상','대상','마감','링크']];
+      filteredContests().forEach(c => rows.push([c.title,c.host,hostLabel(c.hostType),c.category,c.rewardText,c.target,c.deadline,c.link]));
+      const csv = rows.map(r => r.map(v => `\"${String(v).replace(/"/g,'\"\"')}\"`).join(',')).join('\n');
+      const blob = new Blob(['\ufeff' + csv], { type:'text/csv;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'gcontest-list.csv';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    function setQuery(q) {
+      document.getElementById('aiQuery').value = q;
+      runSmartSearch();
+    }
+
+    async function runSmartSearch() {
+      const q = document.getElementById('aiQuery').value.trim();
+      if (!q) return toast('검색 키워드를 입력해 주세요.');
+      const result = document.getElementById('searchResult');
+      result.innerHTML = '<h2>탐색 중...</h2><p class="subcopy" style="color:var(--muted)">공모 데이터와 제출 전략을 정리하고 있습니다.</p>';
+      const local = contests.filter(c => `${c.title} ${c.host} ${c.desc} ${c.data}`.toLowerCase().includes(q.toLowerCase().split(' ')[0]));
+      const picks = (local.length ? local : contests).slice(0, 3);
+      let ai = '';
+      if (state.apiKey) {
+        try {
+          ai = await callGeminiSearch(q);
+        } catch (e) {
+          ai = '';
+        }
+      }
+      result.innerHTML = `<h2>탐색 보고서</h2>
+        ${ai ? `<p style="white-space:pre-wrap;line-height:1.65;color:var(--ink)">${escapeHtml(ai)}</p>` : ''}
+        <h3>추천 공모</h3>
+        <div class="contest-grid">${picks.map(cardHtml).join('')}</div>
+        <h3 style="margin-top:16px">제출 전략</h3>
+        <table class="kpi-table"><tbody>
+          <tr><th>초점</th><td>공모 요건의 정책 문구를 첫 장 제목과 추진 배경에 직접 반영</td></tr>
+          <tr><th>근거</th><td>공공데이터 출처, 대상자 규모, 민원 또는 지역 문제를 숫자로 제시</td></tr>
+          <tr><th>차별화</th><td>기존 서비스와 다른 운영 주체, 데이터 조합, 현장 접점을 명확히 분리</td></tr>
+        </tbody></table>`;
+    }
+
+    async function callGeminiSearch(q) {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(state.apiKey)}`, {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json' },
+        body: JSON.stringify({ contents:[{ parts:[{ text:`공공 공모전 컨설턴트처럼 "${q}" 관련 공모 탐색 전략을 한국어로 700자 이내로 작성하세요. 공식 출처 확인 필요성도 언급하세요.` }] }] })
+      });
+      const json = await response.json();
+      return json.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    }
+
+    function openApiModal() {
+      document.getElementById('apiInput').value = state.apiKey;
+      document.getElementById('apiModal').classList.add('open');
+    }
+
+    function saveApiKey() {
+      state.apiKey = document.getElementById('apiInput').value.trim();
+      localStorage.setItem('gcontest_api_key', state.apiKey);
+      updateApiUi();
+      closeModal('apiModal');
+      toast(state.apiKey ? 'API 키를 저장했습니다.' : '빈 키로 저장했습니다.');
+    }
+
+    function clearApiKey() {
+      state.apiKey = '';
+      localStorage.removeItem('gcontest_api_key');
+      document.getElementById('apiInput').value = '';
+      updateApiUi();
+      closeModal('apiModal');
+      toast('API 키를 제거했습니다.');
+    }
+
+    function updateApiUi() {
+      document.getElementById('apiDot').classList.toggle('ok', !!state.apiKey);
+      document.getElementById('apiText').textContent = state.apiKey ? 'Gemini 키 저장됨' : '오프라인 실무 모드';
+      if (state.apiKey) document.getElementById('apiNotice')?.classList.add('hide');
+    }
+
+    function toast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.add('show');
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+    }
+
+    init();
+  </script>
 </body>
 </html>
