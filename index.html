@@ -660,18 +660,40 @@
     };
     let state = {
       host:'all', category:'all',
-      saved: JSON.parse(localStorage.getItem('gcontest_saved') || '[]'),
+      saved: readArray('gcontest_saved'),
       lastUpdate: localStorage.getItem('gcontest_last_update') || '',
       apiKey: localStorage.getItem('gcontest_api_key') || ''
     };
+
+    function readJson(key, fallback) {
+      try {
+        const value = localStorage.getItem(key);
+        return value ? JSON.parse(value) : fallback;
+      } catch (e) {
+        localStorage.removeItem(key);
+        return fallback;
+      }
+    }
+
+    function readArray(key) {
+      const value = readJson(key, []);
+      if (Array.isArray(value)) return value;
+      localStorage.removeItem(key);
+      return [];
+    }
 
     function init() {
       loadStoredContests();
       buildFilters();
       populateBuilderSelect();
-      restoreDraft();
       updateApiUi();
       renderContests();
+      try {
+        restoreDraft();
+      } catch (e) {
+        localStorage.removeItem('gcontest_draft');
+        localStorage.removeItem('gcontest_last_proposal');
+      }
       document.addEventListener('keydown', e => {
         if (e.key === 'Escape') document.querySelectorAll('.modal.open').forEach(m => m.classList.remove('open'));
       });
@@ -747,15 +769,36 @@
       document.getElementById('lastUpdateText').textContent = state.lastUpdate ? `마지막 업데이트: ${state.lastUpdate}` : '업데이트 전';
     }
 
+    function cardHtml(c) {
+      const left = daysLeft(c.deadline);
+      const deadlineClass = left >= 0 && left <= 14 ? 'soon' : 'deadline';
+      const saved = state.saved.includes(c.id);
+      return `<article class="card">
+        <div class="badges">
+          <span class="badge ${escapeHtml(c.hostType)}">${hostLabel(c.hostType)}</span>
+          <span class="badge ${deadlineClass}">${dday(c.deadline)}</span>
+        </div>
+        <h3>${escapeHtml(c.title)}</h3>
+        <p><strong>${escapeHtml(c.host)}</strong> · ${escapeHtml(c.target)}</p>
+        <p>${escapeHtml(c.desc)}</p>
+        <div class="reward">${escapeHtml(c.rewardText)}</div>
+        <div class="card-actions">
+          <button class="btn ghost" onclick="toggleSaved('${escapeHtml(c.id)}')">${saved ? '저장됨' : '저장'}</button>
+          <button class="btn dark" onclick="openDetail('${escapeHtml(c.id)}')">상세 보기</button>
+        </div>
+      </article>`;
+    }
+
     function loadStoredContests() {
-      const stored = JSON.parse(localStorage.getItem('gcontest_added_contests') || '[]');
+      const stored = readArray('gcontest_added_contests');
       stored.forEach(item => {
-        if (item && item.id && !contests.some(c => c.id === item.id)) contests.push(item);
+        const normalized = normalizeContest(item);
+        if (normalized && !contests.some(c => c.id === normalized.id || c.title === normalized.title)) contests.push(normalized);
       });
     }
 
     function saveAddedContests(items) {
-      const existing = JSON.parse(localStorage.getItem('gcontest_added_contests') || '[]');
+      const existing = readArray('gcontest_added_contests');
       const merged = [...existing];
       items.forEach(item => {
         if (!merged.some(c => c.id === item.id)) merged.push(item);
@@ -802,6 +845,100 @@
           button.textContent = '최신 공모전 업데이트';
         }
       }
+    }
+
+    function getLocalUpdates() {
+      return localUpdatePool.filter(item => !contests.some(c => c.id === item.id || c.title === item.title));
+    }
+
+    function normalizeContest(item) {
+      if (!item || typeof item !== 'object') return null;
+      const title = String(item.title || '').trim();
+      const host = String(item.host || '').trim();
+      if (!title || !host) return null;
+
+      const idSource = String(item.id || `${host}-${title}`).trim();
+      const id = idSource
+        .toLowerCase()
+        .replace(/[^a-z0-9가-힣]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .slice(0, 48) || `u-${Date.now()}`;
+      const hostType = ['central','local','public'].includes(item.hostType) ? item.hostType : guessHostType(host);
+      const category = ['it','policy','startup','design','slogan','micro'].includes(item.category) ? item.category : guessCategory(title, item.desc);
+      const reward = Number.isFinite(Number(item.reward)) ? Number(item.reward) : parseReward(item.rewardText);
+      const deadline = validDate(item.deadline) ? item.deadline : futureDate(60);
+
+      return {
+        id,
+        title,
+        host,
+        hostType,
+        category,
+        reward,
+        rewardText: String(item.rewardText || (reward ? `${reward.toLocaleString('ko-KR')}만 원` : '공식 공고 확인')).trim(),
+        target: String(item.target || '전 국민').trim(),
+        deadline,
+        link: validUrl(item.link) ? item.link : 'https://www.data.go.kr',
+        desc: String(item.desc || '공공 문제 해결을 위한 아이디어와 실행 방안을 모집하는 공모전입니다.').trim(),
+        data: String(item.data || '공식 공고문, 공공데이터포털, 관련 정책 자료').trim(),
+        steps: Array.isArray(item.steps) && item.steps.length ? item.steps.map(s => String(s).trim()).filter(Boolean).slice(0, 4) : ['공고문 확인','아이디어 구체화','제출 양식 작성','온라인 접수']
+      };
+    }
+
+    function guessHostType(host) {
+      if (/(시|도|군|구|광역시|특별시|특별자치)/.test(host)) return 'local';
+      if (/(부|청|위원회|처)$/.test(host)) return 'central';
+      return 'public';
+    }
+
+    function guessCategory(title, desc) {
+      const text = `${title || ''} ${desc || ''}`;
+      if (/(창업|비즈니스|스타트업|BM)/i.test(text)) return 'startup';
+      if (/(데이터|앱|디지털|AI|서비스|플랫폼|IT)/i.test(text)) return 'it';
+      if (/(슬로건|표어|네이밍|한 줄|문구)/i.test(text)) return 'slogan';
+      if (/(사진|영상|숏폼|콘텐츠|캐릭터|디자인)/i.test(text)) return 'design';
+      if (/(이벤트|제보|참여|캠페인)/i.test(text)) return 'micro';
+      return 'policy';
+    }
+
+    function parseReward(text) {
+      const source = String(text || '');
+      const match = source.match(/([\d,]+)\s*만/);
+      return match ? Number(match[1].replace(/,/g, '')) : 0;
+    }
+
+    function validDate(value) {
+      return /^\d{4}-\d{2}-\d{2}$/.test(String(value || '')) && !Number.isNaN(new Date(value).getTime());
+    }
+
+    function futureDate(days) {
+      const date = new Date();
+      date.setDate(date.getDate() + days);
+      return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+    }
+
+    function validUrl(value) {
+      try {
+        const url = new URL(value);
+        return url.protocol === 'http:' || url.protocol === 'https:';
+      } catch (e) {
+        return false;
+      }
+    }
+
+    async function fetchContestUpdatesWithGemini() {
+      const prompt = `대한민국 정부, 지자체, 공공기관 공모전 후보 4개를 JSON 배열로만 작성하세요. 각 항목은 title, host, hostType(central/local/public), category(it/policy/startup/design/slogan/micro), reward, rewardText, target, deadline(YYYY-MM-DD), link, desc, data, steps 배열을 포함하세요.`;
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(state.apiKey)}`, {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json' },
+        body: JSON.stringify({ contents:[{ parts:[{ text: prompt }] }] })
+      });
+      if (!response.ok) throw new Error('update request failed');
+      const json = await response.json();
+      const text = json.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      const cleaned = text.replace(/^```(?:json)?/i, '').replace(/```$/i, '').trim();
+      const match = cleaned.match(/\[[\s\S]*\]/);
+      return JSON.parse(match ? match[0] : cleaned);
     }
 
     function hostLabel(type) {
@@ -984,13 +1121,14 @@
     }
 
     function restoreDraft() {
-      const draft = JSON.parse(localStorage.getItem('gcontest_draft') || 'null');
-      if (!draft) return;
+      const draft = readJson('gcontest_draft', null);
+      if (!draft || typeof draft !== 'object' || Array.isArray(draft)) return;
       document.getElementById('builderContest').value = draft.contest || 'direct';
       document.getElementById('builderTitle').value = draft.title || '';
       document.getElementById('builderHost').value = draft.host || '';
       document.getElementById('builderIdea').value = draft.idea || '';
-      const radio = document.querySelector(`input[name="focus"][value="${draft.focus}"]`);
+      const focus = ['feasibility','policy','impact','novelty'].includes(draft.focus) ? draft.focus : 'feasibility';
+      const radio = document.querySelector(`input[name="focus"][value="${focus}"]`);
       if (radio) radio.checked = true;
       const last = localStorage.getItem('gcontest_last_proposal');
       if (last && draft.title && draft.host) renderPaper(draft.title, draft.host, last);
