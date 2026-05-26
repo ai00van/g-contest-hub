@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>G-Policy Hub - 정부지원사업 통합 포털</title>
+  <title>오늘기회 - 내 조건으로 바로 지원 가능한 작은 기회</title>
   <style>
     :root {
       --ink: #182033;
@@ -173,6 +173,23 @@
     .notice { padding: 14px 16px; display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; border-left: 4px solid var(--amber); background: #fff9ec; }
     .notice p { color: #8a5d00; font-size: 12px; line-height: 1.55; margin: 0; }
 
+    .matcher { display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: 16px; align-items: start; }
+    .matcher-form { display: grid; gap: 12px; }
+    .choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .choice { border: 1px solid var(--line); background: #fff; border-radius: var(--radius); padding: 10px; font-size: 12px; font-weight: 900; text-align: center; min-height: 42px; }
+    .choice.active { background: var(--nav); color: #fff; border-color: var(--nav); }
+    .quick-lanes { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin-bottom: 12px; }
+    .lane { border: 1px solid var(--line); background: #fff; border-radius: var(--radius); padding: 12px; min-height: 78px; text-align: left; font-weight: 900; color: var(--ink); }
+    .lane small { display: block; margin-top: 6px; color: var(--muted); font-size: 10px; line-height: 1.35; }
+    .lane.active { border-color: var(--green); box-shadow: 0 0 0 3px rgba(22,163,107,.11); }
+    .match-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+    .mini-stat { border: 1px solid var(--line); background: #f8fafc; border-radius: var(--radius); padding: 11px; }
+    .mini-stat small { display: block; color: var(--muted); font-size: 10px; font-weight: 900; }
+    .mini-stat strong { display: block; margin-top: 4px; font-size: 17px; }
+    .meta-list { display: grid; gap: 6px; font-size: 11px; color: var(--muted); }
+    .meta-list span { display: flex; justify-content: space-between; gap: 10px; border-bottom: 1px dashed #e2e8f0; padding-bottom: 5px; }
+    .meta-list b { color: var(--ink); text-align: right; }
+
     .grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
     .metric { padding: 16px; display: flex; justify-content: space-between; gap: 10px; min-height: 105px; }
     .metric span { display: block; color: var(--muted); font-size: 12px; font-weight: 800; }
@@ -330,7 +347,8 @@
     @media (max-width: 1100px) {
       .grid-4, .guide-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .contest-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .split { grid-template-columns: 1fr; }
+      .split, .matcher { grid-template-columns: 1fr; }
+      .quick-lanes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     }
     @media (max-width: 760px) {
       .app { grid-template-columns: 1fr; }
@@ -345,6 +363,7 @@
       .hero-art { display: none; }
       h1 { font-size: 24px; }
       .grid-4, .contest-grid, .guide-grid, .stats, .timeline, .steps { grid-template-columns: 1fr; }
+      .choice-grid, .quick-lanes, .match-summary { grid-template-columns: 1fr; }
       .panel-head { display: grid; }
       .search { max-width: none; }
       .paper { padding: 20px; min-height: 780px; }
@@ -360,8 +379,8 @@
       <div class="brand" role="button" tabindex="0" onclick="switchView('dashboard')">
         <div class="brand-mark">G</div>
         <div>
-          <strong>G-POLICY</strong>
-          <span>정부·지자체·국책·창업 지원사업 허브</span>
+          <strong>오늘기회</strong>
+          <span>오늘 바로 지원 가능한 작은 공모전·지원사업 매칭</span>
         </div>
       </div>
 
@@ -382,19 +401,19 @@
       </nav>
 
       <div class="side-foot">
-        <strong>로컬 저장형 HTML 앱</strong><br />
-        즐겨찾기, API 키, 작성 중인 제안서는 현재 브라우저 localStorage에 저장됩니다.
+        <strong>내 조건 저장형 HTML 앱</strong><br />
+        관심 조건, 즐겨찾기, API 키, 작성 중인 제출서류는 현재 브라우저 localStorage에 저장됩니다.
       </div>
     </aside>
 
     <main class="main">
       <header class="topbar between">
         <div>
-          <div class="mobile-brand">G-POLICY HUB</div>
-          <div class="crumb">지원사업 통합 플랫폼 / <span id="crumb">통합 대시보드</span></div>
+          <div class="mobile-brand">오늘기회</div>
+          <div class="crumb">작은 기회 매칭 / <span id="crumb">내 기회 매칭</span></div>
         </div>
         <div class="toolbar">
-          <button class="btn primary" onclick="updateContestList(this)">최신 지원사업 업데이트</button>
+          <button class="btn primary" onclick="updateContestList(this)">새 기회 업데이트</button>
           <button class="btn" onclick="exportCsv()">CSV 내보내기</button>
           <button class="btn dark" onclick="switchView('builder')">사업계획서 작성</button>
         </div>
@@ -404,9 +423,9 @@
         <section id="view-dashboard" class="view active">
           <div class="hero">
             <div class="hero-copy">
-              <span class="eyebrow">PUBLIC FUNDING OPS</span>
-              <h1>정부지원사업·국책사업·창업지원사업을 한 화면에서 탐색</h1>
-              <p>중앙부처, 지자체, 공공기관, 창업지원기관의 지원사업을 지역·부처·대상·유형별로 빠르게 비교하고 사업계획서 초안까지 이어서 작성합니다.</p>
+              <span class="eyebrow">TODAY OPPORTUNITY MATCH</span>
+              <h1>내 조건으로 오늘 바로 지원 가능한 작은 기회를 찾기</h1>
+              <p>공모전과 정부지원사업을 따로 보지 않고, 제출 가능 시간·준비물·거주 지역·목적 기준으로 지금 낼 수 있는 상금, 지원금, 스펙, 포트폴리오 기회만 먼저 보여줍니다.</p>
             </div>
             <div class="hero-art" aria-hidden="true">
               <div class="map-board">
@@ -420,24 +439,77 @@
           </div>
 
           <div id="apiNotice" class="notice">
-            <p><strong>오프라인 실무 모드:</strong> API 키 없이도 검색, 필터, 즐겨찾기, 사업계획서 초안 생성이 가능합니다. Gemini 키를 넣으면 탐색기와 빌더에서 외부 생성 응답을 우선 시도합니다.</p>
+            <p><strong>오프라인 실무 모드:</strong> API 키 없이도 조건 매칭, 검색, 필터, 즐겨찾기, 제출서류 초안 생성이 가능합니다. Gemini 키를 넣으면 탐색기와 빌더에서 외부 생성 응답을 우선 시도합니다.</p>
             <button class="btn ghost" onclick="document.getElementById('apiNotice').classList.add('hide')">닫기</button>
           </div>
 
           <div class="grid-4">
-            <div class="metric"><div><span>표시 사업</span><strong id="statCount">0개</strong></div><div class="iconbox bg-blue">L</div></div>
+            <div class="metric"><div><span>맞춤 기회</span><strong id="statCount">0개</strong></div><div class="iconbox bg-blue">L</div></div>
             <div class="metric"><div><span>즐겨찾기</span><strong id="statSaved">0개</strong></div><div class="iconbox bg-green">S</div></div>
-            <div class="metric"><div><span>30일 이내 마감</span><strong id="statSoon">0개</strong></div><div class="iconbox bg-amber">D</div></div>
-            <div class="metric"><div><span>최대 지원</span><strong id="statMax">0</strong></div><div class="iconbox bg-rose">W</div></div>
+            <div class="metric"><div><span>7일 이내 마감</span><strong id="statSoon">0개</strong></div><div class="iconbox bg-amber">D</div></div>
+            <div class="metric"><div><span>30분 응모</span><strong id="statQuick">0개</strong></div><div class="iconbox bg-rose">Q</div></div>
+          </div>
+
+          <div class="matcher">
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <h2>내 조건 입력</h2>
+                  <p>목록을 뒤지는 대신, 지금 제출 가능한 기회만 걸러봅니다.</p>
+                </div>
+              </div>
+              <div class="matcher-form">
+                <label>나는
+                  <div id="profileRole" class="choice-grid"></div>
+                </label>
+                <label>사업자등록증
+                  <div id="profileBiz" class="choice-grid"></div>
+                </label>
+                <label>거주 지역
+                  <select id="profileRegion" class="select" onchange="setProfile('region', this.value)">
+                    <option value="all">전국/상관없음</option>
+                    <option value="서울">서울</option><option value="경기">경기</option><option value="인천">인천</option>
+                    <option value="부산">부산</option><option value="대구">대구</option><option value="광주">광주</option>
+                    <option value="대전">대전</option><option value="충북">충북</option><option value="전남">전남</option>
+                  </select>
+                </label>
+                <label>제출 가능 시간
+                  <div id="profileTime" class="choice-grid"></div>
+                </label>
+                <label>가능한 제출물
+                  <div id="profileAsset" class="choice-grid"></div>
+                </label>
+                <label>목적
+                  <div id="profileGoal" class="choice-grid"></div>
+                </label>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <h2>지금 가능한 기회</h2>
+                  <p>제출 난이도, 예상 소요시간, 준비자료, 초보자 적합도를 먼저 계산합니다.</p>
+                </div>
+                <button class="btn" onclick="resetProfile()">조건 초기화</button>
+              </div>
+              <div class="quick-lanes" id="quickLanes"></div>
+              <div class="match-summary">
+                <div class="mini-stat"><small>조건 일치</small><strong id="matchCount">0개</strong></div>
+                <div class="mini-stat"><small>오늘 제출 가능</small><strong id="todayCount">0개</strong></div>
+                <div class="mini-stat"><small>초보자 추천</small><strong id="beginnerCount">0개</strong></div>
+              </div>
+              <div id="matchGrid" class="contest-grid"></div>
+            </div>
           </div>
 
           <div class="panel">
             <div class="panel-head">
               <div>
-                <h2>지원사업 통합 리스트</h2>
-                <p>정부지원사업, 지방자치단체 지원사업, 국책사업, 창업지원사업, 공모전을 한 목록에서 비교합니다. 상세 보기에서 공식 공고와 사업계획서 빌더를 바로 연결합니다.</p>
+                <h2>전체 기회 리스트</h2>
+                <p>작은 공모전, 정책제안, 소상공인·청년·예비창업 지원사업을 한 목록에서 비교합니다. 상세 보기에서 공식 링크와 제출서류 빌더를 바로 연결합니다.</p>
               </div>
-              <input id="searchInput" class="input search" type="search" placeholder="사업명, 지역, 부처, 대상 검색" oninput="renderContests()" />
+              <input id="searchInput" class="input search" type="search" placeholder="기회명, 지역, 주최, 제출물 검색" oninput="renderContests()" />
             </div>
 
             <div class="filters" id="hostFilters"></div>
@@ -665,11 +737,32 @@
       { id:'u04', type:'rd', title:'광주 AI·모빌리티 실증사업', host:'광주광역시', department:'광주광역시', hostType:'local', region:'광주', targetGroup:'기업·연구기관', category:'rd', reward:20000, rewardText:'실증비·인프라 / 과제별 차등', target:'AI·모빌리티 기업, 대학, 연구기관', deadline:'2026-10-25', link:'https://www.gwangju.go.kr', desc:'AI 데이터센터, 미래차 인프라와 연계한 지역 실증형 국책·지자체 협력사업입니다.', data:'실증계획, 기술성숙도, 안전관리계획, 컨소시엄 구성', steps:['실증 수요 확인','컨소시엄 구성','실증계획 제출','현장평가 및 협약'] }
     ];
 
+    const smallOpportunityPool = [
+      { id:'s01', type:'contest', title:'우리동네 한 문장 슬로건 공모', host:'지자체 홍보담당관', department:'지역 홍보부서', hostType:'local', region:'전국', targetGroup:'전 국민', category:'contest', reward:50, rewardText:'상금 / 50만 원 내외', target:'개인 누구나', deadline:'2026-06-03', link:'https://www.sotong.go.kr', desc:'지역 정책, 축제, 공공 캠페인에 쓸 짧은 문구를 온라인으로 제출하는 저난도 공모전입니다.', data:'100자 이내 문구, 연락처, 개인정보 동의', steps:['공식 공고 확인','문구 작성','온라인 제출','수상자 발표 확인'], difficulty:'하', effort:'30m', materials:['글'], goals:['상금','스펙'], roles:['student','jobseeker','founder','merchant','freelancer'], needsBiz:false, beginner:true, caution:'중복 문구와 저작권 침해 표현은 실격될 수 있습니다.' },
+      { id:'s02', type:'contest', title:'시민 정책 아이디어 1페이지 제안', host:'소통24', department:'국민권익위원회', hostType:'central', region:'전국', targetGroup:'전 국민', category:'contest', reward:100, rewardText:'상금·포상 / 우수 제안 차등', target:'국민 누구나', deadline:'2026-06-09', link:'https://www.sotong.go.kr', desc:'생활 불편, 행정 개선, 공공서비스 아이디어를 한 페이지로 정리해 제안하는 참여형 기회입니다.', data:'제안 배경, 개선 아이디어, 기대효과', steps:['유사 제안 검색','제안서 작성','국민참여 플랫폼 접수','심사 결과 확인'], difficulty:'하', effort:'today', materials:['글'], goals:['스펙','포트폴리오'], roles:['student','jobseeker','founder','merchant','freelancer'], needsBiz:false, beginner:true, caution:'이미 시행 중인 정책이나 단순 민원은 채택 가능성이 낮습니다.' },
+      { id:'s03', type:'contest', title:'전통시장 사진·숏폼 참여 공모', host:'소상공인시장진흥공단', department:'중소벤처기업부', hostType:'public', region:'전국', targetGroup:'전 국민', category:'contest', reward:200, rewardText:'상금 / 총 200만 원 내외', target:'개인 또는 팀', deadline:'2026-06-14', link:'https://www.semas.or.kr', desc:'전통시장 방문 경험을 사진이나 짧은 영상으로 제출하는 포트폴리오형 소액 공모전입니다.', data:'사진 또는 60초 이내 영상, 간단한 설명', steps:['시장 방문 촬영','작품 설명 작성','온라인 접수','SNS 공개 여부 확인'], difficulty:'하', effort:'today', materials:['사진','영상'], goals:['상금','포트폴리오'], roles:['student','jobseeker','founder','merchant','freelancer'], needsBiz:false, beginner:true, caution:'인물 초상이 보이면 촬영 동의 여부를 확인해야 합니다.' },
+      { id:'s04', type:'finance', title:'소상공인 점포 개선 100만 원 바우처', host:'지역 소상공인지원센터', department:'지자체', hostType:'local', region:'전국', targetGroup:'소상공인', category:'commerce', reward:100, rewardText:'바우처 / 최대 100만 원', target:'사업자등록 소상공인', deadline:'2026-06-18', link:'https://www.semas.or.kr', desc:'간판, 메뉴판, 상세페이지, 위생 개선처럼 작은 점포 개선 비용을 지원하는 지역형 바우처입니다.', data:'사업자등록증, 견적서, 점포 사진, 신청서', steps:['지역 공고 확인','견적서 준비','신청서 제출','선정 후 정산'], difficulty:'중', effort:'week', materials:['사진','사업자등록증'], goals:['지원금'], roles:['merchant','founder'], needsBiz:true, beginner:false, caution:'선정 전 지출한 비용은 인정되지 않는 경우가 많습니다.' },
+      { id:'s05', type:'startup', title:'예비창업자 아이디어 검증 소액 지원', host:'창조경제혁신센터', department:'중소벤처기업부', hostType:'public', region:'전국', targetGroup:'예비창업자', category:'startup', reward:300, rewardText:'시제품·검증비 / 최대 300만 원', target:'사업자등록 전 예비창업자', deadline:'2026-06-21', link:'https://ccei.creativekorea.or.kr', desc:'사업자등록 전 단계에서 고객 인터뷰, 랜딩페이지, 시제품 검증 비용을 지원하는 작은 창업 기회입니다.', data:'아이디어 요약, 고객 문제, 검증 계획, 간단 PPT', steps:['아이디어 정리','PPT 5장 작성','온라인 신청','멘토링 참여'], difficulty:'중', effort:'week', materials:['PPT'], goals:['창업자금','포트폴리오'], roles:['student','jobseeker','founder','freelancer'], needsBiz:false, beginner:true, caution:'이미 사업자를 낸 경우 예비창업 트랙에서 제외될 수 있습니다.' }
+    ];
+
+    const profileOptions = {
+      role:[['student','학생'],['jobseeker','취준생'],['founder','예비창업자'],['merchant','소상공인'],['freelancer','프리랜서']],
+      biz:[['no','없음'],['yes','있음']],
+      time:[['30m','30분'],['today','오늘'],['week','이번 주'],['month','한 달']],
+      asset:[['글','글'],['사진','사진'],['영상','영상'],['PPT','PPT'],['사업계획서','사업계획서']],
+      goal:[['상금','상금'],['스펙','스펙'],['지원금','지원금'],['포트폴리오','포트폴리오'],['창업자금','창업자금']]
+    };
+
+    const laneOptions = [
+      ['quick','30분 응모','문구·간단 제안'],['writing','글만 제출','정책제안·네이밍'],['media','사진/숏폼','포트폴리오형'],['youth','청년 지원','스펙·창업'],['merchant','소상공인','소액 바우처']
+    ];
+
     const labels = {
-      dashboard:'통합 대시보드', search:'AI 탐색기', builder:'사업계획서 빌더', guide:'평가 가이드'
+      dashboard:'내 기회 매칭', search:'AI 기회 탐색기', builder:'제출서류 빌더', guide:'평가 가이드'
     };
     let state = {
-      host:'all', category:'all', region:'all', target:'all',
+      host:'all', category:'all', region:'all', target:'all', lane:'quick',
+      profile: readJson('gcontest_profile', { role:'student', biz:'no', region:'all', time:'today', asset:'글', goal:'상금' }),
       saved: readArray('gcontest_saved'),
       lastUpdate: localStorage.getItem('gcontest_last_update') || '',
       apiKey: localStorage.getItem('gcontest_api_key') || ''
@@ -692,9 +785,134 @@
       return [];
     }
 
+    function seedSmallOpportunities() {
+      smallOpportunityPool.forEach(item => {
+        if (!contests.some(c => c.id === item.id || c.title === item.title)) contests.unshift(item);
+      });
+    }
+
+    function renderProfileControls() {
+      renderChoiceGroup('profileRole', 'role');
+      renderChoiceGroup('profileBiz', 'biz');
+      renderChoiceGroup('profileTime', 'time');
+      renderChoiceGroup('profileAsset', 'asset');
+      renderChoiceGroup('profileGoal', 'goal');
+      const region = document.getElementById('profileRegion');
+      if (region) region.value = state.profile.region || 'all';
+      document.getElementById('quickLanes').innerHTML = laneOptions.map(([value, title, copy]) => `<button class="lane ${state.lane === value ? 'active' : ''}" onclick="setLane('${value}')">${title}<small>${copy}</small></button>`).join('');
+    }
+
+    function renderChoiceGroup(id, key) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.innerHTML = profileOptions[key].map(([value, text]) => `<button class="choice ${state.profile[key] === value ? 'active' : ''}" onclick="setProfile('${key}', '${value}')">${text}</button>`).join('');
+    }
+
+    function setProfile(key, value) {
+      state.profile[key] = value;
+      if (key === 'biz' && value === 'yes' && state.profile.role === 'student') state.profile.role = 'founder';
+      localStorage.setItem('gcontest_profile', JSON.stringify(state.profile));
+      renderProfileControls();
+      renderContests();
+    }
+
+    function setLane(value) {
+      state.lane = value;
+      const patch = {
+        quick:{ time:'30m', asset:'글', goal:'상금' },
+        writing:{ time:'today', asset:'글', goal:'스펙' },
+        media:{ time:'today', asset:'사진', goal:'포트폴리오' },
+        youth:{ role:'jobseeker', time:'week', goal:'스펙' },
+        merchant:{ role:'merchant', biz:'yes', asset:'사진', goal:'지원금' }
+      }[value] || {};
+      Object.assign(state.profile, patch);
+      localStorage.setItem('gcontest_profile', JSON.stringify(state.profile));
+      renderProfileControls();
+      renderContests();
+    }
+
+    function resetProfile() {
+      state.lane = 'quick';
+      state.profile = { role:'student', biz:'no', region:'all', time:'today', asset:'글', goal:'상금' };
+      localStorage.setItem('gcontest_profile', JSON.stringify(state.profile));
+      renderProfileControls();
+      renderContests();
+    }
+
+    function effortRank(value) {
+      return ({ '30m':1, today:2, week:3, month:4 })[value] || 3;
+    }
+
+    function effortLabel(value) {
+      return ({ '30m':'30분', today:'오늘', week:'이번 주', month:'한 달' })[value] || '이번 주';
+    }
+
+    function roleLabel(value) {
+      return ({ student:'학생', jobseeker:'취준생', founder:'예비창업자', merchant:'소상공인', freelancer:'프리랜서' })[value] || '전체';
+    }
+
+    function opportunityMeta(c) {
+      if (c.difficulty) return c;
+      const text = `${c.title} ${c.desc} ${c.data} ${c.targetGroup} ${c.target}`;
+      const needsBiz = /(사업자등록|소상공인|중소기업|기업|수출|대출|융자)/.test(text) && !/(예비창업|전 국민|국민 누구나|개인)/.test(text);
+      let effort = 'week';
+      if (c.category === 'welfare') effort = '30m';
+      else if (c.category === 'contest') effort = 'today';
+      else if (['rd','export','content'].includes(c.category)) effort = 'month';
+      else if (['startup','commerce','finance'].includes(c.category)) effort = 'week';
+      const materials = [];
+      if (/(사진|이미지)/.test(text)) materials.push('사진');
+      if (/(영상|숏폼)/.test(text)) materials.push('영상');
+      if (/(PPT|발표)/i.test(text)) materials.push('PPT');
+      if (/(사업계획|계획서|기술개발계획서|영농계획서)/.test(text)) materials.push('사업계획서');
+      if (!materials.length) materials.push(c.category === 'contest' || c.category === 'welfare' ? '글' : '사업계획서');
+      const goals = c.category === 'contest' ? ['상금','스펙','포트폴리오'] : c.category === 'startup' ? ['창업자금','지원금'] : c.category === 'commerce' || c.category === 'finance' ? ['지원금'] : ['스펙','지원금'];
+      const roles = needsBiz ? ['merchant','founder'] : c.targetGroup === '청년' ? ['student','jobseeker','founder','freelancer'] : ['student','jobseeker','founder','merchant','freelancer'];
+      return { ...c, difficulty: effort === 'month' ? '상' : effort === 'week' ? '중' : '하', effort, materials, goals, roles, needsBiz, beginner: effortRank(effort) <= 2, caution:'모집요건, 제출양식, 예산 소진 여부는 공식 링크에서 최종 확인하세요.' };
+    }
+
+    function matchScore(c) {
+      const m = opportunityMeta(c);
+      const p = state.profile;
+      if (p.region !== 'all' && m.region !== '전국' && m.region !== p.region) return -1;
+      if (p.biz === 'no' && m.needsBiz) return -1;
+      if (Array.isArray(m.roles) && !m.roles.includes(p.role)) return -1;
+      if (effortRank(m.effort) > effortRank(p.time)) return -1;
+      let score = 0;
+      if (m.materials.includes(p.asset)) score += 3;
+      if (m.goals.includes(p.goal)) score += 3;
+      if (m.region === p.region || m.region === '전국') score += 1;
+      if (m.beginner) score += 1;
+      score += Math.max(0, 5 - Math.max(0, daysLeft(m.deadline)) / 7);
+      return score;
+    }
+
+    function matchedOpportunities(limit = 6) {
+      return contests.map(c => ({ c: opportunityMeta(c), score: matchScore(c) }))
+        .filter(x => x.score >= 0)
+        .sort((a,b) => b.score - a.score || daysLeft(a.c.deadline) - daysLeft(b.c.deadline))
+        .slice(0, limit)
+        .map(x => x.c);
+    }
+
+    function renderOpportunityMatches() {
+      const grid = document.getElementById('matchGrid');
+      if (!grid) return;
+      const list = matchedOpportunities(6);
+      grid.innerHTML = list.length ? list.map(cardHtml).join('') : '<div class="empty" style="display:block"><h3>지금 조건에 맞는 기회가 없습니다.</h3><p>제출 가능 시간을 늘리거나 제출물을 바꿔보세요.</p></div>';
+      document.getElementById('matchCount').textContent = list.length + '개';
+      document.getElementById('todayCount').textContent = list.filter(c => effortRank(c.effort) <= 2).length + '개';
+      document.getElementById('beginnerCount').textContent = list.filter(c => c.beginner).length + '개';
+      const quick = contests.map(opportunityMeta).filter(c => c.effort === '30m').length;
+      const quickEl = document.getElementById('statQuick');
+      if (quickEl) quickEl.textContent = quick + '개';
+    }
+
     function init() {
+      seedSmallOpportunities();
       loadStoredContests();
       buildFilters();
+      renderProfileControls();
       populateBuilderSelect();
       updateApiUi();
       renderContests();
@@ -757,7 +975,8 @@
       const q = document.getElementById('searchInput')?.value.trim().toLowerCase() || '';
       const savedOnly = document.getElementById('savedOnly')?.checked || false;
       let list = contests.filter(c => {
-        const text = `${c.title} ${c.host} ${c.department || ''} ${c.region || ''} ${c.desc} ${c.data} ${c.target} ${c.targetGroup || ''} ${c.rewardText} ${typeLabel(c.type)}`.toLowerCase();
+        const meta = opportunityMeta(c);
+        const text = `${c.title} ${c.host} ${c.department || ''} ${c.region || ''} ${c.desc} ${c.data} ${c.target} ${c.targetGroup || ''} ${c.rewardText} ${typeLabel(c.type)} ${meta.difficulty} ${meta.effort} ${meta.materials.join(' ')} ${meta.goals.join(' ')}`.toLowerCase();
         return (state.host === 'all' || c.hostType === state.host)
           && (state.category === 'all' || c.category === state.category || c.type === state.category)
           && (state.region === 'all' || c.region === state.region || c.region === '전국')
@@ -781,14 +1000,13 @@
       document.getElementById('emptyState').style.display = list.length ? 'none' : 'block';
       document.getElementById('statCount').textContent = list.length + '개';
       document.getElementById('statSaved').textContent = state.saved.length + '개';
-      document.getElementById('statSoon').textContent = contests.filter(c => daysLeft(c.deadline) >= 0 && daysLeft(c.deadline) <= 30).length + '개';
-      const max = contests.reduce((v, c) => Math.max(v, Number(c.reward) || 0), 0);
-      const maxEl = document.getElementById('statMax');
-      if (maxEl) maxEl.textContent = max ? formatSupportAmount(max) : '확인';
+      document.getElementById('statSoon').textContent = contests.filter(c => daysLeft(c.deadline) >= 0 && daysLeft(c.deadline) <= 7).length + '개';
+      renderOpportunityMatches();
       document.getElementById('lastUpdateText').textContent = state.lastUpdate ? `마지막 업데이트: ${state.lastUpdate}` : '업데이트 전';
     }
 
     function cardHtml(c) {
+      c = opportunityMeta(c);
       const left = daysLeft(c.deadline);
       const deadlineClass = left >= 0 && left <= 14 ? 'soon' : 'deadline';
       const saved = state.saved.includes(c.id);
@@ -799,6 +1017,12 @@
         </div>
         <h3>${escapeHtml(c.title)}</h3>
         <p><strong>${escapeHtml(c.host)}</strong> · ${escapeHtml(c.region || '전국')} · ${escapeHtml(c.targetGroup || c.target)}</p>
+        <div class="meta-list">
+          <span>제출 난이도 <b>${escapeHtml(c.difficulty)}</b></span>
+          <span>예상 소요시간 <b>${effortLabel(c.effort)}</b></span>
+          <span>필요 자료 <b>${escapeHtml(c.materials.join(', '))}</b></span>
+          <span>초보자 추천 <b>${c.beginner ? '예' : '조건 확인'}</b></span>
+        </div>
         <p>${escapeHtml(c.desc)}</p>
         <div class="reward">${escapeHtml(c.rewardText)}</div>
         <div class="card-actions">
@@ -861,7 +1085,7 @@
       } finally {
         if (button) {
           button.disabled = false;
-          button.textContent = '최신 지원사업 업데이트';
+          button.textContent = '새 기회 업데이트';
         }
       }
     }
@@ -992,7 +1216,7 @@
     }
 
     function openDetail(id) {
-      const c = contests.find(x => x.id === id);
+      const c = opportunityMeta(contests.find(x => x.id === id));
       document.getElementById('modalTitle').textContent = c.title;
       document.getElementById('modalLink').href = c.link;
       document.getElementById('modalBuild').onclick = () => {
@@ -1013,13 +1237,19 @@
           <div class="statbox"><small>대상</small><strong>${escapeHtml(c.target)}</strong></div>
           <div class="statbox"><small>수행기관</small><strong>${escapeHtml(c.host)}</strong></div>
         </div>
+        <div class="stats">
+          <div class="statbox"><small>제출 난이도</small><strong>${escapeHtml(c.difficulty)}</strong></div>
+          <div class="statbox"><small>예상 소요시간</small><strong>${effortLabel(c.effort)}</strong></div>
+          <div class="statbox"><small>사업자등록</small><strong>${c.needsBiz ? '필요' : '불필요'}</strong></div>
+        </div>
         <div class="notice" style="background:#f8fbff;border-left-color:var(--blue)">
           <p><strong>공식 공고 링크:</strong> ${escapeHtml(c.link)}<br>지원요건, 모집기간, 제출양식, 예산 소진 여부는 반드시 공식 페이지에서 최종 확인하세요.</p>
           <a class="btn primary" href="${escapeHtml(c.link)}" target="_blank" rel="noreferrer">열기</a>
         </div>
         <div><h3>사업 개요</h3><p style="color:var(--muted);line-height:1.65">${escapeHtml(c.desc)}</p></div>
         <div><h3>신청 진행 단계</h3><div class="timeline">${c.steps.map((s,i) => `<div class="timeitem"><div class="num">${i+1}</div><strong>${escapeHtml(s)}</strong></div>`).join('')}</div></div>
-        <div><h3>준비 자료</h3><p style="color:var(--muted);line-height:1.65">${escapeHtml(c.data)}</p></div>`;
+        <div><h3>준비 자료</h3><p style="color:var(--muted);line-height:1.65">${escapeHtml(c.data)}</p></div>
+        <div><h3>실격 주의사항</h3><p style="color:var(--muted);line-height:1.65">${escapeHtml(c.caution)}</p></div>`;
       document.getElementById('detailModal').classList.add('open');
     }
 
