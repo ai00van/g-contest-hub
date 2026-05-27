@@ -827,10 +827,28 @@
       return [];
     }
 
+    function addContestItem(item, prepend = false) {
+      const normalized = normalizeContest(item);
+      if (!normalized || contests.some(c => c.id === normalized.id || c.title === normalized.title)) return false;
+      if (prepend) contests.unshift(normalized);
+      else contests.push(normalized);
+      return true;
+    }
+
     function seedSmallOpportunities() {
-      smallOpportunityPool.forEach(item => {
-        if (!contests.some(c => c.id === item.id || c.title === item.title)) contests.unshift(item);
-      });
+      smallOpportunityPool.forEach(item => addContestItem(item, true));
+    }
+
+    async function loadExternalOpportunities() {
+      try {
+        const response = await fetch('data/opportunities.json', { cache: 'no-store' });
+        if (!response.ok) return;
+        const items = await response.json();
+        if (!Array.isArray(items)) return;
+        items.slice().reverse().forEach(item => addContestItem(item, true));
+      } catch (e) {
+        // file:// preview and offline use should keep the built-in sample data.
+      }
     }
 
     function renderProfileControls() {
@@ -950,8 +968,9 @@
       if (quickEl) quickEl.textContent = quick + '개';
     }
 
-    function init() {
+    async function init() {
       seedSmallOpportunities();
+      await loadExternalOpportunities();
       loadStoredContests();
       buildFilters();
       renderProfileControls();
@@ -1104,10 +1123,7 @@
 
     function loadStoredContests() {
       const stored = readArray('gcontest_added_contests');
-      stored.forEach(item => {
-        const normalized = normalizeContest(item);
-        if (normalized && !contests.some(c => c.id === normalized.id || c.title === normalized.title)) contests.push(normalized);
-      });
+      stored.forEach(item => addContestItem(item));
     }
 
     function saveAddedContests(items) {
@@ -1139,10 +1155,7 @@
         const added = [];
         incoming.forEach(item => {
           const normalized = normalizeContest(item);
-          if (normalized && !contests.some(c => c.id === normalized.id || c.title === normalized.title)) {
-            contests.push(normalized);
-            added.push(normalized);
-          }
+          if (addContestItem(normalized)) added.push(normalized);
         });
 
         const now = new Date();

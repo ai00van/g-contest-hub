@@ -1,0 +1,443 @@
+[
+  {
+    "id": "real-sotong-2026-daedeok-photo",
+    "type": "contest",
+    "title": "2026년 대덕구 사진 공모전",
+    "host": "대덕구",
+    "department": "대덕구",
+    "hostType": "local",
+    "region": "대전",
+    "targetGroup": "전 국민",
+    "category": "contest",
+    "reward": 100,
+    "rewardText": "상금 / 드론부문 최우수 100만 원",
+    "target": "전 국민 누구나",
+    "deadline": "2026-09-30",
+    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=0b8e0014302a4f47a41d8c1b0c7fe434&miv_pageNo=1&searchkey=A&searchtxt=",
+    "posterUrl": "https://www.sotong.go.kr/commonfile/downloadEpilogueAtchmnfl.do?atchmnfl_id=e7e86c5ab6574ba08d92b2b48dd3b839",
+    "desc": "대덕구의 자연, 도심, 생명의 빛을 담은 사진 공모전입니다.",
+    "data": "사진 파일, 촬영 정보, 제출서식",
+    "steps": [
+      "공고문 확인",
+      "사진 선별",
+      "이메일 제출",
+      "결과 발표 확인"
+    ],
+    "difficulty": "하",
+    "effort": "today",
+    "materials": [
+      "사진"
+    ],
+    "goals": [
+      "상금",
+      "포트폴리오"
+    ],
+    "roles": [
+      "student",
+      "jobseeker",
+      "founder",
+      "merchant",
+      "freelancer"
+    ],
+    "needsBiz": false,
+    "beginner": true,
+    "caution": "출품 수량, 촬영 기간, 저작권 및 초상권 조건을 확인하세요."
+  },
+  {
+    "id": "real-sotong-2026-village-heritage",
+    "type": "contest",
+    "title": "2026년 마을자연유산 기초자원 공모전",
+    "host": "국가유산청",
+    "department": "국가유산청",
+    "hostType": "central",
+    "region": "전국",
+    "targetGroup": "전 국민",
+    "category": "contest",
+    "reward": 0,
+    "rewardText": "공식 공고 확인",
+    "target": "전 국민",
+    "deadline": "2026-06-30",
+    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=5bec7045126e49ce8aa4119d9366b559&miv_pageNo=&searchkey=&searchtxt=",
+    "posterUrl": "https://www.sotong.go.kr/commonfile/downloadEpilogueAtchmnfl.do?atchmnfl_id=c6a57ec3f2264cd2be84d7e094d31002",
+    "desc": "마을 주변의 보존 가치가 있는 자연유산 자원을 발굴하는 공모전입니다.",
+    "data": "자연유산 설명, 위치, 사진",
+    "steps": [
+      "대상 확인",
+      "사진 촬영",
+      "기초자료 작성",
+      "접수"
+    ],
+    "difficulty": "하",
+    "effort": "today",
+    "materials": [
+      "글",
+      "사진"
+    ],
+    "goals": [
+      "스펙",
+      "포트폴리오"
+    ],
+    "roles": [
+      "student",
+      "jobseeker",
+      "founder",
+      "merchant",
+      "freelancer"
+    ],
+    "needsBiz": false,
+    "beginner": true,
+    "caution": "위치 정보와 사진 출처를 정확히 남기세요."
+  },
+  {
+    "id": "real-sotong-2026-ai-fairy-tale",
+    "type": "contest",
+    "title": "2026년도 AI를 활용한 장애인식개선 동화 공모전",
+    "host": "보건복지부·한국장애인개발원",
+    "department": "보건복지부",
+    "hostType": "public",
+    "region": "전국",
+    "targetGroup": "전 국민",
+    "category": "contest",
+    "reward": 0,
+    "rewardText": "상금 / 공식 공고 확인",
+    "target": "전 국민",
+    "deadline": "2026-05-15",
+    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=e86d79f2ce1d44fead5ee88f67a47f69&miv_pageNo=1&searchkey=A&searchtxt=",
+    "posterUrl": "https://www.sotong.go.kr/commonfile/downloadEpilogueAtchmnfl.do?atchmnfl_id=d3d3aa97ce0a43c79f66086861a5b43c",
+    "desc": "AI를 활용해 장애인식개선 동화를 만드는 콘텐츠 공모전입니다.",
+    "data": "동화 원고, AI 활용 내용, 참가신청서",
+    "steps": [
+      "주제 확인",
+      "원고 작성",
+      "AI 활용 내역 정리",
+      "접수"
+    ],
+    "difficulty": "중",
+    "effort": "week",
+    "materials": [
+      "글"
+    ],
+    "goals": [
+      "상금",
+      "포트폴리오"
+    ],
+    "roles": [
+      "student",
+      "jobseeker",
+      "freelancer"
+    ],
+    "needsBiz": false,
+    "beginner": true,
+    "caution": "AI 활용 범위, 저작권, 표절 기준을 확인하세요."
+  },
+  {
+    "id": "real-sotong-2026-weather-bigdata",
+    "type": "contest",
+    "title": "2026 날씨 빅데이터 콘테스트",
+    "host": "기상청",
+    "department": "기상청",
+    "hostType": "central",
+    "region": "전국",
+    "targetGroup": "전 국민",
+    "category": "contest",
+    "reward": 0,
+    "rewardText": "상금 / 공식 공고 확인",
+    "target": "개인 또는 팀",
+    "deadline": "2026-05-29",
+    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=020f45c9edbe4e5d80bbf68bb82adb89&miv_pageNo=&searchkey=&searchtxt=",
+    "posterUrl": "https://www.sotong.go.kr/commonfile/downloadEpilogueAtchmnfl.do?atchmnfl_id=321f9a57e5864da3a8e1707a4a87aa7a",
+    "desc": "날씨 데이터를 활용해 사회 문제 해결 아이디어와 분석 결과를 제안하는 콘테스트입니다.",
+    "data": "데이터 분석 결과, 제안서, 발표자료",
+    "steps": [
+      "데이터 확인",
+      "분석 주제 선택",
+      "제안서 작성",
+      "제출"
+    ],
+    "difficulty": "상",
+    "effort": "month",
+    "materials": [
+      "PPT",
+      "사업계획서"
+    ],
+    "goals": [
+      "상금",
+      "스펙",
+      "포트폴리오"
+    ],
+    "roles": [
+      "student",
+      "jobseeker",
+      "founder",
+      "freelancer"
+    ],
+    "needsBiz": false,
+    "beginner": false,
+    "caution": "데이터 출처와 분석 재현 가능성을 남기세요."
+  },
+  {
+    "id": "real-sotong-2026-culture-video",
+    "type": "contest",
+    "title": "수요일은 문화요일 홍보영상 공모전",
+    "host": "문화체육관광부",
+    "department": "문화체육관광부",
+    "hostType": "central",
+    "region": "전국",
+    "targetGroup": "전 국민",
+    "category": "contest",
+    "reward": 0,
+    "rewardText": "상금 / 공식 공고 확인",
+    "target": "전 국민",
+    "deadline": "2026-04-28",
+    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=112cefeeb7a9459c98202aa8c13cbd41&miv_pageNo=1&searchkey=A&searchtxt=",
+    "posterUrl": "https://www.sotong.go.kr/commonfile/downloadEpilogueAtchmnfl.do?atchmnfl_id=37762b66ac4d4087b09f49af71e971c9",
+    "desc": "문화가 있는 날 확대 시행을 알리는 홍보영상 콘텐츠 공모전입니다.",
+    "data": "영상 파일, 작품 설명, 참가신청서",
+    "steps": [
+      "정책 메시지 확인",
+      "영상 제작",
+      "저작권 점검",
+      "제출"
+    ],
+    "difficulty": "중",
+    "effort": "week",
+    "materials": [
+      "영상"
+    ],
+    "goals": [
+      "상금",
+      "포트폴리오"
+    ],
+    "roles": [
+      "student",
+      "jobseeker",
+      "freelancer"
+    ],
+    "needsBiz": false,
+    "beginner": true,
+    "caution": "음원, 폰트, 이미지 라이선스를 확인하세요."
+  },
+  {
+    "id": "real-sotong-2026-yeongju-data",
+    "type": "contest",
+    "title": "2026년 영주시 공공데이터 활용 창업경진대회",
+    "host": "영주시",
+    "department": "영주시",
+    "hostType": "local",
+    "region": "경북",
+    "targetGroup": "전 국민",
+    "category": "contest",
+    "reward": 0,
+    "rewardText": "상금 / 공식 공고 확인",
+    "target": "개인 또는 팀",
+    "deadline": "2026-05-06",
+    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=b254df78c36646eeaf642dfd17789435&miv_pageNo=7&searchkey=A&searchtxt=",
+    "posterUrl": "https://www.sotong.go.kr/commonfile/downloadEpilogueAtchmnfl.do?atchmnfl_id=f31355fd10274b178e76ad697d373153",
+    "desc": "공공데이터 기반 아이디어와 서비스를 발굴하는 지역 창업경진대회입니다.",
+    "data": "아이디어 기획서, 서비스 설명, 활용 데이터",
+    "steps": [
+      "공공데이터 조사",
+      "아이디어 기획",
+      "신청서 제출",
+      "발표 준비"
+    ],
+    "difficulty": "중",
+    "effort": "week",
+    "materials": [
+      "PPT"
+    ],
+    "goals": [
+      "상금",
+      "창업자금",
+      "포트폴리오"
+    ],
+    "roles": [
+      "student",
+      "jobseeker",
+      "founder",
+      "freelancer"
+    ],
+    "needsBiz": false,
+    "beginner": true,
+    "caution": "활용 데이터의 공개 여부와 서비스 실현 가능성을 확인하세요."
+  },
+  {
+    "id": "real-sotong-2026-asan-policy",
+    "type": "contest",
+    "title": "2026년 아산시 시민 정책 공모전",
+    "host": "아산시",
+    "department": "아산시",
+    "hostType": "local",
+    "region": "충남",
+    "targetGroup": "주민",
+    "category": "contest",
+    "reward": 0,
+    "rewardText": "포상 / 공식 공고 확인",
+    "target": "아산 시민 및 소재 학교·기업 소속자",
+    "deadline": "2026-05-06",
+    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=8c04e43a7f524ab09bf9e7e4a3f2851f&miv_pageNo=1&searchkey=A&searchtxt=",
+    "posterUrl": "https://www.sotong.go.kr/commonfile/downloadEpilogueAtchmnfl.do?atchmnfl_id=5b74b22c398444a2a2951c5fb8a4a531",
+    "desc": "아산시 미래를 위한 시민 정책 아이디어를 제안하는 공모전입니다.",
+    "data": "정책 제안서, 현황, 기대효과",
+    "steps": [
+      "자격 확인",
+      "아이디어 정리",
+      "제안서 작성",
+      "접수"
+    ],
+    "difficulty": "하",
+    "effort": "today",
+    "materials": [
+      "글"
+    ],
+    "goals": [
+      "스펙",
+      "포트폴리오"
+    ],
+    "roles": [
+      "student",
+      "jobseeker",
+      "founder",
+      "merchant",
+      "freelancer"
+    ],
+    "needsBiz": false,
+    "beginner": true,
+    "caution": "참가 자격의 지역·소속 조건을 확인하세요."
+  },
+  {
+    "id": "real-sotong-2026-heritage-idea",
+    "type": "contest",
+    "title": "국가유산 민생 혁신 대국민 톡톡 아이디어 공모전",
+    "host": "국가유산청",
+    "department": "국가유산청",
+    "hostType": "central",
+    "region": "전국",
+    "targetGroup": "전 국민",
+    "category": "contest",
+    "reward": 0,
+    "rewardText": "상금 / 공식 공고 확인",
+    "target": "전 국민",
+    "deadline": "2026-02-28",
+    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=b5c9aae842e44a7c82806babebe9b413&miv_pageNo=1&searchkey=A&searchtxt=",
+    "posterUrl": "https://www.sotong.go.kr/commonfile/downloadEpilogueAtchmnfl.do?atchmnfl_id=39392840428743d9ac63594ac4e01a79",
+    "desc": "국가유산을 활용해 국민이 체감할 수 있는 민생 효과를 제안하는 아이디어 공모전입니다.",
+    "data": "아이디어 제안서, 기대효과",
+    "steps": [
+      "주제 확인",
+      "제안 작성",
+      "온라인 제출",
+      "심사 확인"
+    ],
+    "difficulty": "하",
+    "effort": "today",
+    "materials": [
+      "글"
+    ],
+    "goals": [
+      "상금",
+      "스펙"
+    ],
+    "roles": [
+      "student",
+      "jobseeker",
+      "founder",
+      "merchant",
+      "freelancer"
+    ],
+    "needsBiz": false,
+    "beginner": true,
+    "caution": "공모기간과 유사 제안 중복 여부를 확인하세요."
+  },
+  {
+    "id": "real-sotong-2026-growth-strategy",
+    "type": "contest",
+    "title": "2026년 경제성장전략 대국민 공모전",
+    "host": "기획재정부",
+    "department": "기획재정부",
+    "hostType": "central",
+    "region": "전국",
+    "targetGroup": "전 국민",
+    "category": "contest",
+    "reward": 0,
+    "rewardText": "상금 / 공식 공고 확인",
+    "target": "전 국민",
+    "deadline": "2026-04-18",
+    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=4609feac01474af796b163bce0a0c41e&miv_pageNo=4&searchkey=A&searchtxt=",
+    "posterUrl": "https://www.sotong.go.kr/commonfile/downloadEpilogueAtchmnfl.do?atchmnfl_id=68f544ad1d93426d923823f23ef310f0",
+    "desc": "개인의 성장 경험이나 정책 아이디어를 통해 경제성장전략을 제안하는 대국민 공모전입니다.",
+    "data": "이미지 또는 영상, 성장 경험, 정책 아이디어",
+    "steps": [
+      "주제 선택",
+      "콘텐츠 제작",
+      "신청서 작성",
+      "제출"
+    ],
+    "difficulty": "하",
+    "effort": "today",
+    "materials": [
+      "글",
+      "사진",
+      "영상"
+    ],
+    "goals": [
+      "상금",
+      "스펙",
+      "포트폴리오"
+    ],
+    "roles": [
+      "student",
+      "jobseeker",
+      "founder",
+      "merchant",
+      "freelancer"
+    ],
+    "needsBiz": false,
+    "beginner": true,
+    "caution": "이미지·영상 속 개인정보와 저작권을 확인하세요."
+  },
+  {
+    "id": "real-sotong-2026-consumer-policy",
+    "type": "contest",
+    "title": "제10회 소비자지향성 개선과제 공모전",
+    "host": "공정거래위원회·한국소비자원",
+    "department": "공정거래위원회",
+    "hostType": "public",
+    "region": "전국",
+    "targetGroup": "전 국민",
+    "category": "contest",
+    "reward": 0,
+    "rewardText": "상금 / 공식 공고 확인",
+    "target": "전 국민",
+    "deadline": "2026-04-10",
+    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=24a5f66f357145a68f4d7857cfa51e07&miv_pageNo=7&searchkey=A&searchtxt=",
+    "posterUrl": "https://www.sotong.go.kr/commonfile/downloadEpilogueAtchmnfl.do?atchmnfl_id=b388524508444f379b9541ebc9929bbb",
+    "desc": "소비자의 권리와 이익을 제한하는 법령·제도를 개선하는 아이디어 공모전입니다.",
+    "data": "개선 과제, 문제점, 개선 방안",
+    "steps": [
+      "사례 찾기",
+      "개선안 작성",
+      "신청서 제출",
+      "심사 확인"
+    ],
+    "difficulty": "하",
+    "effort": "today",
+    "materials": [
+      "글"
+    ],
+    "goals": [
+      "상금",
+      "스펙"
+    ],
+    "roles": [
+      "student",
+      "jobseeker",
+      "founder",
+      "merchant",
+      "freelancer"
+    ],
+    "needsBiz": false,
+    "beginner": true,
+    "caution": "단순 민원보다 제도 개선 과제로 구조화하세요."
+  }
+]
