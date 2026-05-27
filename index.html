@@ -235,18 +235,36 @@
     .btn.danger { color: var(--rose); border-color: #ffd2dc; background: #fff6f8; }
     .btn:active { transform: translateY(1px); }
 
-    .contest-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-    .card { padding: 16px; display: flex; flex-direction: column; gap: 12px; min-height: 230px; }
+    .contest-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+    .card { overflow: hidden; padding: 0; display: flex; flex-direction: column; gap: 0; min-height: 360px; }
     .card:hover { box-shadow: var(--shadow); border-color: #bdd0ff; }
+    .poster {
+      position: relative;
+      min-height: 150px;
+      padding: 14px;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: linear-gradient(135deg, #17345f, #0f9b9a);
+      isolation: isolate;
+    }
+    .poster::after { content: ""; position: absolute; inset: auto -20px -46px auto; width: 126px; height: 126px; border-radius: 999px; background: rgba(255,255,255,.16); z-index: -1; }
+    .poster img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+    .poster.has-img::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.58)); z-index: -1; }
+    .poster-kicker { font-size: 10px; font-weight: 900; opacity: .86; }
+    .poster-title { font-size: 18px; line-height: 1.25; font-weight: 900; word-break: keep-all; }
+    .poster-meta { display: flex; justify-content: space-between; gap: 8px; font-size: 10px; font-weight: 900; opacity: .92; }
+    .card-body { padding: 14px; display: grid; gap: 10px; flex: 1; }
     .badges { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
     .badge { display: inline-flex; align-items: center; gap: 5px; border-radius: 999px; padding: 5px 8px; font-size: 10px; font-weight: 900; background: #eef3ff; color: var(--blue); }
     .badge.local { background: #fff5dd; color: #a76600; }
     .badge.public { background: #e8fbf8; color: #067a79; }
     .badge.deadline { background: #f1f5f9; color: var(--ink); }
     .badge.soon { background: #fff0f3; color: var(--rose); }
-    .card h3 { line-height: 1.45; min-height: 43px; }
-    .card p { color: var(--muted); font-size: 12px; line-height: 1.55; margin: 0; }
-    .card-actions { margin-top: auto; border-top: 1px solid var(--line); padding-top: 12px; display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+    .card h3 { line-height: 1.42; min-height: 0; margin: 0; font-size: 14px; }
+    .card p { color: var(--muted); font-size: 12px; line-height: 1.55; margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .card-actions { margin-top: auto; border-top: 1px solid var(--line); padding-top: 10px; display: flex; justify-content: space-between; gap: 8px; align-items: center; }
     .reward { color: var(--green); font-weight: 900; font-size: 12px; }
     .empty { display: none; text-align: center; padding: 54px 20px; background: #fff; border: 1px dashed #cbd5e1; border-radius: var(--radius); color: var(--muted); }
 
@@ -742,7 +760,31 @@
       { id:'s02', type:'contest', title:'시민 정책 아이디어 1페이지 제안', host:'소통24', department:'국민권익위원회', hostType:'central', region:'전국', targetGroup:'전 국민', category:'contest', reward:100, rewardText:'상금·포상 / 우수 제안 차등', target:'국민 누구나', deadline:'2026-06-09', link:'https://www.sotong.go.kr', desc:'생활 불편, 행정 개선, 공공서비스 아이디어를 한 페이지로 정리해 제안하는 참여형 기회입니다.', data:'제안 배경, 개선 아이디어, 기대효과', steps:['유사 제안 검색','제안서 작성','국민참여 플랫폼 접수','심사 결과 확인'], difficulty:'하', effort:'today', materials:['글'], goals:['스펙','포트폴리오'], roles:['student','jobseeker','founder','merchant','freelancer'], needsBiz:false, beginner:true, caution:'이미 시행 중인 정책이나 단순 민원은 채택 가능성이 낮습니다.' },
       { id:'s03', type:'contest', title:'전통시장 사진·숏폼 참여 공모', host:'소상공인시장진흥공단', department:'중소벤처기업부', hostType:'public', region:'전국', targetGroup:'전 국민', category:'contest', reward:200, rewardText:'상금 / 총 200만 원 내외', target:'개인 또는 팀', deadline:'2026-06-14', link:'https://www.semas.or.kr', desc:'전통시장 방문 경험을 사진이나 짧은 영상으로 제출하는 포트폴리오형 소액 공모전입니다.', data:'사진 또는 60초 이내 영상, 간단한 설명', steps:['시장 방문 촬영','작품 설명 작성','온라인 접수','SNS 공개 여부 확인'], difficulty:'하', effort:'today', materials:['사진','영상'], goals:['상금','포트폴리오'], roles:['student','jobseeker','founder','merchant','freelancer'], needsBiz:false, beginner:true, caution:'인물 초상이 보이면 촬영 동의 여부를 확인해야 합니다.' },
       { id:'s04', type:'finance', title:'소상공인 점포 개선 100만 원 바우처', host:'지역 소상공인지원센터', department:'지자체', hostType:'local', region:'전국', targetGroup:'소상공인', category:'commerce', reward:100, rewardText:'바우처 / 최대 100만 원', target:'사업자등록 소상공인', deadline:'2026-06-18', link:'https://www.semas.or.kr', desc:'간판, 메뉴판, 상세페이지, 위생 개선처럼 작은 점포 개선 비용을 지원하는 지역형 바우처입니다.', data:'사업자등록증, 견적서, 점포 사진, 신청서', steps:['지역 공고 확인','견적서 준비','신청서 제출','선정 후 정산'], difficulty:'중', effort:'week', materials:['사진','사업자등록증'], goals:['지원금'], roles:['merchant','founder'], needsBiz:true, beginner:false, caution:'선정 전 지출한 비용은 인정되지 않는 경우가 많습니다.' },
-      { id:'s05', type:'startup', title:'예비창업자 아이디어 검증 소액 지원', host:'창조경제혁신센터', department:'중소벤처기업부', hostType:'public', region:'전국', targetGroup:'예비창업자', category:'startup', reward:300, rewardText:'시제품·검증비 / 최대 300만 원', target:'사업자등록 전 예비창업자', deadline:'2026-06-21', link:'https://ccei.creativekorea.or.kr', desc:'사업자등록 전 단계에서 고객 인터뷰, 랜딩페이지, 시제품 검증 비용을 지원하는 작은 창업 기회입니다.', data:'아이디어 요약, 고객 문제, 검증 계획, 간단 PPT', steps:['아이디어 정리','PPT 5장 작성','온라인 신청','멘토링 참여'], difficulty:'중', effort:'week', materials:['PPT'], goals:['창업자금','포트폴리오'], roles:['student','jobseeker','founder','freelancer'], needsBiz:false, beginner:true, caution:'이미 사업자를 낸 경우 예비창업 트랙에서 제외될 수 있습니다.' }
+      { id:'s05', type:'startup', title:'예비창업자 아이디어 검증 소액 지원', host:'창조경제혁신센터', department:'중소벤처기업부', hostType:'public', region:'전국', targetGroup:'예비창업자', category:'startup', reward:300, rewardText:'시제품·검증비 / 최대 300만 원', target:'사업자등록 전 예비창업자', deadline:'2026-06-21', link:'https://ccei.creativekorea.or.kr', desc:'사업자등록 전 단계에서 고객 인터뷰, 랜딩페이지, 시제품 검증 비용을 지원하는 작은 창업 기회입니다.', data:'아이디어 요약, 고객 문제, 검증 계획, 간단 PPT', steps:['아이디어 정리','PPT 5장 작성','온라인 신청','멘토링 참여'], difficulty:'중', effort:'week', materials:['PPT'], goals:['창업자금','포트폴리오'], roles:['student','jobseeker','founder','freelancer'], needsBiz:false, beginner:true, caution:'이미 사업자를 낸 경우 예비창업 트랙에서 제외될 수 있습니다.' },
+      { id:'s06', type:'contest', title:'브랜드 네이밍 한 줄 공모', host:'공공기관·지자체', department:'홍보부서', hostType:'public', region:'전국', targetGroup:'전 국민', category:'contest', reward:30, rewardText:'상금 / 30만 원 내외', target:'개인 누구나', deadline:'2026-06-05', link:'https://www.sotong.go.kr', desc:'신규 정책, 축제, 캐릭터, 캠페인의 이름을 짧게 제출하는 초저난도 공모전입니다.', data:'이름 후보, 의미 설명 100자', steps:['공고문 확인','이름 후보 작성','온라인 제출','결과 확인'], difficulty:'하', effort:'30m', materials:['글'], goals:['상금','스펙'], roles:['student','jobseeker','founder','merchant','freelancer'], needsBiz:false, beginner:true, caution:'상표권 등록 여부와 기존 행사명 중복을 확인하세요.' },
+      { id:'s07', type:'contest', title:'정책 숏폼 30초 영상 공모', host:'중앙부처·공공기관', department:'정책홍보팀', hostType:'central', region:'전국', targetGroup:'전 국민', category:'contest', reward:300, rewardText:'상금 / 총 300만 원 내외', target:'개인 또는 팀', deadline:'2026-06-16', link:'https://www.sotong.go.kr', desc:'정책 메시지를 30초 내외 영상으로 표현해 제출하는 SNS형 공모전입니다.', data:'30초 영상, 작품 설명, 원본 파일', steps:['주제 확인','영상 제작','온라인 업로드','저작권 동의 확인'], difficulty:'중', effort:'week', materials:['영상'], goals:['상금','포트폴리오'], roles:['student','jobseeker','founder','freelancer'], needsBiz:false, beginner:true, caution:'음원, 폰트, 이미지 저작권 증빙이 필요할 수 있습니다.' },
+      { id:'s08', type:'contest', title:'지역 관광 사진 공모', host:'관광재단·지자체', department:'문화관광과', hostType:'local', region:'전국', targetGroup:'전 국민', category:'contest', reward:100, rewardText:'상금 / 100만 원 내외', target:'개인 누구나', deadline:'2026-06-20', link:'https://knto.or.kr', desc:'지역 명소, 골목, 축제, 음식 사진을 제출하는 사진 중심 공모전입니다.', data:'사진 파일, 촬영 장소, 간단 설명', steps:['촬영 조건 확인','사진 선별','메타정보 정리','접수'], difficulty:'하', effort:'today', materials:['사진'], goals:['상금','포트폴리오'], roles:['student','jobseeker','founder','merchant','freelancer'], needsBiz:false, beginner:true, caution:'촬영일, 해상도, 합성 금지 조건을 확인하세요.' },
+      { id:'s09', type:'contest', title:'공공 캐릭터 이름 짓기 이벤트', host:'공공기관', department:'홍보실', hostType:'public', region:'전국', targetGroup:'전 국민', category:'contest', reward:20, rewardText:'상품권·상금 / 20만 원 내외', target:'개인 누구나', deadline:'2026-06-07', link:'https://www.sotong.go.kr', desc:'기관 캐릭터나 마스코트 이름과 의미를 제출하는 가벼운 참여형 이벤트입니다.', data:'이름 1개, 의미 설명', steps:['캐릭터 확인','이름 작성','폼 제출','당첨 발표 확인'], difficulty:'하', effort:'30m', materials:['글'], goals:['상금'], roles:['student','jobseeker','founder','merchant','freelancer'], needsBiz:false, beginner:true, caution:'비속어, 특정 상표명, 타 기관 캐릭터명과 중복되면 제외될 수 있습니다.' },
+      { id:'s10', type:'contest', title:'주민참여예산 생활 아이디어 제안', host:'지자체 예산담당관', department:'예산과', hostType:'local', region:'전국', targetGroup:'주민', category:'contest', reward:0, rewardText:'정책 반영·포상 / 지자체별 차등', target:'해당 지역 주민', deadline:'2026-06-30', link:'https://www.sotong.go.kr', desc:'동네 안전, 교통, 복지, 환경 개선 아이디어를 예산사업으로 제안하는 참여형 기회입니다.', data:'사업 필요성, 위치, 예상 효과', steps:['지역 공고 확인','현장 사진 준비','제안서 작성','온라인 접수'], difficulty:'하', effort:'today', materials:['글','사진'], goals:['스펙','포트폴리오'], roles:['student','jobseeker','founder','merchant','freelancer'], needsBiz:false, beginner:true, caution:'단순 민원보다 예산으로 집행 가능한 사업 형태가 유리합니다.' },
+      { id:'s11', type:'contest', title:'공공데이터 활용 아이디어 미니 챌린지', host:'공공데이터포털', department:'행정안전부', hostType:'central', region:'전국', targetGroup:'전 국민', category:'contest', reward:100, rewardText:'상금 / 100만 원 내외', target:'개인 또는 팀', deadline:'2026-07-04', link:'https://www.data.go.kr', desc:'공공데이터 API를 활용한 간단한 서비스 아이디어를 제출하는 입문형 데이터 공모전입니다.', data:'데이터명, 문제 정의, 서비스 구상안', steps:['데이터 검색','아이디어 정리','제안서 제출','후속 경진대회 확인'], difficulty:'중', effort:'week', materials:['글','PPT'], goals:['스펙','포트폴리오'], roles:['student','jobseeker','founder','freelancer'], needsBiz:false, beginner:true, caution:'실제 활용 가능한 공개 데이터인지 링크를 남겨야 합니다.' },
+      { id:'s12', type:'contest', title:'안전 캠페인 표어·포스터 공모', host:'안전 관련 공공기관', department:'안전정책과', hostType:'public', region:'전국', targetGroup:'전 국민', category:'contest', reward:150, rewardText:'상금 / 총 150만 원 내외', target:'개인 누구나', deadline:'2026-06-24', link:'https://www.sotong.go.kr', desc:'교통, 산업, 생활 안전 메시지를 표어 또는 포스터로 제출하는 공공 캠페인 공모전입니다.', data:'표어 또는 이미지 파일, 설명', steps:['주제 선택','작품 제작','파일 규격 확인','접수'], difficulty:'하', effort:'today', materials:['글','사진'], goals:['상금','포트폴리오'], roles:['student','jobseeker','founder','merchant','freelancer'], needsBiz:false, beginner:true, caution:'AI 이미지 사용 가능 여부와 파일 규격을 확인하세요.' },
+      { id:'s13', type:'employment', title:'청년 면접비·자격증 응시료 지원', host:'지자체 청년센터', department:'청년정책과', hostType:'local', region:'전국', targetGroup:'청년', category:'employment', reward:30, rewardText:'현금·지역화폐 / 30만 원 내외', target:'구직 청년', deadline:'2026-07-15', link:'https://www.work24.go.kr', desc:'면접 참여, 자격증 시험, 어학시험 응시 비용을 소액 지원하는 청년 생활지원 사업입니다.', data:'신분증, 응시확인서, 영수증, 통장사본', steps:['거주 요건 확인','증빙 준비','온라인 신청','지급 확인'], difficulty:'하', effort:'today', materials:['글'], goals:['지원금','스펙'], roles:['student','jobseeker','freelancer'], needsBiz:false, beginner:true, caution:'시험일과 신청일 기준, 중복 지원 제한을 확인하세요.' },
+      { id:'s14', type:'commerce', title:'소상공인 온라인 상세페이지 제작 지원', host:'소상공인지원센터', department:'중소벤처기업부', hostType:'public', region:'전국', targetGroup:'소상공인', category:'commerce', reward:80, rewardText:'제작 지원 / 80만 원 내외', target:'사업자등록 소상공인', deadline:'2026-07-08', link:'https://www.semas.or.kr', desc:'상품 사진, 상세페이지, 스마트스토어 개선을 지원하는 소액 디지털 전환 사업입니다.', data:'사업자등록증, 상품 사진, 판매 채널, 신청서', steps:['대상 확인','상품 자료 준비','신청서 제출','수행사 매칭'], difficulty:'중', effort:'week', materials:['사진','사업자등록증'], goals:['지원금','포트폴리오'], roles:['merchant','founder'], needsBiz:true, beginner:false, caution:'선정 전 제작한 상세페이지 비용은 보전되지 않을 수 있습니다.' },
+      { id:'s15', type:'commerce', title:'로컬 상권 SNS 홍보단 모집', host:'상권활성화재단', department:'지역경제과', hostType:'local', region:'전국', targetGroup:'전 국민', category:'contest', reward:50, rewardText:'활동비·상금 / 50만 원 내외', target:'SNS 운영 가능자', deadline:'2026-06-26', link:'https://www.sotong.go.kr', desc:'지역 점포 방문 후 카드뉴스, 릴스, 블로그 글을 올리는 활동형 소액 기회입니다.', data:'SNS 계정, 콘텐츠 샘플, 활동계획', steps:['모집공고 확인','계정 제출','활동계획 작성','선정 후 콘텐츠 발행'], difficulty:'하', effort:'today', materials:['사진','영상'], goals:['포트폴리오','스펙'], roles:['student','jobseeker','freelancer','merchant'], needsBiz:false, beginner:true, caution:'광고 표기와 방문 인증 방식이 정해져 있는지 확인하세요.' },
+      { id:'s16', type:'culture', title:'동네 문화예술 소액 프로젝트 지원', host:'문화재단', department:'문화예술과', hostType:'local', region:'전국', targetGroup:'개인·팀', category:'content', reward:200, rewardText:'프로젝트비 / 최대 200만 원', target:'창작자, 동아리, 주민모임', deadline:'2026-07-20', link:'https://www.kocca.kr', desc:'전시, 공연, 워크숍, 동네 기록 프로젝트를 소액으로 지원하는 지역 문화사업입니다.', data:'프로젝트 계획서, 예산안, 포트폴리오', steps:['지원 분야 확인','계획서 작성','예산 편성','접수'], difficulty:'중', effort:'week', materials:['PPT','사업계획서'], goals:['지원금','포트폴리오'], roles:['student','jobseeker','freelancer','founder'], needsBiz:false, beginner:true, caution:'사례비, 식비, 장비구입비 인정 범위를 확인하세요.' },
+      { id:'s17', type:'contest', title:'환경 실천 인증샷 챌린지', host:'환경 관련 공공기관', department:'환경정책과', hostType:'public', region:'전국', targetGroup:'전 국민', category:'contest', reward:20, rewardText:'상품권 / 20만 원 내외', target:'개인 누구나', deadline:'2026-06-12', link:'https://www.me.go.kr', desc:'텀블러, 분리배출, 플로깅 등 생활 속 환경 실천 사진을 제출하는 참여형 이벤트입니다.', data:'인증 사진, 실천 내용', steps:['참여 조건 확인','사진 촬영','폼 제출','당첨 확인'], difficulty:'하', effort:'30m', materials:['사진'], goals:['상금'], roles:['student','jobseeker','founder','merchant','freelancer'], needsBiz:false, beginner:true, caution:'개인정보가 보이는 사진은 제외하세요.' },
+      { id:'s18', type:'contest', title:'도서관 독후감·서평 공모', host:'공공도서관', department:'교육문화과', hostType:'local', region:'전국', targetGroup:'전 국민', category:'contest', reward:50, rewardText:'상금·도서상품권 / 50만 원 내외', target:'학생, 일반인', deadline:'2026-07-01', link:'https://www.nl.go.kr', desc:'지정도서 또는 자유도서 독후감과 짧은 서평을 제출하는 글쓰기형 공모전입니다.', data:'원고, 개인정보 동의, 참가신청서', steps:['분량 확인','원고 작성','표절 검사','제출'], difficulty:'하', effort:'week', materials:['글'], goals:['상금','스펙'], roles:['student','jobseeker','freelancer'], needsBiz:false, beginner:true, caution:'AI 작성물, 표절, 기존 수상작 재제출은 실격될 수 있습니다.' },
+      { id:'s19', type:'startup', title:'청년 로컬 실험실 50만 원 파일럿', host:'청년센터·지자체', department:'청년정책과', hostType:'local', region:'전국', targetGroup:'청년', category:'startup', reward:50, rewardText:'실험비 / 50만 원 내외', target:'청년 개인·팀', deadline:'2026-07-10', link:'https://www.sotong.go.kr', desc:'지역 문제 해결, 커뮤니티, 소규모 장사 실험을 빠르게 검증하는 초소액 프로젝트 지원입니다.', data:'문제 정의, 실행 계획, 예산안', steps:['지역 의제 선택','계획서 작성','면접 또는 발표','활동 보고'], difficulty:'중', effort:'week', materials:['글','PPT'], goals:['지원금','포트폴리오','창업자금'], roles:['student','jobseeker','founder','freelancer'], needsBiz:false, beginner:true, caution:'사업비 정산 증빙과 결과보고서 제출 여부를 확인하세요.' },
+      { id:'s20', type:'finance', title:'착한가격업소 인센티브 지원', host:'지자체 지역경제과', department:'행정안전부·지자체', hostType:'local', region:'전국', targetGroup:'소상공인', category:'commerce', reward:100, rewardText:'물품·홍보·공공요금 지원 / 100만 원 내외', target:'외식업 등 소상공인', deadline:'2026-07-25', link:'https://www.mois.go.kr', desc:'가격 안정에 참여하는 점포를 지정하고 물품, 홍보, 공공요금 등을 지원하는 소상공인 기회입니다.', data:'사업자등록증, 가격표, 점포 사진, 신청서', steps:['지정 요건 확인','가격자료 준비','현장 확인','지원 수령'], difficulty:'중', effort:'week', materials:['사진','사업자등록증'], goals:['지원금'], roles:['merchant'], needsBiz:true, beginner:false, caution:'가격 기준과 위생·품질 현장 점검 조건을 확인하세요.' },
+      { id:'s21', type:'contest', title:'청소년·대학생 정책 모니터단 모집', host:'중앙부처·지자체', department:'정책참여팀', hostType:'central', region:'전국', targetGroup:'청년', category:'contest', reward:30, rewardText:'활동비·수료증 / 기관별 차등', target:'학생, 청년', deadline:'2026-06-28', link:'https://www.sotong.go.kr', desc:'정책 의견 제출, 카드뉴스 제작, 현장 모니터링을 수행하는 스펙형 참여 활동입니다.', data:'지원동기, 활동 가능 시간, SNS 또는 포트폴리오', steps:['모집요강 확인','지원서 작성','면접 여부 확인','활동 시작'], difficulty:'하', effort:'today', materials:['글'], goals:['스펙','포트폴리오'], roles:['student','jobseeker'], needsBiz:false, beginner:true, caution:'필수 활동 횟수와 오프라인 참석 조건을 확인하세요.' },
+      { id:'s22', type:'agri', title:'농식품 아이디어·레시피 공모', host:'농식품 공공기관', department:'농림축산식품부', hostType:'public', region:'전국', targetGroup:'전 국민', category:'contest', reward:100, rewardText:'상금 / 100만 원 내외', target:'개인 또는 팀', deadline:'2026-07-18', link:'https://www.mafra.go.kr', desc:'국산 농산물 활용 레시피, 포장 아이디어, 소비 촉진 콘텐츠를 제출하는 생활형 공모전입니다.', data:'레시피, 사진, 설명서', steps:['주제 확인','레시피 작성','사진 촬영','접수'], difficulty:'하', effort:'today', materials:['글','사진'], goals:['상금','포트폴리오'], roles:['student','jobseeker','founder','merchant','freelancer'], needsBiz:false, beginner:true, caution:'제품명, 원산지, 조리 안전 기준을 확인하세요.' },
+      { id:'s23', type:'welfare', title:'청년 월세·교통비 지역 지원 확인', host:'지자체 청년정책과', department:'지자체', hostType:'local', region:'전국', targetGroup:'청년', category:'welfare', reward:20, rewardText:'현금·지역화폐 / 월 20만 원 내외', target:'거주 요건 충족 청년', deadline:'2026-12-31', link:'https://www.gov.kr/portal/rcvfvrSvc/main', desc:'거주지와 소득 조건에 따라 월세, 교통비, 문화비를 확인하고 신청하는 생활지원 기회입니다.', data:'주민등록, 임대차계약서, 소득자료', steps:['보조금24 조회','지역 공고 확인','증빙 제출','지급 확인'], difficulty:'하', effort:'30m', materials:['글'], goals:['지원금'], roles:['student','jobseeker','freelancer'], needsBiz:false, beginner:true, caution:'거주지 이전일, 소득 기준, 중복수혜 제한을 확인하세요.' },
+      { id:'s24', type:'contest', title:'로고·포스터 디자인 공모', host:'공공기관·축제조직위', department:'홍보디자인팀', hostType:'public', region:'전국', targetGroup:'전 국민', category:'contest', reward:200, rewardText:'상금 / 200만 원 내외', target:'개인 또는 팀', deadline:'2026-07-22', link:'https://www.sotong.go.kr', desc:'행사, 캠페인, 기관 브랜드에 사용할 로고나 포스터 시안을 제출하는 디자인 공모전입니다.', data:'이미지 파일, 원본 편집 파일, 작품 설명', steps:['규격 확인','시안 제작','원본 정리','접수'], difficulty:'중', effort:'week', materials:['사진'], goals:['상금','포트폴리오'], roles:['student','jobseeker','freelancer','founder'], needsBiz:false, beginner:false, caution:'수상작 저작재산권 귀속 조건을 반드시 확인하세요.' },
+      { id:'s25', type:'contest', title:'생활민원 개선 지도 만들기', host:'지자체 스마트도시과', department:'스마트도시과', hostType:'local', region:'전국', targetGroup:'전 국민', category:'contest', reward:80, rewardText:'상금 / 80만 원 내외', target:'주민 누구나', deadline:'2026-07-12', link:'https://www.sotong.go.kr', desc:'불편한 보행로, 야간 조명, 쓰레기 배출지 등 동네 문제를 지도와 사진으로 제안하는 공모입니다.', data:'위치, 사진, 문제 설명, 개선안', steps:['현장 조사','사진 촬영','지도 위치 표시','제안 제출'], difficulty:'하', effort:'today', materials:['글','사진'], goals:['스펙','포트폴리오'], roles:['student','jobseeker','founder','merchant','freelancer'], needsBiz:false, beginner:true, caution:'사유지 촬영과 개인정보 노출에 주의하세요.' },
+      { id:'s26', type:'employment', title:'프리랜서 역량강화 교육비 지원', host:'지역 일자리재단', department:'일자리정책과', hostType:'local', region:'전국', targetGroup:'프리랜서', category:'employment', reward:50, rewardText:'교육비 / 50만 원 내외', target:'프리랜서, 특고, 구직자', deadline:'2026-08-02', link:'https://www.work24.go.kr', desc:'디자인, 영상, 개발, 마케팅 강의 수강료를 일부 지원하는 역량강화형 소액 사업입니다.', data:'활동 증빙, 교육 신청서, 수강 계획', steps:['자격 확인','교육 선택','신청서 제출','수료증 제출'], difficulty:'중', effort:'week', materials:['글'], goals:['지원금','스펙'], roles:['freelancer','jobseeker'], needsBiz:false, beginner:true, caution:'사전 승인 전 결제한 교육비는 인정되지 않을 수 있습니다.' },
+      { id:'s27', type:'commerce', title:'전통시장 배송·포장재 지원', host:'시장상권진흥원', department:'지자체', hostType:'local', region:'전국', targetGroup:'소상공인', category:'commerce', reward:70, rewardText:'물품 지원 / 70만 원 내외', target:'전통시장 점포', deadline:'2026-08-09', link:'https://www.semas.or.kr', desc:'포장재, 배달 홍보물, 온라인 판매 준비물을 지원하는 작은 상권 지원사업입니다.', data:'사업자등록증, 점포 사진, 시장 상인 확인', steps:['상인회 확인','신청서 작성','서류 제출','물품 수령'], difficulty:'하', effort:'today', materials:['사진','사업자등록증'], goals:['지원금'], roles:['merchant'], needsBiz:true, beginner:true, caution:'상인회 소속 또는 시장 구역 요건이 있을 수 있습니다.' },
+      { id:'s28', type:'contest', title:'공공서비스 이용 후기 공모', host:'정부·공공기관', department:'국민소통팀', hostType:'central', region:'전국', targetGroup:'전 국민', category:'contest', reward:30, rewardText:'상품권·상금 / 30만 원 내외', target:'서비스 이용자', deadline:'2026-06-22', link:'https://www.sotong.go.kr', desc:'정부24, 보조금, 공공앱, 도서관 등 공공서비스 이용 후기를 짧게 제출하는 후기형 공모입니다.', data:'이용 후기, 개선 의견, 캡처 선택', steps:['서비스 이용','후기 작성','개선점 정리','폼 제출'], difficulty:'하', effort:'30m', materials:['글'], goals:['상금','스펙'], roles:['student','jobseeker','founder','merchant','freelancer'], needsBiz:false, beginner:true, caution:'주민번호, 신청번호 등 개인정보가 보이지 않게 처리하세요.' }
+
     ];
 
     const profileOptions = {
@@ -853,7 +895,7 @@
 
     function opportunityMeta(c) {
       if (c.difficulty) return c;
-      const text = `${c.title} ${c.desc} ${c.data} ${c.targetGroup} ${c.target}`;
+      const text = `${c.title} ${c.desc} ${c.data} ${c.targetGroup} ${c.target} ${c.rewardText}`;
       const needsBiz = /(사업자등록|소상공인|중소기업|기업|수출|대출|융자)/.test(text) && !/(예비창업|전 국민|국민 누구나|개인)/.test(text);
       let effort = 'week';
       if (c.category === 'welfare') effort = '30m';
@@ -1010,26 +1052,54 @@
       const left = daysLeft(c.deadline);
       const deadlineClass = left >= 0 && left <= 14 ? 'soon' : 'deadline';
       const saved = state.saved.includes(c.id);
+      const poster = posterHtml(c);
       return `<article class="card">
-        <div class="badges">
-          <span class="badge ${escapeHtml(c.hostType)}">${typeLabel(c.type)}</span>
-          <span class="badge ${deadlineClass}">${dday(c.deadline)}</span>
-        </div>
-        <h3>${escapeHtml(c.title)}</h3>
-        <p><strong>${escapeHtml(c.host)}</strong> · ${escapeHtml(c.region || '전국')} · ${escapeHtml(c.targetGroup || c.target)}</p>
-        <div class="meta-list">
-          <span>제출 난이도 <b>${escapeHtml(c.difficulty)}</b></span>
-          <span>예상 소요시간 <b>${effortLabel(c.effort)}</b></span>
-          <span>필요 자료 <b>${escapeHtml(c.materials.join(', '))}</b></span>
-          <span>초보자 추천 <b>${c.beginner ? '예' : '조건 확인'}</b></span>
-        </div>
-        <p>${escapeHtml(c.desc)}</p>
-        <div class="reward">${escapeHtml(c.rewardText)}</div>
-        <div class="card-actions">
-          <button class="btn ghost" onclick="toggleSaved('${escapeHtml(c.id)}')">${saved ? '저장됨' : '저장'}</button>
-          <button class="btn dark" onclick="openDetail('${escapeHtml(c.id)}')">상세 보기</button>
+        ${poster}
+        <div class="card-body">
+          <div class="badges">
+            <span class="badge ${escapeHtml(c.hostType)}">${typeLabel(c.type)}</span>
+            <span class="badge ${deadlineClass}">${dday(c.deadline)}</span>
+          </div>
+          <h3>${escapeHtml(c.title)}</h3>
+          <p><strong>${escapeHtml(c.host)}</strong> · ${escapeHtml(c.region || '전국')} · ${escapeHtml(c.targetGroup || c.target)}</p>
+          <div class="meta-list">
+            <span>난이도 <b>${escapeHtml(c.difficulty)}</b></span>
+            <span>소요시간 <b>${effortLabel(c.effort)}</b></span>
+            <span>준비물 <b>${escapeHtml(c.materials.slice(0, 2).join(', '))}</b></span>
+          </div>
+          <div class="reward">${escapeHtml(c.rewardText)}</div>
+          <div class="card-actions">
+            <button class="btn ghost" onclick="toggleSaved('${escapeHtml(c.id)}')">${saved ? '저장됨' : '저장'}</button>
+            <button class="btn dark" onclick="openDetail('${escapeHtml(c.id)}')">상세 보기</button>
+          </div>
         </div>
       </article>`;
+    }
+
+    function posterHtml(c) {
+      const hasImage = Boolean(c.posterUrl);
+      const bg = posterGradient(c);
+      const img = hasImage ? `<img src="${escapeHtml(c.posterUrl)}" alt="" loading="lazy" onerror="this.remove();this.parentElement.classList.remove('has-img')" />` : '';
+      return `<div class="poster ${hasImage ? 'has-img' : ''}" style="background:${bg}">
+        ${img}
+        <div class="poster-kicker">${escapeHtml(typeLabel(c.type))} · ${escapeHtml(c.region || '전국')}</div>
+        <div class="poster-title">${escapeHtml(shortPosterTitle(c.title))}</div>
+        <div class="poster-meta"><span>${escapeHtml(effortLabel(c.effort))}</span><span>${escapeHtml(c.rewardText.split('/')[0].trim())}</span></div>
+      </div>`;
+    }
+
+    function shortPosterTitle(title) {
+      return String(title || '').replace(/지원사업|공모전|모집/g, '').trim().slice(0, 34);
+    }
+
+    function posterGradient(c) {
+      const map = {
+        contest:['#2848a8','#0f9b9a'], startup:['#146c43','#23a36b'], commerce:['#8a4b09','#d18400'],
+        finance:['#7a2742','#d33b5c'], employment:['#263a73','#3157d7'], welfare:['#075985','#16a36b'],
+        content:['#5b2b82','#d33b5c'], rd:['#172554','#3157d7'], export:['#134e4a','#0f9b9a'], agri:['#365314','#16a36b'], local:['#374151','#d18400']
+      };
+      const pair = map[c.category] || map[c.type] || ['#182033','#0f9b9a'];
+      return `linear-gradient(135deg, ${pair[0]}, ${pair[1]})`;
     }
 
     function loadStoredContests() {
@@ -1127,6 +1197,7 @@
         target: String(item.target || '전 국민').trim(),
         deadline,
         link: validUrl(item.link) ? item.link : 'https://www.data.go.kr',
+        posterUrl: validUrl(item.posterUrl) ? item.posterUrl : '',
         desc: String(item.desc || '정부·지자체·공공기관의 지원사업 공고입니다.').trim(),
         data: String(item.data || '공식 공고문, 신청서, 사업계획서, 증빙자료').trim(),
         steps: Array.isArray(item.steps) && item.steps.length ? item.steps.map(s => String(s).trim()).filter(Boolean).slice(0, 4) : ['공고문 확인','자격요건 검토','신청서·사업계획서 작성','온라인 접수']
@@ -1154,7 +1225,7 @@
     function typeLabel(type) {
       const map = {
         startup:'창업지원', rd:'국책/R&D', local:'지자체', finance:'정책자금', employment:'고용/인력',
-        welfare:'복지/보조금', agri:'농식품', culture:'문화콘텐츠', export:'수출/판로', contest:'공모전'
+        welfare:'복지/보조금', agri:'농식품', culture:'문화콘텐츠', commerce:'소상공인', export:'수출/판로', contest:'공모전'
       };
       return map[type] || '지원사업';
     }
