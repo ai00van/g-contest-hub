@@ -367,6 +367,8 @@
 
     .hide { display: none !important; }
 
+    .mobile-only { display: none; }
+
     @media (max-width: 1100px) {
       .grid-4, .guide-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .contest-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -374,33 +376,65 @@
       .quick-lanes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     }
     @media (max-width: 760px) {
-      body { min-width: 0; overflow-x: hidden; }
-      .app { grid-template-columns: 1fr; }
-      .sidebar { position: static; height: auto; padding: 14px; }
-      .nav { grid-template-columns: repeat(2, 1fr); }
-      .nav button { text-align: center; padding: 10px 8px; font-size: 12px; }
-      .side-foot, .crumb { display: none; }
+      body { min-width: 0; overflow-x: hidden; font-size: 14px; }
+      .app { display: block; min-height: 100vh; }
+      .sidebar { position: sticky; top: 0; z-index: 40; height: auto; padding: 10px 12px; gap: 10px; overflow: visible; }
+      .brand { padding-bottom: 8px; border-bottom: 0; }
+      .brand-mark { width: 34px; height: 34px; }
+      .brand strong { font-size: 16px; }
+      .brand span, .side-foot, .crumb { display: none; }
+      .nav { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+      .nav button { text-align: center; padding: 9px 4px; font-size: 11px; line-height: 1.2; min-height: 42px; display: grid; place-items: center; }
       .mobile-brand { display: block; }
-      .topbar { padding: 10px 12px; align-items: flex-start; gap: 10px; }
-      .topbar .toolbar { width: 100%; display: grid; grid-template-columns: 1fr; }
-      .content { padding: 12px; gap: 12px; }
-      .hero { grid-template-columns: 1fr; }
-      .hero-copy { padding: 20px; }
+      .topbar { position: static; padding: 10px 12px; display: grid; gap: 10px; }
+      .topbar .toolbar { width: 100%; display: grid; grid-template-columns: 1fr; gap: 8px; }
+      .content { width: 100%; padding: 10px; gap: 12px; }
+      .view.active { gap: 12px; }
+      .hero { grid-template-columns: 1fr; min-height: 0; }
+      .hero-copy { padding: 18px; }
       .hero-art { display: none; }
-      h1 { font-size: 24px; }
-      .grid-4, .contest-grid, .guide-grid, .stats, .timeline, .steps { grid-template-columns: 1fr; }
+      .eyebrow { font-size: 10px; }
+      h1 { font-size: 22px; line-height: 1.25; }
+      h2 { font-size: 17px; }
+      .hero p, .panel-head p { font-size: 12px; line-height: 1.55; }
+      .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+      .metric { min-height: 82px; padding: 12px; }
+      .metric strong { font-size: 22px; }
+      .iconbox { width: 34px; height: 34px; }
+      .contest-grid, .guide-grid, .stats, .timeline, .steps { grid-template-columns: 1fr; }
+      .split, .matcher { grid-template-columns: 1fr; }
       .choice-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .quick-lanes, .match-summary { grid-template-columns: 1fr; }
-      .panel-head { display: grid; }
-      .panel { padding: 14px; }
+      .panel-head { display: grid; gap: 10px; }
+      .panel-head .toolbar { display: grid; grid-template-columns: 1fr; width: 100%; }
+      .panel { padding: 12px; }
       .search { max-width: none; }
-      .filters { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 10px; }
-      .chip, .btn { white-space: normal; }
-      .poster { min-height: 210px; }
-      .paper { padding: 20px; min-height: 780px; }
+      .filters { display: flex; overflow-x: auto; flex-wrap: nowrap; gap: 6px; padding: 10px 0; margin-bottom: 10px; -webkit-overflow-scrolling: touch; }
+      .chip { flex: 0 0 auto; padding: 8px 10px; font-size: 11px; }
+      .btn { width: 100%; white-space: normal; padding: 10px 11px; }
+      .toolbar { display: grid; grid-template-columns: 1fr; align-items: stretch; }
+      .contest-grid { gap: 10px; }
+      .card { min-height: 0; }
+      .poster { min-height: 220px; }
+      .card-body { padding: 12px; gap: 8px; }
+      .badges, .card-actions { align-items: stretch; }
+      .card-actions { display: grid; grid-template-columns: 1fr 1fr; }
+      .meta-list span { display: grid; grid-template-columns: 82px minmax(0, 1fr); }
+      .paper { padding: 16px; min-height: 640px; }
       .doc-meta { display: grid; }
       .approval { width: 100%; }
-      .modal-foot { display: grid; }
+      .modal { align-items: stretch; justify-content: stretch; padding: 0; }
+      .modal-card { width: 100%; max-height: 100vh; border-radius: 0; }
+      .modal-head { padding: 12px; align-items: start; }
+      .modal-head strong { font-size: 14px; line-height: 1.35; }
+      .modal-body { padding: 12px; gap: 12px; }
+      .statbox { text-align: left; padding: 10px; }
+      .statbox strong { display: block; font-size: 13px; line-height: 1.35; word-break: keep-all; overflow-wrap: anywhere; }
+      .timeline { gap: 6px; }
+      .timeitem { text-align: left; display: grid; grid-template-columns: 28px minmax(0,1fr); align-items: center; }
+      .num { margin: 0; }
+      .modal-foot { display: grid; padding: 12px; }
+      textarea { min-height: 120px; }
     }
   </style>
 </head>
@@ -415,14 +449,6 @@
         </div>
       </div>
 
-      <div class="status-card">
-        <div class="status-row">
-          <small>Gemini API 상태</small>
-          <span id="apiDot" class="dot"></span>
-        </div>
-        <p id="apiText">오프라인 실무 모드</p>
-        <button class="btn green" style="width:100%" onclick="openApiModal()">API 키 설정</button>
-      </div>
 
       <nav class="nav" aria-label="주요 메뉴">
         <button id="nav-dashboard" class="active" onclick="switchView('dashboard')">통합 대시보드</button>
@@ -433,7 +459,7 @@
 
       <div class="side-foot">
         <strong>내 조건 저장형 HTML 앱</strong><br />
-        관심 조건, 즐겨찾기, API 키, 작성 중인 제출서류는 현재 브라우저 localStorage에 저장됩니다.
+        관심 조건, 즐겨찾기, 작성 중인 제출서류는 현재 브라우저 localStorage에 저장됩니다.
       </div>
     </aside>
 
@@ -469,10 +495,6 @@
             </div>
           </div>
 
-          <div id="apiNotice" class="notice">
-            <p><strong>오프라인 실무 모드:</strong> API 키 없이도 조건 매칭, 검색, 필터, 즐겨찾기, 제출서류 초안 생성이 가능합니다. Gemini 키를 넣으면 탐색기와 빌더에서 외부 생성 응답을 우선 시도합니다.</p>
-            <button class="btn ghost" onclick="document.getElementById('apiNotice').classList.add('hide')">닫기</button>
-          </div>
 
           <div class="grid-4">
             <button id="presetMatched" class="metric" onclick="setListPreset('all')"><div><span>전체 기회</span><strong id="statCount">0개</strong></div><div class="iconbox bg-blue">L</div></button>
@@ -493,7 +515,6 @@
               </div>
             </div>
 
-            <div class="filters" id="hostFilters"></div>
             <div class="filters" id="categoryFilters"></div>
             <div class="filters" id="listMethodFilters"></div>
             <div class="filters" id="regionFilters"></div>
@@ -525,7 +546,7 @@
             <div class="panel-head">
               <div>
                 <h2>AI 탐색기</h2>
-                <p>API 키가 있으면 Gemini 호출을 시도하고, 없거나 실패하면 앱 내 지원사업 데이터를 기준으로 탐색 보고서를 생성합니다.</p>
+                <p>앱 내 기회 데이터를 기준으로 탐색 보고서를 생성합니다.</p>
               </div>
             </div>
             <div class="toolbar">
@@ -603,7 +624,7 @@
               </div>
 
               <div id="builderStep4" class="wizard-pane">
-                <p class="subcopy" style="color:var(--muted)">입력값을 바탕으로 제출용 초안 문서를 생성합니다. API 키가 없으면 오프라인 템플릿 엔진을 사용합니다.</p>
+                <p class="subcopy" style="color:var(--muted)">입력값을 바탕으로 제출용 초안 문서를 생성합니다.</p>
                 <button class="btn green" onclick="generateProposal()">사업계획서 초안 생성</button>
                 <div class="toolbar">
                   <button class="btn" onclick="goStep(3)">이전</button>
@@ -674,22 +695,6 @@
     </div>
   </div>
 
-  <div id="apiModal" class="modal" role="dialog" aria-modal="true">
-    <div class="modal-card" style="max-width:460px">
-      <div class="modal-head">
-        <strong>Gemini API 키 설정</strong>
-        <button class="btn ghost" style="color:#fff;border-color:rgba(255,255,255,.2)" onclick="closeModal('apiModal')">닫기</button>
-      </div>
-      <div class="modal-body">
-        <p style="color:var(--muted);font-size:13px;line-height:1.6;margin:0">키는 현재 브라우저 localStorage에만 저장됩니다. 미입력 상태에서도 오프라인 생성 기능은 계속 사용할 수 있습니다.</p>
-        <input id="apiInput" class="input" type="password" placeholder="AIzaSy..." />
-      </div>
-      <div class="modal-foot">
-        <button class="btn danger" onclick="clearApiKey()">키 제거</button>
-        <button class="btn primary" onclick="saveApiKey()">저장</button>
-      </div>
-    </div>
-  </div>
 
   <div id="toast" class="toast">알림</div>
 
@@ -776,7 +781,7 @@
       profile: normalizeProfile(readJson('gcontest_profile', defaultProfile)),
       saved: readArray('gcontest_saved'),
       lastUpdate: localStorage.getItem('gcontest_last_update') || '',
-      apiKey: localStorage.getItem('gcontest_api_key') || ''
+      apiKey: ''
     };
 
     function readJson(key, fallback) {
@@ -1069,13 +1074,11 @@
     }
 
     function buildFilters() {
-      const hosts = [['all','전체 기관'],['central','중앙부처'],['local','지자체'],['public','공공기관']];
       const cats = [['all','전체 유형'],['startup','창업지원'],['rd','국책/R&D'],['finance','정책자금'],['employment','고용/인력'],['commerce','소상공인'],['export','수출/판로'],['welfare','복지/보조금'],['content','콘텐츠'],['contest','공모전']];
       const methods = [['all','참여방법 전체'],['writing','글만제출(정책제안·네이밍)'],['media','사진·숏폼(포트폴리오형)'],['plan','PPT·사업계획서']];
-      const regions = [['all','전국·전체'],['서울','서울'],['경기','경기'],['인천','인천'],['부산','부산'],['대구','대구'],['광주','광주'],['대전','대전'],['충북','충북'],['전남','전남'],['specific','특정지역만']];
+      const regions = [['specific','특정지역만']];
       const rewards = [['all','혜택·상금 전체'],['under10','~10만원'],['under50','~50만원'],['under100','~100만원'],['under300','~300만원'],['over300','300만원초과']];
       const targets = [['all','전체 대상'],['청년','청년'],['창업기업','창업기업'],['중소기업','중소기업'],['소상공인','소상공인'],['기업·연구기관','기업·연구기관'],['개인·가구','개인·가구'],['콘텐츠기업','콘텐츠기업']];
-      makeFilter('hostFilters', hosts, 'host');
       makeFilter('categoryFilters', cats, 'category');
       makeFilter('listMethodFilters', methods, 'listMethod');
       makeFilter('regionFilters', regions, 'region');
@@ -1085,6 +1088,7 @@
 
     function makeFilter(id, items, key) {
       const wrap = document.getElementById(id);
+      if (!wrap) return;
       wrap.innerHTML = items.map(([value, text]) => `<button class="chip ${state[key] === value ? 'active' : ''}" onclick="setFilter('${key}','${value}')">${text}</button>`).join('');
     }
 
@@ -1675,32 +1679,8 @@
       return json.candidates?.[0]?.content?.parts?.[0]?.text || '';
     }
 
-    function openApiModal() {
-      document.getElementById('apiInput').value = state.apiKey;
-      document.getElementById('apiModal').classList.add('open');
-    }
-
-    function saveApiKey() {
-      state.apiKey = document.getElementById('apiInput').value.trim();
-      localStorage.setItem('gcontest_api_key', state.apiKey);
-      updateApiUi();
-      closeModal('apiModal');
-      toast(state.apiKey ? 'API 키를 저장했습니다.' : '빈 키로 저장했습니다.');
-    }
-
-    function clearApiKey() {
-      state.apiKey = '';
-      localStorage.removeItem('gcontest_api_key');
-      document.getElementById('apiInput').value = '';
-      updateApiUi();
-      closeModal('apiModal');
-      toast('API 키를 제거했습니다.');
-    }
-
     function updateApiUi() {
-      document.getElementById('apiDot').classList.toggle('ok', !!state.apiKey);
-      document.getElementById('apiText').textContent = state.apiKey ? 'Gemini 키 저장됨' : '오프라인 실무 모드';
-      if (state.apiKey) document.getElementById('apiNotice')?.classList.add('hide');
+      state.apiKey = '';
     }
 
     function toast(msg) {
