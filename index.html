@@ -375,66 +375,76 @@
       .split, .matcher { grid-template-columns: 1fr; }
       .quick-lanes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     }
-    @media (max-width: 760px) {
-      body { min-width: 0; overflow-x: hidden; font-size: 14px; }
-      .app { display: block; min-height: 100vh; }
-      .sidebar { position: sticky; top: 0; z-index: 40; height: auto; padding: 10px 12px; gap: 10px; overflow: visible; }
-      .brand { padding-bottom: 8px; border-bottom: 0; }
-      .brand-mark { width: 34px; height: 34px; }
+    @media (max-width: 900px) {
+      * { max-width: 100%; }
+      html, body { width: 100%; max-width: 100%; overflow-x: hidden; }
+      body { min-width: 0; font-size: 14px; }
+      .app, .main, .content, .view, .panel, .hero, .topbar, .sidebar { width: 100%; max-width: 100%; }
+      .app { display: block; min-height: 100vh; overflow-x: hidden; }
+      .sidebar { position: static; height: auto; padding: 10px; gap: 10px; overflow: hidden; }
+      .brand { padding-bottom: 8px; border-bottom: 0; min-width: 0; }
+      .brand-mark { width: 34px; height: 34px; flex: 0 0 34px; }
       .brand strong { font-size: 16px; }
       .brand span, .side-foot, .crumb { display: none; }
-      .nav { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
-      .nav button { text-align: center; padding: 9px 4px; font-size: 11px; line-height: 1.2; min-height: 42px; display: grid; place-items: center; }
+      .nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+      .nav button { width: 100%; min-width: 0; text-align: center; padding: 10px 4px; font-size: 12px; line-height: 1.2; min-height: 42px; white-space: normal; }
       .mobile-brand { display: block; }
-      .topbar { position: static; padding: 10px 12px; display: grid; gap: 10px; }
-      .topbar .toolbar { width: 100%; display: grid; grid-template-columns: 1fr; gap: 8px; }
-      .content { width: 100%; padding: 10px; gap: 12px; }
-      .view.active { gap: 12px; }
-      .hero { grid-template-columns: 1fr; min-height: 0; }
-      .hero-copy { padding: 18px; }
+      .topbar { position: static; padding: 10px; display: grid; grid-template-columns: 1fr; gap: 8px; overflow: hidden; }
+      .topbar .toolbar, .toolbar { width: 100%; display: grid; grid-template-columns: 1fr; gap: 8px; align-items: stretch; }
+      .content { padding: 10px; gap: 10px; }
+      .view.active { gap: 10px; }
+      .hero { display: block; min-height: 0; overflow: hidden; }
+      .hero-copy { padding: 16px; }
       .hero-art { display: none; }
-      .eyebrow { font-size: 10px; }
-      h1 { font-size: 22px; line-height: 1.25; }
+      .eyebrow { font-size: 10px; white-space: normal; }
+      h1 { font-size: 21px; line-height: 1.25; }
       h2 { font-size: 17px; }
-      .hero p, .panel-head p { font-size: 12px; line-height: 1.55; }
-      .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-      .metric { min-height: 82px; padding: 12px; }
-      .metric strong { font-size: 22px; }
+      h3 { font-size: 14px; }
+      .hero p, .panel-head p, .subcopy { font-size: 12px; line-height: 1.55; }
+      .grid-4, .contest-grid, .guide-grid, .stats, .timeline, .steps, .split, .matcher, .choice-grid, .quick-lanes, .match-summary { grid-template-columns: 1fr; }
+      .grid-4 { gap: 8px; }
+      .metric { min-height: 72px; padding: 12px; align-items: center; }
+      .metric strong { font-size: 21px; }
+      .metric span { font-size: 11px; }
       .iconbox { width: 34px; height: 34px; }
-      .contest-grid, .guide-grid, .stats, .timeline, .steps { grid-template-columns: 1fr; }
-      .split, .matcher { grid-template-columns: 1fr; }
-      .choice-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .quick-lanes, .match-summary { grid-template-columns: 1fr; }
+      .panel { padding: 12px; overflow: hidden; }
       .panel-head { display: grid; gap: 10px; }
-      .panel-head .toolbar { display: grid; grid-template-columns: 1fr; width: 100%; }
-      .panel { padding: 12px; }
-      .search { max-width: none; }
-      .filters { display: flex; overflow-x: auto; flex-wrap: nowrap; gap: 6px; padding: 10px 0; margin-bottom: 10px; -webkit-overflow-scrolling: touch; }
-      .chip { flex: 0 0 auto; padding: 8px 10px; font-size: 11px; }
-      .btn { width: 100%; white-space: normal; padding: 10px 11px; }
-      .toolbar { display: grid; grid-template-columns: 1fr; align-items: stretch; }
+      .panel-head .toolbar { grid-template-columns: 1fr; }
+      .input, .select, textarea, .search { width: 100%; max-width: 100%; min-width: 0; }
+      .filters { display: grid; grid-template-columns: 1fr; gap: 6px; padding: 8px 0; margin-bottom: 8px; overflow: visible; }
+      .chip, .btn { width: 100%; max-width: 100%; white-space: normal; padding: 10px 11px; font-size: 12px; line-height: 1.25; }
       .contest-grid { gap: 10px; }
-      .card { min-height: 0; }
-      .poster { min-height: 220px; }
+      .card { min-height: 0; width: 100%; }
+      .poster { min-height: 190px; aspect-ratio: 4 / 3; }
       .card-body { padding: 12px; gap: 8px; }
-      .badges, .card-actions { align-items: stretch; }
-      .card-actions { display: grid; grid-template-columns: 1fr 1fr; }
-      .meta-list span { display: grid; grid-template-columns: 82px minmax(0, 1fr); }
-      .paper { padding: 16px; min-height: 640px; }
-      .doc-meta { display: grid; }
+      .badges { display: grid; grid-template-columns: 1fr auto; align-items: start; }
+      .badge { white-space: normal; line-height: 1.25; }
+      .card h3 { font-size: 14px; line-height: 1.4; word-break: keep-all; overflow-wrap: anywhere; }
+      .card p { font-size: 12px; }
+      .card-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-items: stretch; }
+      .meta-list span { display: grid; grid-template-columns: 80px minmax(0, 1fr); gap: 6px; }
+      .meta-list b { text-align: left; overflow-wrap: anywhere; }
+      .paper-wrap { padding: 10px; max-height: none; overflow-x: hidden; }
+      .paper { width: 100%; min-height: 560px; padding: 14px; box-shadow: none; }
+      .doc-meta, .modal-foot { display: grid; }
       .approval { width: 100%; }
-      .modal { align-items: stretch; justify-content: stretch; padding: 0; }
-      .modal-card { width: 100%; max-height: 100vh; border-radius: 0; }
-      .modal-head { padding: 12px; align-items: start; }
-      .modal-head strong { font-size: 14px; line-height: 1.35; }
-      .modal-body { padding: 12px; gap: 12px; }
+      .kpi-table { display: block; width: 100%; overflow-x: auto; }
+      .kpi-table th, .kpi-table td { min-width: 120px; padding: 9px; }
+      .modal { align-items: stretch; justify-content: stretch; padding: 0; overflow: hidden; }
+      .modal-card { width: 100%; max-width: 100%; height: 100vh; max-height: 100vh; border-radius: 0; }
+      .modal-head { padding: 12px; align-items: start; display: grid; grid-template-columns: 1fr auto; }
+      .modal-head strong { font-size: 14px; line-height: 1.35; overflow-wrap: anywhere; }
+      .modal-head .btn { width: auto; min-width: 56px; }
+      .modal-body { padding: 12px; gap: 12px; overflow-x: hidden; }
       .statbox { text-align: left; padding: 10px; }
       .statbox strong { display: block; font-size: 13px; line-height: 1.35; word-break: keep-all; overflow-wrap: anywhere; }
       .timeline { gap: 6px; }
       .timeitem { text-align: left; display: grid; grid-template-columns: 28px minmax(0,1fr); align-items: center; }
       .num { margin: 0; }
-      .modal-foot { display: grid; padding: 12px; }
+      .modal-foot { padding: 12px; gap: 8px; }
+      .radio-card { grid-template-columns: 20px minmax(0, 1fr); }
       textarea { min-height: 120px; }
+      .toast { left: 10px; right: 10px; bottom: 10px; max-width: none; }
     }
   </style>
 </head>
