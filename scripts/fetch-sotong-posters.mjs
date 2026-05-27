@@ -1,25 +1,43 @@
 #!/usr/bin/env node
 import { readFile, writeFile } from 'node:fs/promises';
 
-const input = process.argv[2] || 'data/sotong-urls.txt';
-const output = process.argv[3] || 'data/opportunities.json';
+const output = process.argv[2] || 'data/opportunities.json';
+const base = 'https://sotong.go.kr';
+const listUrl = `${base}/front/epilogue/epilogueBbsList.do`;
+const manualUrlFile = 'data/sotong-urls.txt';
+const pageCount = Number(process.env.SOTONG_PAGES || 5);
+const pageSize = Number(process.env.SOTONG_PAGE_SIZE || 20);
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+function decodeHtml(value = '') {
+  return value
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&lsquo;|&rsquo;/g, "'")
+    .replace(/&ldquo;|&rdquo;/g, '"')
+    .replace(/&middot;/g, '·')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/<[^>]*>/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function absoluteUrl(url) {
+  if (!url) return '';
+  if (/^https?:\/\//i.test(url)) return url;
+  return `${base}${url.startsWith('/') ? '' : '/'}${url}`;
+}
 
 function getMeta(html, key) {
   const re = new RegExp(`<meta[^>]+(?:property|name)=["']${key}["'][^>]+content=["']([^"']+)`, 'i');
-  return (html.match(re)?.[1] || '').replaceAll('&amp;', '&').replace(/\s+/g, ' ').trim();
+  return decodeHtml(html.match(re)?.[1] || '').replaceAll('&amp;', '&');
 }
 
 function stripSiteTitle(title) {
-  return title.replace(/^소통24 \| 공모전 공고 \| 공모전 공고 상세보기 \|\s*/, '').trim();
-}
-
-function inferDeadline(text) {
-  const normalized = text.replace(/\s+/g, ' ');
-  const match = normalized.match(/(?:~|부터|기간[:：]?)[^\d]*(20\d{2})[.\-/년\s]+(\d{1,2})[.\-/월\s]+(\d{1,2})/);
-  if (!match) return '2026-12-31';
-  const [, y, m, d] = match;
-  return `${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`;
+  return decodeHtml(title).replace(/^소통24 \| 공모전 공고 \| 공모전 공고 상세보기 \|\s*/, '').trim();
 }
 
 function idFromUrl(url, title) {
@@ -27,62 +45,167 @@ function idFromUrl(url, title) {
   return `sotong-${id}`.toLowerCase().replace(/[^a-z0-9가-힣]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 72);
 }
 
-async function fetchHtml(url) {
-  for (let i = 0; i < 4; i++) {
-    try {
-      const res = await fetch(url, { headers: { 'user-agent': 'Mozilla/5.0 opportunity-poster-fetcher' } });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return await res.text();
-    } catch (error) {
-      if (i === 3) throw error;
-      await sleep(700 + i * 900);
-    }
-  }
+function parsePeriod(period = '') {
+  const match = period.match(/(20\d{2})-(\d{2})-(\d{2})[^~]*~\s*(20\d{2})-(\d{2})-(\d{2})/);
+  if (!match) return { start: '', deadline: '2026-12-31' };
+  return { start: `${match[1]}-${match[2]}-${match[3]}`, deadline: `${match[4]}-${match[5]}-${match[6]}` };
 }
 
-const urls = (await readFile(input, 'utf8'))
-  .split(/\r?\n/)
-  .map(line => line.trim())
-  .filter(line => line && !line.startsWith('#'));
+function inferRegion(hostText, orgText) {
+  const text = `${hostText} ${orgText}`;
+  const regions = ['서울', '부산', '대구', '인천', '광주', '대전', '울산', '세종', '경기', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주'];
+  return regions.find(region => text.includes(region)) || '전국';
+}
 
-const items = [];
-for (const url of urls) {
-  const html = await fetchHtml(url);
-  const rawTitle = getMeta(html, 'og:title') || html.match(/<title>([^<]+)/i)?.[1] || '공모전 공고';
-  const title = stripSiteTitle(rawTitle);
-  const desc = getMeta(html, 'og:description');
-  const posterUrl = getMeta(html, 'og:image');
-  items.push({
-    id: idFromUrl(url, title),
+function inferMaterials(title) {
+  const text = title.toLowerCase();
+  const materials = [];
+  if (/사진|이미지|포스터|로고|디자인|그림|웹툰/.test(title)) materials.push('사진');
+  if (/영상|숏폼|유튜브|콘텐츠|릴스|ai 영상/i.test(title)) materials.push('영상');
+  if (/데이터|창업|아이디어|정책|논문|수필|동화|제안|공모/.test(title)) materials.push('글');
+  if (/창업|데이터|콘테스트|경진/.test(title)) materials.push('PPT');
+  return materials.length ? [...new Set(materials)] : ['글'];
+}
+
+function inferEffort(materials, title) {
+  if (materials.includes('영상') || /데이터|창업|논문|경진/.test(title)) return 'week';
+  if (materials.includes('사진')) return 'today';
+  return 'today';
+}
+
+function inferGoals(title) {
+  if (/창업|사업/.test(title)) return ['상금', '창업자금', '포트폴리오'];
+  if (/영상|사진|포스터|디자인|콘텐츠/.test(title)) return ['상금', '포트폴리오'];
+  return ['상금', '스펙'];
+}
+
+function buildItem({ title, host, org, period, link, posterUrl, status, desc = '' }) {
+  const materials = inferMaterials(title);
+  const { deadline } = parsePeriod(period);
+  const region = inferRegion(host, org);
+  return {
+    id: idFromUrl(link, title),
     type: 'contest',
     title,
-    host: '소통24',
-    department: '공식 공고 확인',
-    hostType: 'central',
-    region: '전국',
+    host: host || org || '소통24',
+    department: org || host || '공식 공고 확인',
+    hostType: region === '전국' ? 'central' : 'local',
+    region,
     targetGroup: '전 국민',
     category: 'contest',
     reward: 0,
     rewardText: '공식 공고 확인',
     target: '공식 공고 확인',
-    deadline: inferDeadline(desc),
-    link: url,
+    deadline,
+    link,
     posterUrl,
-    desc: desc.slice(0, 180),
+    desc: desc || `${host || org || '소통24'} 공모전 공고입니다. 공식 공고에서 세부 요건을 확인하세요.`,
     data: '공식 공고문, 참가신청서, 제출물',
     steps: ['공식 공고 확인', '제출물 준비', '온라인 또는 이메일 접수', '결과 발표 확인'],
-    difficulty: '하',
-    effort: 'today',
-    materials: ['글'],
-    goals: ['상금', '스펙', '포트폴리오'],
+    difficulty: inferEffort(materials, title) === 'week' ? '중' : '하',
+    effort: inferEffort(materials, title),
+    materials,
+    goals: inferGoals(title),
     roles: ['student', 'jobseeker', 'founder', 'merchant', 'freelancer'],
     needsBiz: false,
-    beginner: true,
-    caution: '모집기간, 제출양식, 저작권 조건은 공식 공고에서 최종 확인하세요.'
+    beginner: inferEffort(materials, title) !== 'month',
+    caution: `${status ? `${status} 공고입니다. ` : ''}모집기간, 제출양식, 저작권 조건은 공식 공고에서 최종 확인하세요.`
+  };
+}
+
+async function fetchText(url, options = {}) {
+  for (let i = 0; i < 5; i++) {
+    try {
+      const res = await fetch(url, {
+        ...options,
+        headers: {
+          'user-agent': 'Mozilla/5.0 opportunity-poster-fetcher',
+          referer: `${base}/front/epilogue/epilogueBbsListPage.do?menu_id=519`,
+          ...(options.headers || {})
+        }
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return await res.text();
+    } catch (error) {
+      if (i === 4) throw error;
+      await sleep(800 + i * 900);
+    }
+  }
+}
+
+async function fetchListPage(pageNo) {
+  const body = new URLSearchParams({
+    miv_pageNo: String(pageNo),
+    miv_pageSize: String(pageSize),
+    orderBy: '',
+    bbs_id: '',
+    searchkey: 'A',
+    searchtxt: ''
   });
-  console.error(`fetched: ${title}`);
+  return fetchText(listUrl, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+      'x-requested-with': 'XMLHttpRequest'
+    },
+    body
+  });
+}
+
+function parseListItems(html) {
+  const blocks = html.match(/<li class="survey_box">[\s\S]*?<\/li>\s*/g) || [];
+  return blocks.map(block => {
+    const status = decodeHtml(block.match(/<span class="ing_box[^"]*">([\s\S]*?)<\/span>/)?.[1] || '');
+    const href = block.match(/<a class="tabBlock" href="([^"]+)"/)?.[1] || '';
+    const img = block.match(/<img src="([^"]+)"/)?.[1] || '';
+    const period = decodeHtml(block.match(/<div class="text_box">\s*<span>([\s\S]*?)<\/span>/)?.[1] || '');
+    const rawTitle = decodeHtml(block.match(/<strong>([\s\S]*?)<\/strong>/)?.[1] || '');
+    const org = decodeHtml(block.match(/<div class="bottom">[\s\S]*?<p>([\s\S]*?)<\/p>/)?.[1] || '');
+    const hostMatch = rawTitle.match(/^【([^】]+)】\s*(.*)$/);
+    const host = hostMatch ? hostMatch[1].trim() : org;
+    const title = hostMatch ? hostMatch[2].trim() : rawTitle;
+    if (!href || !title) return null;
+    return buildItem({ status, title, host, org, period, link: absoluteUrl(href), posterUrl: absoluteUrl(img) });
+  }).filter(Boolean);
+}
+
+async function readManualUrls() {
+  try {
+    return (await readFile(manualUrlFile, 'utf8')).split(/\r?\n/).map(line => line.trim()).filter(line => line && !line.startsWith('#'));
+  } catch {
+    return [];
+  }
+}
+
+async function fetchDetailItem(url) {
+  const html = await fetchText(url);
+  const rawTitle = getMeta(html, 'og:title') || html.match(/<title>([^<]+)/i)?.[1] || '공모전 공고';
+  const title = stripSiteTitle(rawTitle);
+  const desc = getMeta(html, 'og:description');
+  const posterUrl = absoluteUrl(getMeta(html, 'og:image'));
+  return buildItem({ title, host: '소통24', org: '공식 공고 확인', period: desc, link: url, posterUrl, status: '', desc: desc.slice(0, 180) });
+}
+
+const byId = new Map();
+for (let page = 1; page <= pageCount; page++) {
+  const html = await fetchListPage(page);
+  const items = parseListItems(html);
+  for (const item of items) byId.set(item.id, item);
+  console.error(`list page ${page}: ${items.length} items`);
+  await sleep(600);
+}
+
+for (const url of await readManualUrls()) {
+  try {
+    const item = await fetchDetailItem(url);
+    byId.set(item.id, { ...(byId.get(item.id) || {}), ...item });
+    console.error(`manual detail: ${item.title}`);
+  } catch (error) {
+    console.error(`manual detail failed: ${url} (${error.message})`);
+  }
   await sleep(500);
 }
 
+const items = [...byId.values()].sort((a, b) => a.deadline.localeCompare(b.deadline));
 await writeFile(output, `${JSON.stringify(items, null, 2)}\n`);
 console.error(`wrote ${items.length} items to ${output}`);
