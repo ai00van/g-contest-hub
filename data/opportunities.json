@@ -1730,6 +1730,52 @@
     "caution": "예정 공고입니다. 모집기간, 제출양식, 저작권 조건은 공식 공고에서 최종 확인하세요."
   },
   {
+    "id": "sotong-제21회-생물다양성-세밀화-ai-이미지-공모전",
+    "type": "contest",
+    "title": "제21회 생물다양성 세밀화·AI 이미지 공모전",
+    "host": "국립생물자원관",
+    "department": "기후에너지환경부·국립생물자원관",
+    "hostType": "public",
+    "region": "전국",
+    "targetGroup": "전 국민",
+    "category": "contest",
+    "reward": 0,
+    "rewardText": "공식 공고 확인",
+    "target": "공식 공고 확인",
+    "deadline": "2026-08-28",
+    "link": "https://nibr.spectory.net/drawing26/contest?bno=58733",
+    "posterUrl": "https://img.spectory.net/portal/src/2026/05/08/2cf517db-31f3-46f6-b30a-8b5f731bac5b",
+    "desc": "대한민국 대표 공모전 접수 및 홈페이지 빌더 플랫폼. 공모전 홍보 및 대행, 공모전 및 대외활동 정보 제공",
+    "data": "공식 공고문, 참가신청서, 제출물, 첨부파일",
+    "steps": [
+      "공식 링크 확인",
+      "공모요강 확인",
+      "제출물 준비",
+      "접수"
+    ],
+    "difficulty": "하",
+    "effort": "today",
+    "materials": [
+      "사진",
+      "글"
+    ],
+    "goals": [
+      "상금",
+      "스펙"
+    ],
+    "roles": [
+      "student",
+      "jobseeker",
+      "founder",
+      "merchant",
+      "freelancer"
+    ],
+    "needsBiz": false,
+    "beginner": true,
+    "caution": "포털 미등록 가능성이 있는 공식 공고입니다. 접수처와 제출 규격을 공식 페이지에서 최종 확인하세요.",
+    "discovery": "부처·산하기관 공식 공고 감시"
+  },
+  {
     "id": "sotong-0af0ac3df5074efa918bbe1da94a85da",
     "type": "contest",
     "title": "2026년도 학술지 「소방안전연구」 논문 원고 모집 공고",

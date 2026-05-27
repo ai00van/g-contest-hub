@@ -169,6 +169,53 @@ function parseListItems(html) {
   }).filter(Boolean);
 }
 
+
+const hiddenSeeds = [
+  'https://nibr.spectory.net/drawing26/contest?bno=58733'
+];
+
+function buildHiddenItem({ title, link, posterUrl, desc = '' }) {
+  const materials = inferMaterials(title);
+  return {
+    id: idFromUrl(link, title),
+    type: 'contest',
+    title,
+    host: /생물다양성|국립생물자원관/.test(title + desc) ? '국립생물자원관' : '공식 공고 확인',
+    department: /생물다양성|국립생물자원관/.test(title + desc) ? '기후에너지환경부·국립생물자원관' : '공식 공고 확인',
+    hostType: 'public',
+    region: '전국',
+    targetGroup: '전 국민',
+    category: 'contest',
+    reward: 0,
+    rewardText: '공식 공고 확인',
+    target: '공식 공고 확인',
+    deadline: /생물다양성|세밀화/.test(title + desc) ? '2026-08-28' : '2026-12-31',
+    link,
+    posterUrl,
+    desc: desc || '부처·산하기관 공식 공고에서 발견한 숨은 공모전 후보입니다.',
+    data: '공식 공고문, 참가신청서, 제출물, 첨부파일',
+    steps: ['공식 링크 확인', '공모요강 확인', '제출물 준비', '접수'],
+    difficulty: materials.includes('영상') || materials.includes('PPT') ? '중' : '하',
+    effort: inferEffort(materials, title),
+    materials,
+    goals: inferGoals(title),
+    roles: ['student', 'jobseeker', 'founder', 'merchant', 'freelancer'],
+    needsBiz: false,
+    beginner: true,
+    caution: '포털 미등록 가능성이 있는 공식 공고입니다. 접수처와 제출 규격을 공식 페이지에서 최종 확인하세요.',
+    discovery: '부처·산하기관 공식 공고 감시'
+  };
+}
+
+async function fetchHiddenSeed(url) {
+  const html = await fetchText(url);
+  const rawTitle = getMeta(html, 'og:title') || html.match(/<title>([^<]+)/i)?.[1] || '공식 공모전';
+  const title = stripSiteTitle(rawTitle).replace(/^공모요강\s*/, '').trim();
+  const desc = getMeta(html, 'og:description') || decodeHtml(html.match(/<meta name="description" content="([^"]+)/i)?.[1] || '');
+  const posterUrl = absoluteUrl(getMeta(html, 'og:image'));
+  return buildHiddenItem({ title, link: url, posterUrl, desc: desc.slice(0, 180) });
+}
+
 async function readManualUrls() {
   try {
     return (await readFile(manualUrlFile, 'utf8')).split(/\r?\n/).map(line => line.trim()).filter(line => line && !line.startsWith('#'));
@@ -202,6 +249,17 @@ for (const url of await readManualUrls()) {
     console.error(`manual detail: ${item.title}`);
   } catch (error) {
     console.error(`manual detail failed: ${url} (${error.message})`);
+  }
+  await sleep(500);
+}
+
+for (const url of hiddenSeeds) {
+  try {
+    const item = await fetchHiddenSeed(url);
+    byId.set(item.id, { ...(byId.get(item.id) || {}), ...item });
+    console.error(`hidden seed: ${item.title}`);
+  } catch (error) {
+    console.error(`hidden seed failed: ${url} (${error.message})`);
   }
   await sleep(500);
 }
