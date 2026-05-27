@@ -1,4 +1,4 @@
-1<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -474,55 +474,10 @@
           </div>
 
           <div class="grid-4">
-            <button id="presetMatched" class="metric" onclick="setListPreset('matched')"><div><span>맞춤 기회</span><strong id="statCount">0개</strong></div><div class="iconbox bg-blue">L</div></button>
+            <button id="presetMatched" class="metric" onclick="setListPreset('all')"><div><span>전체 기회</span><strong id="statCount">0개</strong></div><div class="iconbox bg-blue">L</div></button>
             <button id="presetSaved" class="metric" onclick="setListPreset('saved')"><div><span>즐겨찾기</span><strong id="statSaved">0개</strong></div><div class="iconbox bg-green">S</div></button>
             <button id="presetSoon" class="metric" onclick="setListPreset('soon')"><div><span>7일 이내 마감</span><strong id="statSoon">0개</strong></div><div class="iconbox bg-amber">D</div></button>
             <button id="presetQuick" class="metric" onclick="setListPreset('quick')"><div><span>30분 응모 가능</span><strong id="statQuick">0개</strong></div><div class="iconbox bg-rose">Q</div></button>
-          </div>
-
-          <div class="matcher">
-            <div class="panel">
-              <div class="panel-head">
-                <div>
-                  <h2>조건검색</h2>
-                  <p>자격, 예상 소요시간, 참여방법, 혜택 기준으로 전체 기회 리스트를 좁힙니다.</p>
-                </div>
-                <button class="btn" onclick="resetProfile()">조건 초기화</button>
-              </div>
-              <div class="matcher-form">
-                <label>자격(나는)
-                  <div id="profileRole" class="choice-grid"></div>
-                </label>
-                <label>사업자등록증
-                  <div id="profileBiz" class="choice-grid"></div>
-                </label>
-                <label>거주 지역
-                  <select id="profileRegion" class="select" onchange="setProfile('region', this.value)">
-                    <option value="all">전국/상관없음</option>
-                    <option value="서울">서울</option><option value="경기">경기</option><option value="인천">인천</option>
-                    <option value="부산">부산</option><option value="대구">대구</option><option value="광주">광주</option>
-                    <option value="대전">대전</option><option value="충북">충북</option><option value="전남">전남</option>
-                    <option value="specific">특정지역만</option>
-                  </select>
-                </label>
-                <label>제출 소요 예상시간
-                  <div id="profileTime" class="choice-grid"></div>
-                </label>
-                <label>참여방법
-                  <div id="profileMethod" class="choice-grid"></div>
-                </label>
-                <label>혜택 종류
-                  <div id="profileRewardType" class="choice-grid"></div>
-                </label>
-                <label>상금/지원금 규모
-                  <div id="profileRewardMin" class="choice-grid"></div>
-                </label>
-                <label>정렬기준
-                  <div id="profileSort" class="choice-grid"></div>
-                </label>
-              </div>
-            </div>
-
           </div>
 
           <div class="panel">
@@ -531,7 +486,10 @@
                 <h2>전체 기회 리스트</h2>
                 <p>작은 공모전, 정책제안, 소상공인·청년·예비창업 지원사업을 한 목록에서 비교합니다. 상세 보기에서 공식 링크와 제출서류 빌더를 바로 연결합니다.</p>
               </div>
-              <input id="searchInput" class="input search" type="search" placeholder="기회명, 지역, 주최, 제출물 검색" oninput="renderContests()" />
+              <div class="toolbar">
+                <input id="searchInput" class="input search" type="search" placeholder="기회명, 지역, 주최, 제출물 검색" oninput="renderContests()" />
+                <button class="btn" onclick="resetListFilters()">조건 초기화</button>
+              </div>
             </div>
 
             <div class="filters" id="hostFilters"></div>
@@ -920,6 +878,27 @@
       renderContests();
     }
 
+    function resetListFilters() {
+      state.host = 'all';
+      state.category = 'all';
+      state.region = 'all';
+      state.target = 'all';
+      state.listMethod = 'all';
+      state.listReward = 'all';
+      state.listPreset = 'all';
+      state.profile = { ...defaultProfile };
+      localStorage.setItem('gcontest_profile', JSON.stringify(state.profile));
+      const search = document.getElementById('searchInput');
+      if (search) search.value = '';
+      const savedOnly = document.getElementById('savedOnly');
+      if (savedOnly) savedOnly.checked = false;
+      const sortSelect = document.getElementById('sortSelect');
+      if (sortSelect) sortSelect.value = 'deadline';
+      buildFilters();
+      renderProfileControls();
+      renderContests();
+    }
+
     function effortRank(value) {
       return ({ '30m':1, today:2, week:3, month:4 })[value] || 3;
     }
@@ -1154,17 +1133,14 @@
           && (state.listMethod === 'all' || methodMatches(meta, state.listMethod))
           && (state.listReward === 'all' || rewardRangeMatches(meta.reward, state.listReward))
           && (state.target === 'all' || c.targetGroup === state.target || String(c.target).includes(state.target))
-          && conditionMatches(meta)
           && (!savedOnly || state.saved.includes(c.id))
           && (state.listPreset !== 'saved' || state.saved.includes(c.id))
           && (state.listPreset !== 'soon' || (daysLeft(c.deadline) >= 0 && daysLeft(c.deadline) <= 7))
           && (state.listPreset !== 'quick' || meta.effort === '30m')
-          && (state.listPreset !== 'matched' || matchScore(c) >= 0)
           && (!q || text.includes(q));
       });
       const sort = document.getElementById('sortSelect')?.value || 'deadline';
       list.sort((a,b) => {
-        if (state.listPreset === 'matched' && normalizeProfile(state.profile).sort === 'match') return matchScore(b) - matchScore(a) || daysLeft(a.deadline) - daysLeft(b.deadline);
         if (sort === 'reward') return Number(b.reward || 0) - Number(a.reward || 0);
         if (sort === 'title') return a.title.localeCompare(b.title, 'ko');
         return daysLeft(a.deadline) - daysLeft(b.deadline);
@@ -1177,7 +1153,7 @@
       const list = filteredContests();
       grid.innerHTML = list.map(cardHtml).join('');
       document.getElementById('emptyState').style.display = list.length ? 'none' : 'block';
-      document.getElementById('statCount').textContent = contests.filter(c => matchScore(c) >= 0).length + '개';
+      document.getElementById('statCount').textContent = list.length + '개';
       document.getElementById('statSaved').textContent = state.saved.length + '개';
       document.getElementById('statSoon').textContent = contests.filter(c => daysLeft(c.deadline) >= 0 && daysLeft(c.deadline) <= 7).length + '개';
       document.getElementById('statQuick').textContent = contests.map(opportunityMeta).filter(c => c.effort === '30m').length + '개';
