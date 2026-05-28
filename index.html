@@ -1027,6 +1027,10 @@
       return 'D-' + d;
     }
 
+    function tokenizeQuery(q) {
+      return String(q || '').toLowerCase().split(/\s+/).map(v => v.trim()).filter(Boolean);
+    }
+
     function filteredContests() {
       const q = document.getElementById('searchInput')?.value.trim().toLowerCase() || '';
       const keywords = tokenizeQuery(q);
