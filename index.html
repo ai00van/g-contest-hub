@@ -1088,17 +1088,11 @@
     }
 
     function loadStoredContests() {
-      const stored = readArray('gcontest_added_contests');
-      stored.forEach(item => addContestItem(item));
+      localStorage.removeItem('gcontest_added_contests');
     }
 
     function saveAddedContests(items) {
-      const existing = readArray('gcontest_added_contests');
-      const merged = [...existing];
-      items.forEach(item => {
-        if (!merged.some(c => c.id === item.id)) merged.push(item);
-      });
-      localStorage.setItem('gcontest_added_contests', JSON.stringify(merged));
+      localStorage.removeItem('gcontest_added_contests');
     }
 
     async function updateContestList(button) {
