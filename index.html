@@ -981,6 +981,14 @@
       return 'D-' + d;
     }
 
+    function deadlineLabel(c) {
+      return c.sourceStatus === 'candidate' ? '확인필요' : dday(c.deadline);
+    }
+
+    function deadlineDetail(c) {
+      return c.sourceStatus === 'candidate' ? '확인필요' : `${c.deadline} (${dday(c.deadline)})`;
+    }
+
     function tokenizeQuery(q) {
       return String(q || '').toLowerCase().split(/\s+/).map(v => v.trim()).filter(Boolean);
     }
@@ -1001,7 +1009,7 @@
           && (state.target === 'all' || c.targetGroup === state.target || String(c.target).includes(state.target))
           && (!savedOnly || state.saved.includes(c.id))
           && (state.listPreset !== 'saved' || state.saved.includes(c.id))
-          && (state.listPreset !== 'soon' || (daysLeft(c.deadline) >= 0 && daysLeft(c.deadline) <= 7))
+          && (state.listPreset !== 'soon' || (c.sourceStatus === 'official' && daysLeft(c.deadline) >= 0 && daysLeft(c.deadline) <= 7))
           && (state.listPreset !== 'quick' || meta.effort === '30m')
           && (!keywords.length || keywords.every(keyword => text.includes(keyword)));
       });
@@ -1021,7 +1029,7 @@
       document.getElementById('emptyState').style.display = list.length ? 'none' : 'block';
       document.getElementById('statCount').textContent = list.length + '개';
       document.getElementById('statSaved').textContent = state.saved.length + '개';
-      document.getElementById('statSoon').textContent = contests.filter(c => daysLeft(c.deadline) >= 0 && daysLeft(c.deadline) <= 7).length + '개';
+      document.getElementById('statSoon').textContent = contests.map(opportunityMeta).filter(c => c.sourceStatus === 'official' && daysLeft(c.deadline) >= 0 && daysLeft(c.deadline) <= 7).length + '개';
       document.getElementById('statQuick').textContent = contests.map(opportunityMeta).filter(c => c.effort === '30m').length + '개';
       renderPresetButtons();
       document.getElementById('lastUpdateText').textContent = state.lastUpdate ? `마지막 업데이트: ${state.lastUpdate}` : '업데이트 전';
@@ -1038,7 +1046,7 @@
         <div class="card-body">
           <div class="badges">
             <span class="badge ${escapeHtml(c.sourceStatus)}">${sourceStatusLabel(c.sourceStatus)}</span>
-            <span class="badge ${deadlineClass}">${dday(c.deadline)}</span>
+            <span class="badge ${deadlineClass}">${deadlineLabel(c)}</span>
           </div>
           <div class="badges">
             <span class="badge ${escapeHtml(c.hostType)}">${typeLabel(c.type)}</span>
@@ -1303,7 +1311,7 @@
         <div class="stats">
           <div class="statbox"><small>유형</small><strong>${typeLabel(c.type)}</strong></div>
           <div class="statbox"><small>지역/부처</small><strong>${escapeHtml(c.region || '전국')} · ${escapeHtml(c.department || c.host)}</strong></div>
-          <div class="statbox"><small>신청기한</small><strong>${c.deadline} (${dday(c.deadline)})</strong></div>
+          <div class="statbox"><small>신청기한</small><strong>${deadlineDetail(c)}</strong></div>
         </div>
         <div class="stats">
           <div class="statbox"><small>지원규모</small><strong>${escapeHtml(c.rewardText)}</strong></div>
@@ -1496,7 +1504,7 @@
 
     function exportCsv() {
       const rows = [['사업명','수행기관','부처/지자체','지역','유형','지원규모','대상','신청기한','출처상태','공식공고','접수링크','주관기관']];
-      filteredContests().map(opportunityMeta).forEach(c => rows.push([c.title,c.host,c.department || hostLabel(c.hostType),c.region || '전국',typeLabel(c.type),c.rewardText,c.target,c.deadline,sourceStatusLabel(c.sourceStatus),c.officialNoticeUrl || c.sourceUrl || c.link,c.applyUrl,c.hostHomeUrl]));
+      filteredContests().map(opportunityMeta).forEach(c => rows.push([c.title,c.host,c.department || hostLabel(c.hostType),c.region || '전국',typeLabel(c.type),c.rewardText,c.target,c.sourceStatus === 'candidate' ? '확인필요' : c.deadline,sourceStatusLabel(c.sourceStatus),c.officialNoticeUrl || c.sourceUrl || c.link,c.applyUrl,c.hostHomeUrl]));
       const csv = rows.map(r => r.map(v => `\"${String(v).replace(/"/g,'\"\"')}\"`).join(',')).join('\n');
       const blob = new Blob(['\ufeff' + csv], { type:'text/csv;charset=utf-8' });
       const a = document.createElement('a');
