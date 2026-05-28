@@ -508,49 +508,6 @@
             </div>
           </div>
 
-          <div class="panel matcher">
-            <div class="panel-head">
-              <div>
-                <h2>내 조건 입력</h2>
-                <p>자격, 지역, 쓸 수 있는 시간, 제출 방식, 원하는 혜택을 고르면 지금 가능한 기회를 먼저 추천합니다.</p>
-              </div>
-              <button class="btn" onclick="resetProfile()">조건 초기화</button>
-            </div>
-            <div id="quickLanes" class="quick-lanes"></div>
-            <div class="matcher-form">
-              <label>나는 누구인가<div id="profileRole" class="choice-grid"></div></label>
-              <label>사업자등록증<div id="profileBiz" class="choice-grid"></div></label>
-              <label>오늘 쓸 수 있는 시간<div id="profileTime" class="choice-grid"></div></label>
-              <label>제출 가능 방식<div id="profileMethod" class="choice-grid"></div></label>
-              <label>원하는 혜택<div id="profileRewardType" class="choice-grid"></div></label>
-              <label>혜택 규모<div id="profileRewardMin" class="choice-grid"></div></label>
-              <label>지역
-                <select id="profileRegion" class="select" onchange="setProfile('region', this.value)">
-                  <option value="all">전체 지역</option>
-                  <option value="specific">특정지역만</option>
-                  <option value="서울">서울</option><option value="경기">경기</option><option value="인천">인천</option>
-                  <option value="부산">부산</option><option value="대구">대구</option><option value="광주">광주</option>
-                  <option value="대전">대전</option><option value="충북">충북</option><option value="전남">전남</option>
-                </select>
-              </label>
-              <label>추천 정렬<div id="profileSort" class="choice-grid"></div></label>
-            </div>
-          </div>
-
-          <div class="panel">
-            <div class="panel-head">
-              <div>
-                <h2>내 조건 추천 결과</h2>
-                <p>오늘 바로 가능, 이번 주 가능, 사업자 필요 여부, 초보자 적합도를 함께 봅니다.</p>
-              </div>
-            </div>
-            <div class="match-summary">
-              <div class="mini-stat"><small>조건 일치</small><strong id="matchCount">0개</strong></div>
-              <div class="mini-stat"><small>오늘 바로 가능</small><strong id="todayCount">0개</strong></div>
-              <div class="mini-stat"><small>초보자 추천</small><strong id="beginnerCount">0개</strong></div>
-            </div>
-            <div id="matchGrid" class="contest-grid"></div>
-          </div>
 
           <div class="grid-4">
             <button id="presetMatched" class="metric" onclick="setListPreset('all')"><div><span>전체 기회</span><strong id="statCount">0개</strong></div><div class="iconbox bg-blue">L</div></button>
@@ -745,7 +702,7 @@
       </div>
       <div id="modalBody" class="modal-body"></div>
       <div class="modal-foot">
-        <a id="modalLink" class="btn dark" href="#" target="_blank" rel="noreferrer">공식 공고 바로 열기</a>
+        <a id="modalLink" class="btn dark" href="#" target="_blank" rel="noreferrer">출처 페이지 열기</a>
         <button id="modalBuild" class="btn primary">이 사업으로 작성</button>
       </div>
     </div>
@@ -815,19 +772,6 @@
 
     const defaultProfile = { role:'all', biz:'all', region:'all', time:'all', method:'all', rewardType:'all', rewardMin:'all', sort:'deadline' };
 
-    const profileOptions = {
-      role:[['all','전체'],['anyone','누구나'],['student','학생만'],['jobseeker','취준생'],['founder','예비창업자'],['merchant','소상공인만'],['freelancer','프리랜서']],
-      biz:[['all','전체'],['no','없음'],['yes','있음']],
-      time:[['all','전체'],['30m','30분'],['today','하루'],['2days','이틀 이상']],
-      method:[['all','전체'],['writing','글만 제출'],['media','사진·숏폼'],['plan','PPT·사업계획서']],
-      rewardType:[['all','전체'],['cash','상금'],['support','지원금·창업자금'],['gift','상품권·물품']],
-      rewardMin:[['all','전체'],['under10','~10만원'],['under50','~50만원'],['under100','~100만원'],['under300','~300만원'],['over300','300만원초과']],
-      sort:[['deadline','마감일'],['reward','상금'],['match','조건일치']]
-    };
-
-    const laneOptions = [
-      ['quick','30분 응모 가능','문구·간단 제안'],['writing','글만 제출','정책제안·네이밍'],['media','사진·숏폼','포트폴리오형'],['support','지원금','창업·소상공인'],['merchant','소상공인','소액 바우처']
-    ];
 
     const labels = {
       dashboard:'내 기회 매칭', search:'기회 탐색', builder:'제출서류 빌더', guide:'평가 가이드'
@@ -884,61 +828,6 @@
       }
     }
 
-    function renderProfileControls() {
-      renderChoiceGroup('profileRole', 'role');
-      renderChoiceGroup('profileBiz', 'biz');
-      renderChoiceGroup('profileTime', 'time');
-      renderChoiceGroup('profileMethod', 'method');
-      renderChoiceGroup('profileRewardType', 'rewardType');
-      renderChoiceGroup('profileRewardMin', 'rewardMin');
-      renderChoiceGroup('profileSort', 'sort');
-      const region = document.getElementById('profileRegion');
-      if (region) region.value = state.profile.region || 'all';
-      const lanes = document.getElementById('quickLanes');
-      if (lanes) lanes.innerHTML = laneOptions.map(([value, title, copy]) => `<button class="lane ${state.lane === value ? 'active' : ''}" onclick="setLane('${value}')">${title}<small>${copy}</small></button>`).join('');
-    }
-
-    function renderChoiceGroup(id, key) {
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.innerHTML = profileOptions[key].map(([value, text]) => `<button class="choice ${state.profile[key] === value ? 'active' : ''}" onclick="setProfile('${key}', '${value}')">${text}</button>`).join('');
-    }
-
-    function setProfile(key, value) {
-      state.profile[key] = value;
-      if (key === 'biz' && value === 'yes' && state.profile.role === 'student') state.profile.role = 'founder';
-      if (key === 'sort') {
-        const sortSelect = document.getElementById('sortSelect');
-        if (sortSelect) sortSelect.value = value === 'match' ? 'deadline' : value;
-      }
-      localStorage.setItem('gcontest_profile', JSON.stringify(state.profile));
-      renderProfileControls();
-      renderContests();
-    }
-
-    function setLane(value) {
-      state.lane = value;
-      const patch = {
-        quick:{ time:'30m', method:'writing', rewardType:'all', rewardMin:'all' },
-        writing:{ time:'today', method:'writing', rewardType:'all', rewardMin:'all' },
-        media:{ time:'today', method:'media', rewardType:'all', rewardMin:'all' },
-        support:{ time:'2days', method:'all', rewardType:'support', rewardMin:'50' },
-        merchant:{ role:'merchant', biz:'yes', time:'all', method:'all', rewardType:'support' }
-      }[value] || {};
-      Object.assign(state.profile, patch);
-      localStorage.setItem('gcontest_profile', JSON.stringify(state.profile));
-      renderProfileControls();
-      renderContests();
-    }
-
-    function resetProfile() {
-      state.lane = 'quick';
-      state.profile = { ...defaultProfile };
-      localStorage.setItem('gcontest_profile', JSON.stringify(state.profile));
-      renderProfileControls();
-      renderContests();
-    }
-
     function resetListFilters() {
       state.host = 'all';
       state.category = 'all';
@@ -956,7 +845,6 @@
       const sortSelect = document.getElementById('sortSelect');
       if (sortSelect) sortSelect.value = 'deadline';
       buildFilters();
-      renderProfileControls();
       renderContests();
     }
 
@@ -1086,26 +974,11 @@
       return list.slice(0, limit).map(x => x.c);
     }
 
-    function renderOpportunityMatches() {
-      const grid = document.getElementById('matchGrid');
-      if (!grid) return;
-      const total = contests.filter(c => matchScore(c) >= 0).length;
-      const list = matchedOpportunities(6);
-      grid.innerHTML = list.length ? list.map(cardHtml).join('') : '<div class="empty" style="display:block"><h3>지금 조건에 맞는 기회가 없습니다.</h3><p>자격, 참여방법, 혜택 규모 조건을 넓혀보세요.</p></div>';
-      document.getElementById('matchCount').textContent = total + '개';
-      document.getElementById('todayCount').textContent = list.filter(c => effortRank(c.effort) <= 2).length + '개';
-      document.getElementById('beginnerCount').textContent = list.filter(c => c.beginner).length + '개';
-      const quick = contests.map(opportunityMeta).filter(c => c.effort === '30m').length;
-      const quickEl = document.getElementById('statQuick');
-      if (quickEl) quickEl.textContent = quick + '개';
-    }
-
     async function init() {
       seedSmallOpportunities();
       await loadExternalOpportunities();
       loadStoredContests();
       buildFilters();
-      renderProfileControls();
       populateBuilderSelect();
       renderContests();
       try {
@@ -1219,7 +1092,6 @@
       document.getElementById('statSoon').textContent = contests.filter(c => daysLeft(c.deadline) >= 0 && daysLeft(c.deadline) <= 7).length + '개';
       document.getElementById('statQuick').textContent = contests.map(opportunityMeta).filter(c => c.effort === '30m').length + '개';
       renderPresetButtons();
-      renderOpportunityMatches();
       document.getElementById('lastUpdateText').textContent = state.lastUpdate ? `마지막 업데이트: ${state.lastUpdate}` : '업데이트 전';
     }
 
@@ -1363,14 +1235,14 @@
         rewardText: String(item.rewardText || (reward ? `${reward.toLocaleString('ko-KR')}만 원` : '공식 공고 확인')).trim(),
         target: String(item.target || '전 국민').trim(),
         deadline,
-        link: firstValidUrl(item.officialNoticeUrl, item.applyUrl, item.link, item.sourceUrl, item.hostHomeUrl) || 'https://www.data.go.kr',
-        officialNoticeUrl: firstValidUrl(item.officialNoticeUrl, item.link),
+        officialNoticeUrl: firstValidUrl(item.officialNoticeUrl) || (isNoticeUrl(item.link) ? item.link : ''),
         applyUrl: firstValidUrl(item.applyUrl),
-        hostHomeUrl: firstValidUrl(item.hostHomeUrl),
+        hostHomeUrl: firstValidUrl(item.hostHomeUrl) || (!isNoticeUrl(item.link) ? firstValidUrl(item.link) : ''),
         sourceUrl: firstValidUrl(item.sourceUrl, item.officialNoticeUrl, item.link),
         sourceName: String(item.sourceName || item.host || host).trim(),
-        sourceStatus: normalizeSourceStatus(item.sourceStatus, item.link || item.officialNoticeUrl),
+        sourceStatus: normalizeSourceStatus(item.sourceStatus, item.officialNoticeUrl || item.link),
         verifiedAt: validDate(item.verifiedAt) ? item.verifiedAt : '',
+        link: firstValidUrl(item.officialNoticeUrl) || (isNoticeUrl(item.link) ? item.link : '') || firstValidUrl(item.applyUrl, item.sourceUrl, item.hostHomeUrl, item.link) || 'https://www.data.go.kr',
         posterUrl: validUrl(item.posterUrl) ? item.posterUrl : '',
         desc: String(item.desc || '정부·지자체·공공기관의 지원사업 공고입니다.').trim(),
         data: String(item.data || '공식 공고문, 신청서, 사업계획서, 증빙자료').trim(),
@@ -1438,24 +1310,35 @@
       return values.find(value => validUrl(value)) || '';
     }
 
+    function isNoticeUrl(value) {
+      if (!validUrl(value)) return false;
+      return /sotong\.go\.kr\/front\/epilogue\/epilogueBbsViewPage|spectory\.net\/[^\s]+\/contest|bbs_id=|board|notice|공고/.test(String(value));
+    }
+
     function normalizeSourceStatus(value, url = '') {
       if (['official','candidate','sample'].includes(value)) return value;
-      if (/sotong\.go\.kr\/front\/epilogue\/epilogueBbsViewPage|spectory\.net|gov\.kr\/portal\/rcvfvrSvc/.test(String(url))) return 'official';
+      if (isNoticeUrl(url)) return 'official';
       return 'sample';
     }
 
     function withSourceMeta(c) {
-      const link = firstValidUrl(c.officialNoticeUrl, c.applyUrl, c.link, c.sourceUrl, c.hostHomeUrl) || 'https://www.data.go.kr';
-      const officialNoticeUrl = firstValidUrl(c.officialNoticeUrl, c.link);
+      const rawNotice = firstValidUrl(c.officialNoticeUrl);
+      const explicitNotice = rawNotice && (isNoticeUrl(rawNotice) || c.sourceStatus === 'official') ? rawNotice : '';
+      const noticeFromLink = isNoticeUrl(c.link) ? c.link : '';
+      const officialNoticeUrl = explicitNotice || noticeFromLink;
+      const applyUrl = firstValidUrl(c.applyUrl);
+      const hostHomeUrl = firstValidUrl(c.hostHomeUrl) || (!noticeFromLink ? firstValidUrl(c.link) : '');
+      const sourceUrl = firstValidUrl(c.sourceUrl, officialNoticeUrl, c.link, hostHomeUrl);
+      const link = firstValidUrl(officialNoticeUrl, applyUrl, sourceUrl, hostHomeUrl) || 'https://www.data.go.kr';
       return {
         ...c,
         link,
         officialNoticeUrl,
-        applyUrl: firstValidUrl(c.applyUrl),
-        hostHomeUrl: firstValidUrl(c.hostHomeUrl),
-        sourceUrl: firstValidUrl(c.sourceUrl, officialNoticeUrl, link),
+        applyUrl,
+        hostHomeUrl,
+        sourceUrl,
         sourceName: String(c.sourceName || c.host || '출처 확인 필요').trim(),
-        sourceStatus: normalizeSourceStatus(c.sourceStatus, officialNoticeUrl || link),
+        sourceStatus: normalizeSourceStatus(c.sourceStatus, officialNoticeUrl || sourceUrl),
         verifiedAt: validDate(c.verifiedAt) ? c.verifiedAt : ''
       };
     }
@@ -1480,8 +1363,9 @@
       document.getElementById('modalTitle').textContent = c.title;
       const primaryLink = c.officialNoticeUrl || c.applyUrl || c.sourceUrl || c.link;
       const primaryLabel = c.officialNoticeUrl ? '공식 공고 바로 열기' : '출처 페이지 열기';
-      document.getElementById('modalLink').href = primaryLink;
-      document.getElementById('modalLink').textContent = primaryLabel;
+      const modalLink = document.getElementById('modalLink');
+      modalLink.href = primaryLink;
+      modalLink.textContent = primaryLabel;
       document.getElementById('modalBuild').onclick = () => {
         closeModal('detailModal');
         switchView('builder');
