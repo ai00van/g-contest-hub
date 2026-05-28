@@ -531,6 +531,7 @@
             <div class="filters" id="listMethodFilters"></div>
             <div class="filters" id="regionFilters"></div>
             <div class="filters" id="listRewardFilters"></div>
+            <div class="filters" id="sourceStatusFilters"></div>
             <div class="filters" id="targetFilters"></div>
             <div class="toolbar" style="margin-bottom:14px">
               <select id="sortSelect" class="select" style="max-width:220px" onchange="renderContests()">
@@ -700,7 +701,7 @@
       { id:'p12', type:'culture', title:'문화콘텐츠 제작·IP 사업화 지원', host:'한국콘텐츠진흥원', department:'문화체육관광부', hostType:'public', region:'전국', targetGroup:'콘텐츠기업', category:'content', reward:10000, rewardText:'제작지원 / 과제별 최대 1억 원 이상', target:'콘텐츠 제작사, 창작기업, IP 보유 기업', deadline:'2026-08-22', link:'https://www.kocca.kr', desc:'게임, 방송영상, 캐릭터, 음악, 실감콘텐츠 등 문화콘텐츠 제작과 사업화를 지원합니다.', data:'콘텐츠 기획서, IP 권리관계, 제작 일정, 유통 계획', steps:['KOCCA 공고 확인','분야별 신청서 작성','포트폴리오 제출','평가·협약·성과보고'] },
       { id:'p13', type:'export', title:'수출바우처 및 해외마케팅 지원사업', host:'대한무역투자진흥공사', department:'산업통상자원부', hostType:'public', region:'전국', targetGroup:'중소기업', category:'export', reward:7000, rewardText:'수출바우처 / 기업별 차등 지원', target:'수출 준비·초보·유망 중소기업', deadline:'2026-09-01', link:'https://www.exportvoucher.com', desc:'해외전시, 인증, 통번역, 홍보물, 시장조사 등 수출 서비스를 바우처 방식으로 지원합니다.', data:'수출실적, 제품정보, 해외시장 목표, 인증 필요자료', steps:['수출역량 진단','바우처 메뉴 선택','온라인 신청','수행기관 계약 및 정산'] },
       { id:'p14', type:'finance', title:'소상공인 정책자금 직접대출·대리대출', host:'소상공인시장진흥공단', department:'중소벤처기업부', hostType:'public', region:'전국', targetGroup:'소상공인', category:'finance', reward:7000, rewardText:'정책자금 융자 / 자금별 한도 차등', target:'소상공인, 전통시장 상인, 자영업자', deadline:'2026-12-31', link:'https://ols.semas.or.kr', desc:'창업, 경영안정, 재도전, 재해피해 등 소상공인의 정책자금 융자 신청을 지원합니다.', data:'사업자등록, 매출·신용 정보, 임대차계약, 자금사용계획', steps:['정책자금 사이트 접속','자금 종류 선택','서류 제출','약정·대출 실행'] },
-      { id:'p15', type:'contest', title:'공공데이터 활용 창업경진대회', host:'행정안전부', department:'행정안전부', hostType:'central', region:'전국', targetGroup:'전 국민', category:'contest', reward:10000, rewardText:'상금·상장 / 총 1억 원 규모', target:'예비창업자, 스타트업, 일반 국민', deadline:'2026-07-31', link:'https://www.data.go.kr', desc:'공공데이터를 활용한 아이디어와 제품·서비스를 발굴하는 대표 공공 공모전입니다.', data:'공공데이터포털 API, 시장성 분석, 서비스 기획서', steps:['활용 데이터 조사','아이디어 구체화','예선 신청','발표평가 준비'] },
+      { id:'p15', type:'contest', title:'제14회 범정부 공공데이터·AI 활용 창업경진대회 통합공고', host:'행정안전부', department:'행정안전부', hostType:'central', region:'전국', targetGroup:'전 국민', category:'contest', reward:0, rewardText:'상금·상장 / 예선별 상이', target:'예비창업자, 스타트업, 일반 국민', deadline:'2026-08-31', officialNoticeUrl:'https://www.mois.go.kr/frt/bbs/type013/commonSelectBoardArticle.do%3Bjsessionid%3DxJJCA-otgx_4a04_29qyTMcJHV_N0SGMHvUdNirp.node50?bbsId=BBSMSTR_000000000006&nttId=125058', link:'https://www.mois.go.kr/frt/bbs/type013/commonSelectBoardArticle.do%3Bjsessionid%3DxJJCA-otgx_4a04_29qyTMcJHV_N0SGMHvUdNirp.node50?bbsId=BBSMSTR_000000000006&nttId=125058', sourceName:'행정안전부', sourceStatus:'official', verifiedAt:'2026-05-28', desc:'행정안전부가 공고한 범정부 공공데이터·AI 활용 창업경진대회 통합공고입니다. 기관예선별 신청기간과 방법은 공공데이터포털의 예선별 공고를 함께 확인해야 합니다.', data:'행정안전부 통합공고, 기관예선별 접수 공고, 활용 데이터, 서비스 기획서', steps:['행정안전부 통합공고 확인','기관예선별 신청기간 확인','활용 데이터 조사','예선 접수 및 발표평가 준비'] },
       { id:'p16', type:'local', title:'전남 로컬크리에이터·청년마을 정착 지원', host:'전라남도', department:'전라남도', hostType:'local', region:'전남', targetGroup:'청년', category:'local', reward:3000, rewardText:'정착·사업화 / 최대 3,000만 원 내외', target:'청년 창업자, 로컬크리에이터, 귀촌 희망자', deadline:'2026-10-25', link:'https://www.jeonnam.go.kr', desc:'지역 자원 기반 창업, 빈집 활용, 청년 정착 프로그램을 지원하는 지자체 사업입니다.', data:'지역자원 분석, 정착계획, 매출모델, 주민협력 계획', steps:['시군 공고 확인','지역활동계획 작성','면접·현장평가','정착활동 수행'] }
     ];
 
@@ -750,7 +751,7 @@
       dashboard:'내 기회 매칭', builder:'제출서류초안작성', guide:'평가 가이드'
     };
     let state = {
-      host:'all', category:'all', region:'all', target:'all', listMethod:'all', listReward:'all', lane:'quick', listPreset:'all',
+      host:'all', category:'all', region:'all', target:'all', listMethod:'all', listReward:'all', sourceStatus:'all', lane:'quick', listPreset:'all',
       profile: normalizeProfile(readJson('gcontest_profile', defaultProfile)),
       saved: readArray('gcontest_saved'),
       lastUpdate: localStorage.getItem('gcontest_last_update') || ''
@@ -808,6 +809,7 @@
       state.target = 'all';
       state.listMethod = 'all';
       state.listReward = 'all';
+      state.sourceStatus = 'all';
       state.listPreset = 'all';
       state.profile = { ...defaultProfile };
       localStorage.setItem('gcontest_profile', JSON.stringify(state.profile));
@@ -882,7 +884,7 @@
       const text = `${c.rewardText || ''} ${c.title || ''} ${c.desc || ''}`;
       if (selected === 'cash') return /(상금|시상금|포상금|상장)/.test(text);
       if (selected === 'support') return /(지원금|창업자금|사업화|바우처|보조금|프로젝트비|제작 지원|실험비|정책자금|융자|대출|지원)/.test(text);
-      if (selected === 'gift') return /(상품권|지역화폐|물품|인센티브|활동비|수료증)/.test(text);
+      if (selected === 'gift') return /(상품권|상품|지역화폐|물품|인센티브|활동비|수료증)/.test(text);
       return true;
     }
 
@@ -978,12 +980,14 @@
       const cats = [['all','전체 유형'],['startup','창업지원'],['rd','국책/R&D'],['finance','정책자금'],['employment','고용/인력'],['commerce','소상공인'],['export','수출/판로'],['welfare','복지/보조금'],['content','콘텐츠'],['contest','공모전']];
       const methods = [['all','참여방법 전체'],['writing','글만제출(정책제안·네이밍)'],['media','사진·숏폼(포트폴리오형)'],['plan','PPT·사업계획서']];
       const regions = [];
-      const rewards = [['all','혜택·상금 전체'],['under10','~10만원'],['under50','~50만원'],['under100','~100만원'],['under300','~300만원'],['over300','300만원초과']];
+      const rewards = [['all','혜택·상금 전체'],['cash','상금'],['support','지원금'],['gift','상품권·상품']];
+      const sources = [['all','공식공고 전체'],['official','공식공고 확인']];
       const targets = [['all','전체 대상'],['청년','청년'],['창업기업','창업기업'],['중소기업','중소기업'],['소상공인','소상공인'],['기업·연구기관','기업·연구기관'],['개인·가구','개인·가구'],['콘텐츠기업','콘텐츠기업']];
       makeFilter('categoryFilters', cats, 'category');
       makeFilter('listMethodFilters', methods, 'listMethod');
       makeFilter('regionFilters', regions, 'region');
       makeFilter('listRewardFilters', rewards, 'listReward');
+      makeFilter('sourceStatusFilters', sources, 'sourceStatus');
       makeFilter('targetFilters', targets, 'target');
     }
 
@@ -1042,7 +1046,8 @@
           && (state.category === 'all' || c.category === state.category || c.type === state.category)
           && regionMatches(meta, state.region)
           && (state.listMethod === 'all' || methodMatches(meta, state.listMethod))
-          && (state.listReward === 'all' || rewardRangeMatches(meta.reward, state.listReward))
+          && (state.listReward === 'all' || rewardTypeMatches(meta, state.listReward))
+          && (state.sourceStatus === 'all' || meta.sourceStatus === state.sourceStatus)
           && (state.target === 'all' || c.targetGroup === state.target || String(c.target).includes(state.target))
           && (!savedOnly || state.saved.includes(c.id))
           && (state.listPreset !== 'saved' || state.saved.includes(c.id))
@@ -1289,7 +1294,7 @@
 
     function isNoticeUrl(value) {
       if (!validUrl(value)) return false;
-      return /sotong\.go\.kr\/front\/epilogue\/epilogueBbsViewPage|spectory\.net\/[^\s]+\/contest|bbs_id=|board|notice|공고/.test(String(value));
+      return /sotong\.go\.kr\/front\/epilogue\/epilogueBbsViewPage|commonSelectBoardArticle|nttId=|spectory\.net\/[^\s]+\/contest|bbs_id=|board|notice|공고/.test(String(value));
     }
 
     function normalizeSourceStatus(value, url = '') {
