@@ -1,10 +1,10 @@
 [
   {
-    "id": "sotong-85ec7fe87f51479a92d5c72907e6aff5",
+    "id": "sotong-532833f6151f4445891a20e2ea18c970",
     "type": "contest",
-    "title": "대국민 안전보건 문화확산 공모전",
-    "host": "한국산업안전보건공단",
-    "department": "한국산업안전보건공단",
+    "title": "2026년 적조 시민 모니터링 요원 모집",
+    "host": "해양수산부",
+    "department": "해양수산부 국립수산과학원 기후환경연구부",
     "hostType": "central",
     "region": "전국",
     "targetGroup": "전 국민",
@@ -12,10 +12,10 @@
     "reward": 0,
     "rewardText": "공식 공고 확인",
     "target": "공식 공고 확인",
-    "deadline": "2026-05-29",
-    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=85ec7fe87f51479a92d5c72907e6aff5&searchkey=A&searchtxt=&miv_pageNo=5",
-    "posterUrl": "https://sotong.go.kr/commonfile/downloadEpilogueAtchmnfl.do?atchmnfl_id=e6808bbe794d48eebad02fa3bbda961f",
-    "desc": "한국산업안전보건공단 공모전 공고입니다. 공식 공고에서 세부 요건을 확인하세요.",
+    "deadline": "2026-05-31",
+    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=532833f6151f4445891a20e2ea18c970&searchkey=A&searchtxt=&miv_pageNo=5",
+    "posterUrl": "https://sotong.go.kr/commonfile/downloadEpilogueAtchmnfl.do?atchmnfl_id=1049bfe4ede94e71898cf34f131e3ec9",
+    "desc": "해양수산부 공모전 공고입니다. 공식 공고에서 세부 요건을 확인하세요.",
     "data": "공식 공고문, 참가신청서, 제출물",
     "steps": [
       "공식 공고 확인",
@@ -44,9 +44,9 @@
     "caution": "진행 공고입니다. 모집기간, 제출양식, 저작권 조건은 공식 공고에서 최종 확인하세요."
   },
   {
-    "id": "sotong-532833f6151f4445891a20e2ea18c970",
+    "id": "sotong-cf0abf4b51164eefaf9853d64cd80223",
     "type": "contest",
-    "title": "2026년 적조 시민 모니터링 요원 모집",
+    "title": "2026년 해파리 시민 모니터링 모집",
     "host": "해양수산부",
     "department": "해양수산부 국립수산과학원 기후환경연구부",
     "hostType": "central",
@@ -57,8 +57,8 @@
     "rewardText": "공식 공고 확인",
     "target": "공식 공고 확인",
     "deadline": "2026-05-31",
-    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=532833f6151f4445891a20e2ea18c970&searchkey=A&searchtxt=&miv_pageNo=5",
-    "posterUrl": "https://sotong.go.kr/commonfile/downloadEpilogueAtchmnfl.do?atchmnfl_id=1049bfe4ede94e71898cf34f131e3ec9",
+    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=cf0abf4b51164eefaf9853d64cd80223&searchkey=A&searchtxt=&miv_pageNo=5",
+    "posterUrl": "https://sotong.go.kr/commonfile/downloadEpilogueAtchmnfl.do?atchmnfl_id=12f136fd55eb440c880cbc779d2e9fa6",
     "desc": "해양수산부 공모전 공고입니다. 공식 공고에서 세부 요건을 확인하세요.",
     "data": "공식 공고문, 참가신청서, 제출물",
     "steps": [
