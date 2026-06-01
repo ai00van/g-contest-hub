@@ -1,138 +1,5 @@
 [
   {
-    "id": "sotong-532833f6151f4445891a20e2ea18c970",
-    "type": "contest",
-    "title": "2026년 적조 시민 모니터링 요원 모집",
-    "host": "해양수산부",
-    "department": "해양수산부 국립수산과학원 기후환경연구부",
-    "hostType": "central",
-    "region": "전국",
-    "targetGroup": "전 국민",
-    "category": "contest",
-    "reward": 0,
-    "rewardText": "공식 공고 확인",
-    "target": "공식 공고 확인",
-    "deadline": "2026-05-31",
-    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=532833f6151f4445891a20e2ea18c970&searchkey=A&searchtxt=&miv_pageNo=5",
-    "posterUrl": "https://sotong.go.kr/commonfile/downloadEpilogueAtchmnfl.do?atchmnfl_id=1049bfe4ede94e71898cf34f131e3ec9",
-    "desc": "해양수산부 공모전 공고입니다. 공식 공고에서 세부 요건을 확인하세요.",
-    "data": "공식 공고문, 참가신청서, 제출물",
-    "steps": [
-      "공식 공고 확인",
-      "제출물 준비",
-      "온라인 또는 이메일 접수",
-      "결과 발표 확인"
-    ],
-    "difficulty": "하",
-    "effort": "today",
-    "materials": [
-      "글"
-    ],
-    "goals": [
-      "상금",
-      "스펙"
-    ],
-    "roles": [
-      "student",
-      "jobseeker",
-      "founder",
-      "merchant",
-      "freelancer"
-    ],
-    "needsBiz": false,
-    "beginner": true,
-    "caution": "진행 공고입니다. 모집기간, 제출양식, 저작권 조건은 공식 공고에서 최종 확인하세요."
-  },
-  {
-    "id": "sotong-cf0abf4b51164eefaf9853d64cd80223",
-    "type": "contest",
-    "title": "2026년 해파리 시민 모니터링 모집",
-    "host": "해양수산부",
-    "department": "해양수산부 국립수산과학원 기후환경연구부",
-    "hostType": "central",
-    "region": "전국",
-    "targetGroup": "전 국민",
-    "category": "contest",
-    "reward": 0,
-    "rewardText": "공식 공고 확인",
-    "target": "공식 공고 확인",
-    "deadline": "2026-05-31",
-    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=cf0abf4b51164eefaf9853d64cd80223&searchkey=A&searchtxt=&miv_pageNo=5",
-    "posterUrl": "https://sotong.go.kr/commonfile/downloadEpilogueAtchmnfl.do?atchmnfl_id=12f136fd55eb440c880cbc779d2e9fa6",
-    "desc": "해양수산부 공모전 공고입니다. 공식 공고에서 세부 요건을 확인하세요.",
-    "data": "공식 공고문, 참가신청서, 제출물",
-    "steps": [
-      "공식 공고 확인",
-      "제출물 준비",
-      "온라인 또는 이메일 접수",
-      "결과 발표 확인"
-    ],
-    "difficulty": "하",
-    "effort": "today",
-    "materials": [
-      "글"
-    ],
-    "goals": [
-      "상금",
-      "스펙"
-    ],
-    "roles": [
-      "student",
-      "jobseeker",
-      "founder",
-      "merchant",
-      "freelancer"
-    ],
-    "needsBiz": false,
-    "beginner": true,
-    "caution": "진행 공고입니다. 모집기간, 제출양식, 저작권 조건은 공식 공고에서 최종 확인하세요."
-  },
-  {
-    "id": "sotong-2f33ab4a64f643a0b019523c4b13eb05",
-    "type": "contest",
-    "title": "AI·XR 안전 체험교육 콘텐츠 아이디어 공모",
-    "host": "충청북도",
-    "department": "충청북도 기획조정실 법무혁신담당관",
-    "hostType": "central",
-    "region": "전국",
-    "targetGroup": "전 국민",
-    "category": "contest",
-    "reward": 0,
-    "rewardText": "공식 공고 확인",
-    "target": "공식 공고 확인",
-    "deadline": "2026-06-01",
-    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=2f33ab4a64f643a0b019523c4b13eb05&searchkey=A&searchtxt=&miv_pageNo=2",
-    "posterUrl": "https://sotong.go.kr/commonfile/downloadEpilogueAtchmnfl.do?atchmnfl_id=276e1dec78ab4079a5e1b3bbc830b14a",
-    "desc": "충청북도 공모전 공고입니다. 공식 공고에서 세부 요건을 확인하세요.",
-    "data": "공식 공고문, 참가신청서, 제출물",
-    "steps": [
-      "공식 공고 확인",
-      "제출물 준비",
-      "온라인 또는 이메일 접수",
-      "결과 발표 확인"
-    ],
-    "difficulty": "중",
-    "effort": "week",
-    "materials": [
-      "영상",
-      "글"
-    ],
-    "goals": [
-      "상금",
-      "포트폴리오"
-    ],
-    "roles": [
-      "student",
-      "jobseeker",
-      "founder",
-      "merchant",
-      "freelancer"
-    ],
-    "needsBiz": false,
-    "beginner": true,
-    "caution": "진행 공고입니다. 모집기간, 제출양식, 저작권 조건은 공식 공고에서 최종 확인하세요."
-  },
-  {
     "id": "sotong-a0241759a7e74747ba28cbb79f4a481c",
     "type": "contest",
     "title": "수원방문의해 관광 숏폼 영상 공모전(수원, 다시보다)",
@@ -411,7 +278,7 @@
     "rewardText": "공식 공고 확인",
     "target": "공식 공고 확인",
     "deadline": "2026-06-05",
-    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=125c9c1ffd76474bb51302f2c020cd5a&searchkey=A&searchtxt=&miv_pageNo=3",
+    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=125c9c1ffd76474bb51302f2c020cd5a&searchkey=A&searchtxt=&miv_pageNo=4",
     "posterUrl": "https://sotong.go.kr/commonfile/downloadEpilogueAtchmnfl.do?atchmnfl_id=0776511f5c6543b9884c24985a47ceee",
     "desc": "해양수산부 공모전 공고입니다. 공식 공고에서 세부 요건을 확인하세요.",
     "data": "공식 공고문, 참가신청서, 제출물",
@@ -704,7 +571,7 @@
     ],
     "needsBiz": false,
     "beginner": true,
-    "caution": "예정 공고입니다. 모집기간, 제출양식, 저작권 조건은 공식 공고에서 최종 확인하세요."
+    "caution": "진행 공고입니다. 모집기간, 제출양식, 저작권 조건은 공식 공고에서 최종 확인하세요."
   },
   {
     "id": "sotong-1f3fbc96378943218d0b192595fe239f",
@@ -1057,7 +924,7 @@
     ],
     "needsBiz": false,
     "beginner": true,
-    "caution": "예정 공고입니다. 모집기간, 제출양식, 저작권 조건은 공식 공고에서 최종 확인하세요."
+    "caution": "진행 공고입니다. 모집기간, 제출양식, 저작권 조건은 공식 공고에서 최종 확인하세요."
   },
   {
     "id": "sotong-ab09da51cb0f43288aefaf984329f310",
@@ -1118,7 +985,7 @@
     "rewardText": "공식 공고 확인",
     "target": "공식 공고 확인",
     "deadline": "2026-06-26",
-    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=f6cc386e207c4602afab1c4ec825866c&searchkey=A&searchtxt=&miv_pageNo=4",
+    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=f6cc386e207c4602afab1c4ec825866c&searchkey=A&searchtxt=&miv_pageNo=5",
     "posterUrl": "https://sotong.go.kr/commonfile/downloadEpilogueAtchmnfl.do?atchmnfl_id=499c4b9436a84ad4937d10e4be98621c",
     "desc": "산림청 공모전 공고입니다. 공식 공고에서 세부 요건을 확인하세요.",
     "data": "공식 공고문, 참가신청서, 제출물",
@@ -1371,6 +1238,50 @@
     "caution": "진행 공고입니다. 모집기간, 제출양식, 저작권 조건은 공식 공고에서 최종 확인하세요."
   },
   {
+    "id": "sotong-2bc6916f8fca4f3aa31155960ac54991",
+    "type": "contest",
+    "title": "2026년 강원특별자치도 규제개선 과제 공모",
+    "host": "강원특별자치도",
+    "department": "강원특별자치도 특별자치국 규제혁신과",
+    "hostType": "local",
+    "region": "강원",
+    "targetGroup": "전 국민",
+    "category": "contest",
+    "reward": 0,
+    "rewardText": "공식 공고 확인",
+    "target": "공식 공고 확인",
+    "deadline": "2026-06-30",
+    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=2bc6916f8fca4f3aa31155960ac54991&searchkey=A&searchtxt=&miv_pageNo=5",
+    "posterUrl": "https://sotong.go.kr/commonfile/downloadEpilogueAtchmnfl.do?atchmnfl_id=889821936dd3439293722ff3a3d766e6",
+    "desc": "강원특별자치도 공모전 공고입니다. 공식 공고에서 세부 요건을 확인하세요.",
+    "data": "공식 공고문, 참가신청서, 제출물",
+    "steps": [
+      "공식 공고 확인",
+      "제출물 준비",
+      "온라인 또는 이메일 접수",
+      "결과 발표 확인"
+    ],
+    "difficulty": "하",
+    "effort": "today",
+    "materials": [
+      "글"
+    ],
+    "goals": [
+      "상금",
+      "스펙"
+    ],
+    "roles": [
+      "student",
+      "jobseeker",
+      "founder",
+      "merchant",
+      "freelancer"
+    ],
+    "needsBiz": false,
+    "beginner": true,
+    "caution": "진행 공고입니다. 모집기간, 제출양식, 저작권 조건은 공식 공고에서 최종 확인하세요."
+  },
+  {
     "id": "sotong-152035bdf10f476d85be1880cd442fb7",
     "type": "contest",
     "title": "2026년 병무청·방위사업청·질병관리청 합동 공공데이터·AI 활용 경진대회",
@@ -1403,6 +1314,51 @@
     "goals": [
       "상금",
       "창업자금",
+      "포트폴리오"
+    ],
+    "roles": [
+      "student",
+      "jobseeker",
+      "founder",
+      "merchant",
+      "freelancer"
+    ],
+    "needsBiz": false,
+    "beginner": true,
+    "caution": "진행 공고입니다. 모집기간, 제출양식, 저작권 조건은 공식 공고에서 최종 확인하세요."
+  },
+  {
+    "id": "sotong-882d55b6fa06449a8070c1e1074baef2",
+    "type": "contest",
+    "title": "2026 '40초로 즐기는 여수' 숏폼 영상 공모전",
+    "host": "여수시",
+    "department": "전라남도 여수시 홍보담당관",
+    "hostType": "central",
+    "region": "전국",
+    "targetGroup": "전 국민",
+    "category": "contest",
+    "reward": 0,
+    "rewardText": "공식 공고 확인",
+    "target": "공식 공고 확인",
+    "deadline": "2026-07-10",
+    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=882d55b6fa06449a8070c1e1074baef2&searchkey=A&searchtxt=&miv_pageNo=1",
+    "posterUrl": "https://sotong.go.kr/commonfile/downloadEpilogueAtchmnfl.do?atchmnfl_id=59c1908e75c14ca8a939b9a65a5fc02e",
+    "desc": "여수시 공모전 공고입니다. 공식 공고에서 세부 요건을 확인하세요.",
+    "data": "공식 공고문, 참가신청서, 제출물",
+    "steps": [
+      "공식 공고 확인",
+      "제출물 준비",
+      "온라인 또는 이메일 접수",
+      "결과 발표 확인"
+    ],
+    "difficulty": "중",
+    "effort": "week",
+    "materials": [
+      "영상",
+      "글"
+    ],
+    "goals": [
+      "상금",
       "포트폴리오"
     ],
     "roles": [
@@ -1610,7 +1566,7 @@
     "target": "공식 공고 확인",
     "deadline": "2026-08-28",
     "link": "https://nibr.spectory.net/drawing26/contest?bno=58733",
-    "posterUrl": "https://img.spectory.net/portal/src/2026/05/08/2cf517db-31f3-46f6-b30a-8b5f731bac5b",
+    "posterUrl": "https://img.spectory.net/portal/src/2026/06/01/bfa40a46-b535-461b-9e39-aff620d2d3e0",
     "desc": "대한민국 대표 공모전 접수 및 홈페이지 빌더 플랫폼. 공모전 홍보 및 대행, 공모전 및 대외활동 정보 제공",
     "data": "공식 공고문, 참가신청서, 제출물, 첨부파일",
     "steps": [
@@ -1640,6 +1596,50 @@
     "beginner": true,
     "caution": "포털 미등록 가능성이 있는 공식 공고입니다. 접수처와 제출 규격을 공식 페이지에서 최종 확인하세요.",
     "discovery": "부처·산하기관 공식 공고 감시"
+  },
+  {
+    "id": "sotong-aa60c5c6a2804f2aad72ab326e5e98c5",
+    "type": "contest",
+    "title": "2026년 준해양사고 사례 공모전",
+    "host": "해양수산부",
+    "department": "해양수산부 중앙해양안전심판원",
+    "hostType": "central",
+    "region": "전국",
+    "targetGroup": "전 국민",
+    "category": "contest",
+    "reward": 0,
+    "rewardText": "공식 공고 확인",
+    "target": "공식 공고 확인",
+    "deadline": "2026-08-31",
+    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=aa60c5c6a2804f2aad72ab326e5e98c5&searchkey=A&searchtxt=&miv_pageNo=1",
+    "posterUrl": "https://sotong.go.kr/commonfile/downloadEpilogueAtchmnfl.do?atchmnfl_id=687339fac81d47a195406ec1a83c496d",
+    "desc": "해양수산부 공모전 공고입니다. 공식 공고에서 세부 요건을 확인하세요.",
+    "data": "공식 공고문, 참가신청서, 제출물",
+    "steps": [
+      "공식 공고 확인",
+      "제출물 준비",
+      "온라인 또는 이메일 접수",
+      "결과 발표 확인"
+    ],
+    "difficulty": "하",
+    "effort": "today",
+    "materials": [
+      "글"
+    ],
+    "goals": [
+      "상금",
+      "스펙"
+    ],
+    "roles": [
+      "student",
+      "jobseeker",
+      "founder",
+      "merchant",
+      "freelancer"
+    ],
+    "needsBiz": false,
+    "beginner": true,
+    "caution": "진행 공고입니다. 모집기간, 제출양식, 저작권 조건은 공식 공고에서 최종 확인하세요."
   },
   {
     "id": "sotong-0af0ac3df5074efa918bbe1da94a85da",
@@ -1743,7 +1743,7 @@
     "rewardText": "공식 공고 확인",
     "target": "공식 공고 확인",
     "deadline": "2026-09-30",
-    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=620686ffea90499ebb31f495d5dd8a25&searchkey=A&searchtxt=&miv_pageNo=1",
+    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=620686ffea90499ebb31f495d5dd8a25&searchkey=A&searchtxt=&miv_pageNo=2",
     "posterUrl": "https://sotong.go.kr/commonfile/downloadEpilogueAtchmnfl.do?atchmnfl_id=6831ec5aca0d4b6d9397fe53a5b3079c",
     "desc": "방송통신위원회 공모전 공고입니다. 공식 공고에서 세부 요건을 확인하세요.",
     "data": "공식 공고문, 참가신청서, 제출물",
@@ -1788,7 +1788,7 @@
     "rewardText": "공식 공고 확인",
     "target": "공식 공고 확인",
     "deadline": "2026-09-30",
-    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=fc73dc29a1394e5a8405d03b02bb95de&searchkey=A&searchtxt=&miv_pageNo=1",
+    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=fc73dc29a1394e5a8405d03b02bb95de&searchkey=A&searchtxt=&miv_pageNo=2",
     "posterUrl": "https://sotong.go.kr/commonfile/downloadEpilogueAtchmnfl.do?atchmnfl_id=f2b6500330d64da895e5832cf43e4e14",
     "desc": "통일부 공모전 공고입니다. 공식 공고에서 세부 요건을 확인하세요.",
     "data": "공식 공고문, 참가신청서, 제출물",
@@ -1832,7 +1832,7 @@
     "rewardText": "공식 공고 확인",
     "target": "공식 공고 확인",
     "deadline": "2026-09-30",
-    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=330fed7f2bf24f20bec8b22b755bd2fe&searchkey=A&searchtxt=&miv_pageNo=2",
+    "link": "https://sotong.go.kr/front/epilogue/epilogueBbsViewPage.do?bbs_id=330fed7f2bf24f20bec8b22b755bd2fe&searchkey=A&searchtxt=&miv_pageNo=3",
     "posterUrl": "https://sotong.go.kr/commonfile/downloadEpilogueAtchmnfl.do?atchmnfl_id=d92f281f1fab4dc4bd989be9f6971862",
     "desc": "진천군 공모전 공고입니다. 공식 공고에서 세부 요건을 확인하세요.",
     "data": "공식 공고문, 참가신청서, 제출물",
@@ -1906,7 +1906,7 @@
     ],
     "needsBiz": false,
     "beginner": true,
-    "caution": "예정 공고입니다. 모집기간, 제출양식, 저작권 조건은 공식 공고에서 최종 확인하세요."
+    "caution": "진행 공고입니다. 모집기간, 제출양식, 저작권 조건은 공식 공고에서 최종 확인하세요."
   },
   {
     "id": "sotong-be1e910259b4400a9e472eea4f2ab7e8",
